@@ -12,26 +12,27 @@ class controller_Authorisation extends Controller
     function action_index()
     {
         if (StatFuncs::LoggedIn())
-            header("Location: ".$_SERVER['HTTP_ORIGIN']."/Main");
+            header("Location: ".SITE_ROOT."/Main");
         else
             $this->view->Generate('authorisation_view.php', 'template_view.php', array('pageTitle' => 'Авторизация'));
     }
 
     function action_login()
     {
+        $data='';
         if (!StatFuncs::LoggedIn())
-            $err = $this->model->Login();
+            $data = $this->model->Login();
 
-        if ($err != 0)
-            header("Location: ".$_SERVER['HTTP_ORIGIN']."/error");
+        if ($data['errorCode'] != 0)
+            header("Location: ".SITE_ROOT."/error");
         else
-            header("Location: ".$_SERVER['HTTP_ORIGIN']."/Main");
+            header("Location: ".SITE_ROOT."/Main");
     }
 
 
     function action_logout()
     {
         $this->model->Logout();
-        header("Location: ".$_SERVER['HTTP_ORIGIN']."/Authorisation");
+        header("Location: ".SITE_ROOT."/Authorisation");
     }
 }

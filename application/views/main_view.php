@@ -1,14 +1,11 @@
 <nav>
-    <table width="35%" align="center">
+    <table width="35%" align="center" class="data">
         <caption><h2>Главное меню</h2></caption>
         <? $menu = $data['menuButtons'];
-        foreach ($menu as $key=>$value){?>
+        foreach ($menu as $label=>$link){?>
             <tr>
-                <td><button class="menu" onclick="window.location.href = '<?echo $value?>'"><?echo $key?></button></td>
+                <td><button class="menu" onclick="window.location.href = '<?echo $link?>'"><?echo $label?></button></td>
             </tr>
         <? } ?>
-<!--            <tr>-->
-<!--                <td><button class="menu" onclick="window.location.href = ''">Управление меню</button></td>-->
-<!--            </tr>-->
     </table>
 </nav>

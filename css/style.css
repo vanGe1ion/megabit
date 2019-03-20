@@ -88,6 +88,12 @@ p.error{
 /*Table tags*/
 /*Local*/
 
+table.data{
+    border: 3px solid black;
+    border-collapse: collapse;
+    /*margin-top: 150px*/
+}
+
 th.db{
     padding: 5px;
     text-align: center;
@@ -100,12 +106,17 @@ td.db{
     border: black 1px solid;
 }
 
+/*Global*/
+
 caption{
     font-size: x-large;
     font-style: italic;
     font-weight: bolder;
     padding-bottom: 10px;
 }
+
+/*Horizontal tag*/
+/*Global*/
 
 hr{
     width: 90%;

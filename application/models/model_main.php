@@ -2,23 +2,23 @@
 
 class Model_main extends Model{
 
-    public function get_data()
+    public function GetMain()
     {
         $data = array('pageTitle'=>'Главное меню');
         switch ($_SESSION['permission']){
             case Permission::ADMIN:{
                 $data['menuButtons'] = array (
-                    'Управление базой блюд'=>'some1');
+                    'Управление базой блюд'=>'dishbase');
                 break;
             }
             case Permission::SERVE:{
                 $data['menuButtons'] = array (
-                    'Управление базой блюд'=>'some1');
+                    'Управление базой блюд'=>'dishbase');
                 break;
             }
             case Permission::USER:{
                 $data['menuButtons'] = array (
-                    'Управление меню'=>'some2');
+                    'Управление меню'=>'');
                     break;
             }
             default:{}

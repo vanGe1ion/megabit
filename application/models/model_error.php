@@ -12,9 +12,9 @@ class Model_Error
     public function GetError(){
         $errorType = $_SESSION['error'];
 
-        $data = array('pageTitle'=>'Ошибка');
+        $data = array('pageTitle'=>'Ой, какая неприятность');
         switch ($errorType){
-            case 1:{
+            case 600:{
                 $data += array(
                     'title' => 'Ошибка входа',
                     'text' => 'Пользователя с таким логином и паролем не существует',
@@ -24,8 +24,28 @@ class Model_Error
                 break;
             }
 
+            case 601:{
+                $data += array(
+                    'title' => 'Ошибка чтения базы данных',
+                    'text' => 'Запрос к базе данных вернул пустой результат ',
+                    'button' => 'Главное меню',
+                    'link' => $_SERVER['HTTP_ORIGIN'].'/Main'                   //todo
+                );
+                break;
+            }
+
+            case 403:{
+                $data += array(
+                    'title' => 'Ошибка доступа',
+                    'text' => 'Не достаточно прав для просмотра этой страницы',
+                    'button' => 'Главное меню',
+                    'link' => $_SERVER['HTTP_ORIGIN'].'/Main'
+                );
+                break;
+            }
+
             case 404:{
-                $data = array(
+                $data += array(
                     'title' => 'Ошибка 404',
                     'text' => 'Запрашиваемая страница не найдена',
                     'button' => 'Главное меню',

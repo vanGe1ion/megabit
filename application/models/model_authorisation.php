@@ -15,13 +15,13 @@ class Model_Authorisation extends Model{
 
         if($result->num_rows){
             $row = mysqli_fetch_array($result);
-            $authoredUser = new User($row['login'], $row['password'], $row['permission'], $row['Emp_ID']);
-            $errorCode = StatFuncs::ThrowError(0);
+            $authedUser = new User($row['login'], $row['password'], $row['permission'], $row['Emp_ID']);
+            $data['errorCode'] = StatFuncs::ThrowError(0);
         }
         else
-            $errorCode = StatFuncs::ThrowError(1);
+            $data['errorCode'] = StatFuncs::ThrowError(600);
 
-        return $errorCode;
+        return $data;
     }
 
     public function Logout(){

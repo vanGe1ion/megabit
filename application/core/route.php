@@ -81,13 +81,13 @@ class Route
 	
 	}
 
-	function ErrorPage404()
+	static private function ErrorPage404()
 	{
 	    $_SESSION['error'] = 404;
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
-        header('HTTP/1.1 404 Not Found');
-		header("Status: 404 Not Found");
-		header('Location:'.$host.'error');
+        //header('HTTP/1.1 404 Not Found');
+		//header("Status: 404 Not Found");
+        header("Location: ".$_SERVER['HTTP_ORIGIN']."/error");
     }
     
 }

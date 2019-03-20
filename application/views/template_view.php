@@ -14,6 +14,7 @@
 
 <body class="wrapper">
 <div class="content">
+
     <!-- Header -->
 
     <header>
@@ -21,7 +22,7 @@
             <tr>
                 <td><h1 class="top">MEGABIT CAFE</h1></td>
                 <td style="text-align: right; padding-right: 200px">
-                    <?php if(StatFuncs::LoggedIn()){ /*if($_SESSION['login']){*/ ?>
+                    <?php if(StatFuncs::LoggedIn()){ ?>
                         <p style="font-size: 20px">Вы вошли как: <? echo isset($_SESSION['fullname']) ? $_SESSION['fullname'] : $_SESSION['login'] ?></p>
                         <p><button class="loging" onclick="window.location.href = 'authorisation/logout'">Выйти</button></p>
                     <?php } ?>
@@ -31,7 +32,19 @@
         <hr>
     </header>
 
-    <!-- Navigation -->
+    <!-- Header Navigation -->
+
+    <? $headMenu = $data['headerMenu']; if(isset($headMenu)){  ?>
+    <nav>
+        <table style="margin-left: 100px; margin-bottom: 50px;" >
+            <tr>
+                <? foreach ( $headMenu as $label=>$link){?>
+                    <td><button class="hormenu" onclick="document.location.href='<?echo $link?>'"><?echo $label?></button></td>
+                <?}?>
+            </tr>
+        </table>
+    </nav>
+    <?}?>
 
     <!-- Main -->
 
@@ -41,21 +54,25 @@
 
 </div>
 
-<!-- Footer -->
+<!-- Footer Navigation-->
 
 <footer class="footer">
-<table  width="100%" > <!-- style="bottom: 30px; position: fixed;"-->
-    <tr>
-        <td colspan="2"><hr></td>
-    </tr>
-    <tr>
-        <td align="right">
-            <?if (0){?>
-                <button style="margin-right: 100px" class="hormenu" onclick="document.location.href='main'">В главное меню</button>
-            <?}?>
-        </td>
-    </tr>
-</table>
+    <table  width="100%" >
+        <tr>
+            <td colspan="2"><hr></td>
+        </tr>
+        <tr>
+            <td align="right" >
+                <? $footMenu = $data['footerMenu']; if(isset($footMenu)){?>
+                    <nav style="margin-right: 100px">
+                        <? foreach ( $footMenu as $label=>$link){?>
+                            <button class="hormenu" onclick="document.location.href='<?echo $link?>'"><?echo $label?></button>
+                        <?}?>
+                    </nav>
+                <?}?>
+            </td>
+        </tr>
+    </table>
 </footer>
 
 </body>
