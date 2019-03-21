@@ -31,5 +31,14 @@ class Database {
     public function getConnection() {
         return $this->_connection;
     }
+
+    //query execution
+    public static function DBRequest($querry){
+        $db = Database::getInstance(HOSTNAME, LOGIN, PASSWORD, DBNAME);
+        $dbLink = $db->_connection;
+        $querryResult = mysqli_query($dbLink, $querry);
+
+        return $querryResult;
+    }
 }
 ?>

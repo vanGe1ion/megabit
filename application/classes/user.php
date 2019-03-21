@@ -53,10 +53,9 @@ class User
 
     private function GetEmpDbData($empID): Employee
     {
-        $db = Database::getInstance(HOSTNAME, LOGIN, PASSWORD, DBNAME);
-        $dbLink = $db->getConnection();
+
         $querry = Querries::EmpDataQuerry($empID);
-        $result = mysqli_query($dbLink, $querry);
+        $result = Database::DBRequest($querry);
 
         if ($result->num_rows)
             $row = mysqli_fetch_array($result);

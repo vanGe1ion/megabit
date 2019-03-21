@@ -4,24 +4,27 @@ class Model_main extends Model{
 
     public function GetMain()
     {
-        $data = array('pageTitle'=>'Главное меню');
+        $data['pageTitle'] = 'Главное меню';
+
         switch ($_SESSION['permission']){
             case Permission::ADMIN:{
-                $data['menuButtons'] = array (
-                    'Управление базой блюд'=>'dishbase');
+                $data['mainMenu'] = array (
+                    'Управление базой блюд'     => SITE_ROOT.'/dishbase');
                 break;
             }
             case Permission::SERVE:{
-                $data['menuButtons'] = array (
-                    'Управление базой блюд'=>'dishbase');
+                $data['mainMenu'] = array (
+                    'Управление базой блюд'     => SITE_ROOT.'/dishbase');
                 break;
             }
             case Permission::USER:{
-                $data['menuButtons'] = array (
-                    'Управление меню'=>'');
+                $data['mainMenu'] = array (
+                    'Управление меню'           => SITE_ROOT.'/');
                     break;
             }
-            default:{}
+            default:{
+                $data['mainMenu'] = NULL;
+            }
         }
 
         return $data;

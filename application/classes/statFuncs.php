@@ -24,6 +24,4 @@ class StatFuncs
         $_SESSION['error'] = $errorCode;
         return $errorCode;
     }
-
-
 }

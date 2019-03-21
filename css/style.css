@@ -4,14 +4,17 @@ html,
 body {
     height: 98%;
 }
+
 .wrapper {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
+
 .content {
     flex: 1 0 auto;
 }
+
 .footer {
     flex: 0 0 auto;
 }
@@ -86,18 +89,25 @@ p.error{
 }
 
 /*Table tags*/
+
+table {
+    border-collapse: collapse;
+}
+
 /*Local*/
 
 table.data{
     border: 3px solid black;
-    border-collapse: collapse;
-    /*margin-top: 150px*/
+    margin-top: 7%;
+    margin-bottom: 7%
 }
+
+
 
 th.db{
     padding: 5px;
     text-align: center;
-    border: black 3px solid
+    border: black 3px solid;
 }
 
 td.db{

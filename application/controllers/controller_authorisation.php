@@ -14,7 +14,8 @@ class controller_Authorisation extends Controller
         if (StatFuncs::LoggedIn())
             header("Location: ".SITE_ROOT."/Main");
         else
-            $this->view->Generate('authorisation_view.php', 'template_view.php', array('pageTitle' => 'Авторизация'));
+            $data['pageTitle'] = 'Авторизация';
+            $this->view->Generate('authorisation_view.php', 'template_view.php', $data);
     }
 
     function action_login()
@@ -32,7 +33,6 @@ class controller_Authorisation extends Controller
 
     function action_logout()
     {
-        $this->model->Logout();
-        header("Location: ".SITE_ROOT."/Authorisation");
+        header("Location: ".SITE_ROOT."/cookie_logout_crutch.php");
     }
 }
