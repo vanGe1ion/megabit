@@ -5,7 +5,7 @@
 > цепляет классы контроллеров и моделей;
 > создает экземпляры контролеров страниц и вызывает действия этих контроллеров.
 */
-class Route
+class Router
 {
 
 	static function start()
@@ -13,6 +13,7 @@ class Route
 		// контроллер и действие по умолчанию
 		$controller_name = 'Main';
 		$action_name = 'index';
+		$parameters = NULL;
 
 		$routes = explode('/', $_SERVER['REQUEST_URI']);
 
@@ -27,6 +28,13 @@ class Route
 		{
 			$action_name = $routes[2];
 		}
+
+		//все данные после экшена будут считаться его параметрами
+        if ( !empty($routes[3]) )
+        {
+            for($i = 3; $i < count($routes); ++$i)
+                $parameters[$i - 2] = $routes[$i];
+        }
 
 		// добавляем префиксы
 		$model_name = 'Model_'.$controller_name;
@@ -61,7 +69,7 @@ class Route
 			правильно было бы кинуть здесь исключение,
 			но для упрощения сразу сделаем редирект на страницу 404
 			*/
-			Route::ErrorPage404();
+			Router::ErrorPage404();
 		}
 		
 		// создаем контроллер
@@ -71,23 +79,20 @@ class Route
 		if(method_exists($controller, $action))
 		{
 			// вызываем действие контроллера
-			$controller->$action();
+			$controller->$action($parameters);
 		}
 		else
 		{
 			// здесь также разумнее было бы кинуть исключение
-			Route::ErrorPage404();
+			Router::ErrorPage404();
 		}
 	
 	}
 
 	static private function ErrorPage404()
 	{
-	    $_SESSION['error'] = 404;
-        $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
-        //header('HTTP/1.1 404 Not Found');
-		//header("Status: 404 Not Found");
-        header("Location: ".$_SERVER['HTTP_ORIGIN']."/error");
+	    StatFuncs::ThrowError(404);
+        header("Location: ".SITE_ROOT."/error");
     }
     
 }

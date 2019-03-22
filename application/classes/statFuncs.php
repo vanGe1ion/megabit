@@ -21,7 +21,7 @@ class StatFuncs
     }
 
     public static function ThrowError($errorCode){
-        $_SESSION['error'] = $errorCode;
+        $_SESSION['errorCode'] = $errorCode;
         return $errorCode;
     }
 }

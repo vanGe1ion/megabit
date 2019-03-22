@@ -19,7 +19,7 @@ class Querries
     }
 
     //Запрос данных о типах блюд
-    public static function DishesTypeQuerry(){
+    public static function DishTypeQuerry(){
         return "SELECT * FROM DISH_TYPES";
     }
 

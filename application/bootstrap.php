@@ -13,5 +13,5 @@ require_once 'classes/employee.php';
 require_once 'classes/statFuncs.php';
 
 
-require_once 'core/route.php';
-Route::start(); // запускаем маршрутизатор
+require_once 'core/router.php';
+Router::start(); // запускаем маршрутизатор

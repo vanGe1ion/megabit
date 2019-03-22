@@ -10,7 +10,7 @@ class Model_Error
 {
 
     public function GetError(){
-        $errorType = $_SESSION['error'];
+        $errorType = $_SESSION['errorCode'];
 
         $data['pageTitle'] = 'Ой, какая неприятность';
 
@@ -46,7 +46,7 @@ class Model_Error
             }
 
             case 404:{
-                $data += array(
+                $data['errorData'] = array(
                     'title' =>      'Ошибка 404',
                     'text' =>       'Запрашиваемая страница не найдена',
                     'button' =>     'Главное меню',
@@ -55,7 +55,7 @@ class Model_Error
                 break;
             }
             default:{
-                $data += array(
+                $data['errorData'] = array(
                     'title' =>      'Непредвиденная ошибка',
                     'text' =>       'Обратитесь к разработчику',
                     'button' =>     'Главное меню',
@@ -64,7 +64,7 @@ class Model_Error
                 break;
             }
         }
-        $_SESSION['error'] = 0;
+        $_SESSION['errorCode'] = 0;
 
         return $data;
     }
