@@ -5,18 +5,18 @@ class User
 
     private $login = "";
     private $md5pass = "";
-    private $permission = Permission::UNAUTHORIZED;
+    private $clearance = Clearance::UNAUTHORIZED;
     private $empID = 0;
     private $empData = NULL;
 
-    function __construct($login, $md5pass = "", $permission, $empID)
+    function __construct($login, $md5pass = "", $clearance, $empID)
     {
         $this->login = $login;
         $this->md5pass = $md5pass;
-        $this->permission = $permission;
+        $this->clearance = $clearance;
         $this->empID = $empID;
 
-        if ($permission == Permission::USER)
+        if ($clearance == Clearance::USER)
             $this->empData = $this->GetEmpDbData($this->empID);
 
         //при ловле юзера из сессии записывать туда его снова не надо
@@ -27,15 +27,15 @@ class User
 
     public static function RebuildUser (){
         if (StatFuncs::LoggedIn()){
-            $user = new User($_SESSION['login'],"",  $_SESSION['permission'], $_SESSION['empID']);
+            $user = new User($_SESSION['login'],"",  $_SESSION['clearance'], $_SESSION['empID']);
             return $user;
         }
     }
 
 
-    public function GetPermission()
+    public function GetClearance()
     {
-        return $this->permission;
+        return $this->clearance;
     }
 
     public function GetLogin()
@@ -45,8 +45,10 @@ class User
 
     public function PrintEmployee()
     {
-        if($this->empData)
+        if($this->empData) {
             $this->empData->PrintUserInfo();
+            echo $this->empData->GetShift()."<br>".$this->empData->GetPACS();
+        }
         else
             echo "No employee data found";
     }
@@ -59,14 +61,14 @@ class User
 
         if ($result->num_rows)
             $row = mysqli_fetch_array($result);
-        $currentEmp = new Employee($row['FIO'], $row['Department'], $row['Position'], $row['Table_ID'], $row['PACS_ID']);
+        $currentEmp = new Employee($row['Fullname'], $row['Department'], $row['Position'], $row['Table_Name'], $row['Shift'], $row['PACS_ID']);
 
         return $currentEmp;
     }
 
     private function SessLogin(){
         $_SESSION['login'] = $this->login;
-        $_SESSION['permission'] = $this->permission;
+        $_SESSION['clearance'] = $this->clearance;
         $_SESSION['empID'] = $this->empID;
         if($_SESSION['empID'])
             $_SESSION['fullname'] = $this->empData->GetFullname();

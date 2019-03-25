@@ -8,91 +8,114 @@
 class Router
 {
 
-	static function start()
+	public static function StartRouting()
 	{
-		// контроллер и действие по умолчанию
-		$controller_name = 'Main';
-		$action_name = 'index';
-		$parameters = NULL;
+        $route = explode('/', $_SERVER['REQUEST_URI']);
 
-		$routes = explode('/', $_SERVER['REQUEST_URI']);
+		if (Router::LoginProtection($route) == 0)
+		    Router::RouterMain($route);
+	}
 
-		// получаем имя контроллера
-		if ( !empty($routes[1]) )
-		{	
-			$controller_name = $routes[1];
-		}
-		
-		// получаем имя экшена
-		if ( !empty($routes[2]) )
-		{
-			$action_name = $routes[2];
-		}
+	static private function RouterMain($route){
 
-		//все данные после экшена будут считаться его параметрами
-        if ( !empty($routes[3]) )
+        // контроллер и действие по умолчанию
+        $controller_name = 'Main';
+        $action_name = 'index';
+        $parameters = NULL;
+
+        // получаем имя контроллера
+        if ( !empty($route[1]) )
         {
-            for($i = 3; $i < count($routes); ++$i)
-                $parameters[$i - 2] = $routes[$i];
+            $controller_name = $route[1];
         }
 
-		// добавляем префиксы
-		$model_name = 'Model_'.$controller_name;
-		$controller_name = 'Controller_'.$controller_name;
-		$action_name = 'action_'.$action_name;
+        // получаем имя экшена
+        if ( !empty($route[2]) )
+        {
+            $action_name = $route[2];
+        }
 
-		/*
-		echo "Model: $model_name <br>";
-		echo "Controller: $controller_name <br>";
-		echo "Action: $action_name <br>";
-		*/
+        //все роуты после экшена будут считаться его параметрами
+        if ( !empty($route[3]) )
+        {
+            for($i = 3; $i < count($route); ++$i)
+                $parameters[$i - 2] = $route[$i];
+        }
 
-		// подцепляем файл с классом модели (файла модели может и не быть)
+        // добавляем префиксы
+        $model_name = 'Model_'.$controller_name;
+        $controller_name = 'Controller_'.$controller_name;
+        $action_name = 'action_'.$action_name;
 
-		$model_file = strtolower($model_name).'.php';
-		$model_path = "application/models/".$model_file;
-		if(file_exists($model_path))
-		{
-			include "application/models/".$model_file;
-		}
+        /*
+        echo "Model: $model_name <br>";
+        echo "Controller: $controller_name <br>";
+        echo "Action: $action_name <br>";
+        */
 
-		// подцепляем файл с классом контроллера
-		$controller_file = strtolower($controller_name).'.php';
-		$controller_path = "application/controllers/".$controller_file;
-		if(file_exists($controller_path))
-		{
-			include "application/controllers/".$controller_file;
-		}
-		else
-		{
-			/*
-			правильно было бы кинуть здесь исключение,
-			но для упрощения сразу сделаем редирект на страницу 404
-			*/
-			Router::ErrorPage404();
-		}
-		
-		// создаем контроллер
-		$controller = new $controller_name;
-		$action = $action_name;
-		
-		if(method_exists($controller, $action))
-		{
-			// вызываем действие контроллера
-			$controller->$action($parameters);
-		}
-		else
-		{
-			// здесь также разумнее было бы кинуть исключение
-			Router::ErrorPage404();
-		}
-	
-	}
+        // подцепляем файл с классом модели (файла модели может и не быть)
+
+        $model_file = strtolower($model_name).'.php';
+        $model_path = "application/models/".$model_file;
+        if(file_exists($model_path))
+        {
+            include "application/models/".$model_file;
+        }
+
+        // подцепляем файл с классом контроллера
+        $controller_file = strtolower($controller_name).'.php';
+        $controller_path = "application/controllers/".$controller_file;
+        if(file_exists($controller_path))
+        {
+            include "application/controllers/".$controller_file;
+        }
+        else
+        {
+            /*
+            правильно было бы кинуть здесь исключение,
+            но для упрощения сразу сделаем редирект на страницу 404
+            */
+            Router::ErrorPage404();
+        }
+
+        // создаем контроллер
+        $controller = new $controller_name;
+        $action = $action_name;
+
+        if(method_exists($controller, $action))
+        {
+            // вызываем действие контроллера
+            $controller->$action($parameters);
+        }
+        else
+        {
+            // здесь также разумнее было бы кинуть исключение
+            Router::ErrorPage404();
+        }
+
+    }
 
 	static private function ErrorPage404()
 	{
 	    StatFuncs::ThrowError(404);
         header("Location: ".SITE_ROOT."/error");
+    }
+
+    static private function LoginProtection($route)
+    {
+        $controller = strtolower($route[1]);
+        $ret = 1;
+
+        if (!StatFuncs::LoggedIn() && $controller != 'authorisation' ) {
+            header("Location: ".SITE_ROOT."/Authorisation");
+        }
+        elseif($_SESSION['clearance'] == Clearance::FROZEN && $controller != 'error' && $controller != 'authorisation' ) {
+            StatFuncs::ThrowError(ErrorCode::YOU_ARE_FROZEN);
+            header("Location: " . SITE_ROOT . "/Error");
+        }
+        else $ret = 0;
+
+        return $ret;
     }
     
 }

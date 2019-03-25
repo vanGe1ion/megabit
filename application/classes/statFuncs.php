@@ -5,19 +5,19 @@ class StatFuncs
 {
 
     public static function LoggedIn (){
-        return isset($_SESSION['permission']) AND $_SESSION['permission'] < Permission::UNAUTHORIZED;
+        return isset($_SESSION['clearance']) AND $_SESSION['clearance'] < Clearance::UNAUTHORIZED;
     }
 
     public static function IsAdmin (){
-        return $_SESSION['permission'] == Permission::ADMIN;
+        return $_SESSION['clearance'] == Clearance::ADMIN;
     }
 
     public static function IsServe (){
-        return  $_SESSION['permission'] == Permission::SERVE;
+        return  $_SESSION['clearance'] == Clearance::SERVE;
     }
 
     public static function IsUser (){
-        return  $_SESSION['permission'] == Permission::USER;
+        return  $_SESSION['clearance'] == Clearance::USER;
     }
 
     public static function ThrowError($errorCode){

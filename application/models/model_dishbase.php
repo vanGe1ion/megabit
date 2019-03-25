@@ -8,8 +8,8 @@ class Model_DishBase
     {
         $data['pageTitle'] = 'База блюд';
 
-        switch ($_SESSION['permission']) {
-            case Permission::ADMIN:
+        switch ($_SESSION['clearance']) {
+            case Clearance::ADMIN:
                 {
                     $data['headerMenu'] = array(
                         'Блюда' =>          SITE_ROOT.'/Dishbase/dishes',
@@ -19,7 +19,7 @@ class Model_DishBase
                     );
                     break;
                 }
-            case Permission::SERVE:
+            case Clearance::PLANNER:
                 {
                     $data['headerMenu'] = array(
                         'Блюда' =>          SITE_ROOT.'/Dishbase/dishes',
@@ -35,7 +35,8 @@ class Model_DishBase
         }
 
         $data['footerMenu'] = array(
-            'Главное меню' =>   SITE_ROOT.'/Main');
+            'Главное меню' =>   SITE_ROOT.'/Main'
+        );
 
         return $data;
     }
@@ -50,19 +51,20 @@ class Model_DishBase
             $data = $this->GetNavigation();
             $data['tableData'] = array(
 
-                'caption' => "Блюда",
-                'querryResult' => $querryResult,
-                'headRow' => array(
-                    'Dish_ID' => '№',
-                    'Dish_Name' => 'Название блюда',
-                    'Dish_Type' => 'Тип блюда'
+                'caption' =>        "Блюда",
+                'querryResult' =>   $querryResult,
+                'headRow' =>        array(
+                    'Dish_ID' =>        '№',
+                    'Dish_Name' =>      'Название блюда',
+                    'Dish_Type' =>      'Тип блюда'
                 ),
-                'subTable' => array(
-                    'Ингредиенты' => ''
+
+                'subTable' =>       array(
+                    'Ингредиенты' =>    ''
                 )
             );
         } else
-            $data['errorCode'] = StatFuncs::ThrowError(601);
+            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::BAD_DB_CONNECTION);
 
         return $data;
     }
@@ -86,7 +88,7 @@ class Model_DishBase
             );
         }
         else
-            $data['errorCode'] = StatFuncs::ThrowError(601);
+            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::BAD_DB_CONNECTION);
 
         return $data;
     }
@@ -109,7 +111,7 @@ class Model_DishBase
             );
         }
         else
-            $data['errorCode'] = StatFuncs::ThrowError(601);
+            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::BAD_DB_CONNECTION);
 
         return $data;
     }
@@ -133,7 +135,7 @@ class Model_DishBase
             );
         }
         else
-            $data['errorCode'] = StatFuncs::ThrowError(601);
+            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::BAD_DB_CONNECTION);
 
         return $data;
     }

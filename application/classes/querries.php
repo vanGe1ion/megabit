@@ -5,12 +5,12 @@ class Querries
 
     //Запрос в бд для поиска пользователя
     public static function AuthorizeQuerry($login, $md5pass){
-        return "SELECT * FROM USER WHERE login= '$login' AND password= '$md5pass'";
+        return "SELECT * FROM USER_LIST WHERE Login= '$login' AND Password= '$md5pass'";
     }
 
     //Запрос данных о сотруднике
     public static function EmpDataQuerry($EmpID){
-        return "SELECT * FROM EMPLOYEERS_LIST WHERE Emp_ID='$EmpID'";
+        return "SELECT EMPLOYEERS_LIST.Emp_ID, EMPLOYEERS_LIST.Fullname, EMPLOYEERS_LIST.Department, EMPLOYEERS_LIST.Position, TABLE_LIST.Table_Name, SHIFT.Shift FROM EMPLOYEERS_LIST, TABLE_LIST, SHIFT WHERE EMPLOYEERS_LIST.Table_ID=TABLE_LIST.Table_ID AND EMPLOYEERS_LIST.Shift_ID=SHIFT.Shift_ID AND Emp_ID='$EmpID'";
     }
 
     //Запрос данных о мерах

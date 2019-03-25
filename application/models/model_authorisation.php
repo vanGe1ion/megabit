@@ -13,11 +13,11 @@ class Model_Authorisation extends Model{
 
         if($result->num_rows){
             $row = mysqli_fetch_array($result);
-            $authedUser = new User($row['login'], $row['password'], $row['permission'], $row['Emp_ID']);
-            $data['errorCode'] = StatFuncs::ThrowError(0);
+            $authedUser = new User($row['Login'], $row['Password'], $row['Clearance_ID'], $row['Emp_ID']);
+            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::WITHOUT_ERRORS);
         }
         else
-            $data['errorCode'] = StatFuncs::ThrowError(600);
+            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::USER_DOES_NOT_EXIST);
 
         return $data;
     }

@@ -6,12 +6,15 @@ require_once 'core/view.php';
 require_once 'core/controller.php';
 require_once 'core/database.php';
 
-require_once 'classes/permission.php';
+// подключаем файлы классов
 require_once 'classes/querries.php';
 require_once 'classes/user.php';
 require_once 'classes/employee.php';
 require_once 'classes/statFuncs.php';
 
+// подключаем файлы констант
+require_once 'classes/errorCode.php';
+require_once 'classes/clearance.php';
 
 require_once 'core/router.php';
-Router::start(); // запускаем маршрутизатор
+Router::StartRouting(); // запускаем маршрутизатор

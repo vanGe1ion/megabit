@@ -24,10 +24,10 @@ class controller_Authorisation extends Controller
         if (!StatFuncs::LoggedIn())
             $data = $this->model->Login();
 
-        if ($data['errorCode'] != 0)
-            header("Location: ".SITE_ROOT."/error");
-        else
+        if ($data['errorCode'] == ErrorCode::WITHOUT_ERRORS)
             header("Location: ".SITE_ROOT."/Main");
+        else
+            header("Location: ".SITE_ROOT."/error");
     }
 
 

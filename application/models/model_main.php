@@ -6,20 +6,30 @@ class Model_main extends Model{
     {
         $data['pageTitle'] = 'Главное меню';
 
-        switch ($_SESSION['permission']){
-            case Permission::ADMIN:{
+        switch ($_SESSION['clearance']){
+            case Clearance::ADMIN:{
                 $data['mainMenu'] = array (
-                    'Управление базой блюд'     => SITE_ROOT.'/dishbase');
+                    'Управление базой блюд'             => SITE_ROOT.'/dishbase',
+                    'Управление базой пользователей'    => SITE_ROOT.'/userbase'
+                );
                 break;
             }
-            case Permission::SERVE:{
+            case Clearance::PLANNER:{
                 $data['mainMenu'] = array (
-                    'Управление базой блюд'     => SITE_ROOT.'/dishbase');
+                    'Управление базой блюд'             => SITE_ROOT.'/dishbase'
+                );
                 break;
             }
-            case Permission::USER:{
+            case Clearance::SERVE:{
                 $data['mainMenu'] = array (
-                    'Управление меню'           => SITE_ROOT.'/');
+                    'Монитор очереди'                   => SITE_ROOT.'/queuemonitor'
+                );
+                break;
+            }
+            case Clearance::USER:{
+                $data['mainMenu'] = array (
+                    'Управление меню'                   => SITE_ROOT.'/'
+                );
                     break;
             }
             default:{

@@ -15,7 +15,7 @@ class Model_Error
         $data['pageTitle'] = 'Ой, какая неприятность';
 
         switch ($errorType){
-            case 600:{
+            case ErrorCode::USER_DOES_NOT_EXIST:{
                 $data['errorData'] = array(
                     'title' =>      'Ошибка входа',
                     'text' =>       'Пользователя с таким логином и паролем не существует',
@@ -25,7 +25,7 @@ class Model_Error
                 break;
             }
 
-            case 601:{
+            case ErrorCode::BAD_DB_CONNECTION:{
                 $data['errorData'] = array(
                     'title' =>      'Ошибка чтения базы данных',
                     'text' =>       'Запрос к базе данных вернул пустой результат ',
@@ -35,7 +35,7 @@ class Model_Error
                 break;
             }
 
-            case 403:{
+            case ErrorCode::FORBIDDEN:{
                 $data['errorData'] = array(
                     'title' =>      'Ошибка доступа',
                     'text' =>       'Не достаточно прав для просмотра этой страницы',
@@ -45,7 +45,7 @@ class Model_Error
                 break;
             }
 
-            case 404:{
+            case ErrorCode::NOT_FOUND:{
                 $data['errorData'] = array(
                     'title' =>      'Ошибка 404',
                     'text' =>       'Запрашиваемая страница не найдена',
@@ -54,6 +54,27 @@ class Model_Error
                 );
                 break;
             }
+
+            case ErrorCode::YOU_ARE_FROZEN:{
+                $data['errorData'] = array(
+                    'title' =>      'Ошибка доступа',
+                    'text' =>       'Ваша учетная запись была заморожена. Обратитесь к администратору',
+                    'button' =>     'Выйти',
+                    'link' =>       SITE_ROOT.'/Authorisation/logout'
+                );
+                break;
+            }
+
+            case ErrorCode::SESSION_TIMEOUT:{
+                $data['errorData'] = array(
+                    'title' =>      'Ошибка ожидания',
+                    'text' =>       'Время текущей сессии истекло. Выполните повторный вход',
+                    'button' =>     'Войти',
+                    'link' =>       SITE_ROOT.'/Authorisation'
+                );
+                break;
+            }
+
             default:{
                 $data['errorData'] = array(
                     'title' =>      'Непредвиденная ошибка',

@@ -7,15 +7,16 @@ class Employee
     private $department = "";
     private $job = "";
     private $table = 0;
-    private $sitting = 0;
+    private $shift = '';
     private $PACS_ID = 0;
 
-    function __construct($fullname, $department, $job, $table, $PACS_ID)
+    function __construct($fullname, $department, $job, $table, $shift, $PACS_ID)
     {
         $this->fullname = $fullname;
         $this->department = $department;
         $this->job = $job;
         $this->table = $table;
+        $this->shift = $shift;
         $this->PACS_ID = $PACS_ID;
     }
 
@@ -27,17 +28,19 @@ class Employee
         echo "Стол №" . $this->table . "<br>";
     }
 
-    public function GetSitting(){
-        return $this->sitting;
+    public function GetShift(){
+        return $this->shift;
+    }
+
+    public function SetShift($shift){
+        $this->shift = $shift;
+    }
+
+    public function GetPACS(){
+        return $this->PACS_ID;
     }
 
     public function GetFullname(){
         return $this->fullname;
     }
-
-    public function SetSitting($sitting){
-        $this->sitting = $sitting;
-    }
 }
-
-?>
