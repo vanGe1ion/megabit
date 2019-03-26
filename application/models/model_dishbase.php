@@ -12,18 +12,18 @@ class Model_DishBase
             case Clearance::ADMIN:
                 {
                     $data['headerMenu'] = array(
-                        'Блюда' =>          SITE_ROOT.'/Dishbase/dishes',
-                        'Ингредиенты' =>    SITE_ROOT.'/Dishbase/ingredients',
-                        'Типы блюд' =>      SITE_ROOT.'/Dishbase/dishtypes',
-                        'Ед. измерения' =>  SITE_ROOT.'/Dishbase/measures'
+                        'Блюда' =>          SITE_ROOT.'/dishbase/dishes',
+                        'Ингредиенты' =>    SITE_ROOT.'/dishbase/ingredients',
+                        'Типы блюд' =>      SITE_ROOT.'/dishbase/dishtypes',
+                        'Ед. измерения' =>  SITE_ROOT.'/dishbase/measures'
                     );
                     break;
                 }
             case Clearance::PLANNER:
                 {
                     $data['headerMenu'] = array(
-                        'Блюда' =>          SITE_ROOT.'/Dishbase/dishes',
-                        'Ингредиенты' =>    SITE_ROOT.'/Dishbase/ingredients',
+                        'Блюда' =>          SITE_ROOT.'/dishbase/dishes',
+                        'Ингредиенты' =>    SITE_ROOT.'/dishbase/ingredients',
                     );
                     break;
                 }
@@ -59,8 +59,8 @@ class Model_DishBase
                     'Dish_Type' =>      'Тип блюда'
                 ),
 
-                'subTable' =>       array(
-                    'Ингредиенты' =>    ''
+                'subTable' => array(
+                    'Ингредиенты' =>    SITE_ROOT . '/dishbase/dishes/'     //.'Dish_ID'
                 )
             );
         } else
@@ -81,6 +81,7 @@ class Model_DishBase
 
                 'caption' =>        "Ингредиенты",
                 'querryResult' =>   $querryResult,
+
                 'headRow' =>        array(
                     'Ingredient_ID' =>      '№',
                     'Ingredient_Name' =>    'Ингредиент'
@@ -104,6 +105,7 @@ class Model_DishBase
 
                 'caption' =>        "Типы блюд",
                 'querryResult' =>   $querryResult,
+
                 'headRow' =>        array(
                     'Dish_Type_ID' =>      '№',
                     'Dish_Type_Name' =>    'Тип блюда'
@@ -128,6 +130,7 @@ class Model_DishBase
 
                 'caption' =>        "Ед. измерения",
                 'querryResult' =>   $querryResult,
+
                 'headRow' =>        array(
                     'Measure_ID' =>      '№',
                     'Measure_Name' =>    'Ед. измерения'
@@ -139,4 +142,33 @@ class Model_DishBase
 
         return $data;
     }
+
+    public function GetDishIngredients($dishID)
+    {
+        $querry = Querries::DishIngredientsQuerry($dishID);
+        $querryResult = Database::DBRequest($querry);
+
+        if ($querryResult->num_rows) {
+            $data = $this->GetNavigation();
+            $data['footerMenu'] += array('Назад' => SITE_ROOT.'/dishbase/dishes');
+
+            $data['tableData'] = array(
+
+                'caption' => "Ингредиенты для блюда: ",
+                'parentKey' => 'Dish_Name',
+                'querryResult' => $querryResult,
+
+                'headRow' => array(
+                    'Ingredient_Name' => 'Ингредиент',
+                    'Quantity' => 'Количество',
+                    'Measure_Name' => 'Ед.Измерения'
+                )
+            );
+        } else
+            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::BAD_DB_CONNECTION);
+
+        return $data;
+    }
+
+
 }

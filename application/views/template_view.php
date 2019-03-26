@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><? echo $data['pageTitle'].' <||> '.SITE_NAME ?></title>
+    <title><? echo $data['pageTitle'].' <~> '.SITE_NAME ?></title>
     <link rel="stylesheet" type="text/css" href="<? echo SITE_ROOT?>/css/style.css">
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
@@ -18,10 +18,11 @@
     <!-- Header -->
 
     <header>
-        <table style=" width: 100%;">
+        <table style="width: 100%">
             <tr>
+                <td width="100px"><img src="/images/headlogo.png" alt="Megabit logo" class="top"></td>
                 <td><h1 class="top"> <?echo SITE_NAME;?></h1></td>
-                <td style="text-align: right; padding-right: 200px">
+                <td class="login">
                     <?php if(StatFuncs::LoggedIn()){ ?>
                         <p style="font-size: 20px">Вы вошли как: <? echo isset($_SESSION['fullname']) ? $_SESSION['fullname'] : $_SESSION['login'] ?></p>
                         <p><button class="loging" onclick='window.location.href = "<?echo SITE_ROOT.'/authorisation/logout'?>"'>Выйти</button></p>

@@ -15,4 +15,14 @@
             <td width="50%"><button class="loging" type="submit" value="Войти">Войти</button></td>
         </tr>
     </table>
+    <p>
+        <br>
+        Test accounts:<br><br>
+        Login - Password<br><br>
+        admin - admin<br>
+        planner - planner<br>
+        serve - serve<br>
+        ea.kichaev - 123<br>
+        frozen - 123<br>
+    </p>
 </form>

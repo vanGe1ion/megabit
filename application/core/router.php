@@ -39,7 +39,7 @@ class Router
         if ( !empty($route[3]) )
         {
             for($i = 3; $i < count($route); ++$i)
-                $parameters[$i - 2] = $route[$i];
+                $parameters[$i - 3] = $route[$i];
         }
 
         // добавляем префиксы
@@ -106,7 +106,7 @@ class Router
         $controller = strtolower($route[1]);
         $ret = 1;
 
-        if (!StatFuncs::LoggedIn() && $controller != 'authorisation' ) {
+        if (!StatFuncs::LoggedIn() && $controller != 'authorisation' && $controller != 'error') {
             header("Location: ".SITE_ROOT."/Authorisation");
         }
         elseif($_SESSION['clearance'] == Clearance::FROZEN && $controller != 'error' && $controller != 'authorisation' ) {
