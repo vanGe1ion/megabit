@@ -9,12 +9,24 @@ class Router
 {
 
 	public static function StartRouting()
-	{
+    {
         $route = explode('/', $_SERVER['REQUEST_URI']);
 
-		if (Router::LoginProtection($route) == 0)
-		    Router::RouterMain($route);
-	}
+
+        if (SessionController::SessionCreate() != ErrorCode::SESSION_TIMEOUT)
+        {
+            if (Router::LoginProtection($route) == 0)
+                Router::RouterMain($route);
+
+        }
+        elseif (strtolower($route[1]) == 'error')
+        {
+            if (Router::LoginProtection($route) == 0)
+                Router::RouterMain($route);
+        }
+        else
+            header("Location: ".$_SERVER['SITE_ROOT']."/error");
+    }
 
 	static private function RouterMain($route){
 
@@ -109,7 +121,7 @@ class Router
         if (!StatFuncs::LoggedIn() && $controller != 'authorisation' && $controller != 'error') {
             header("Location: ".SITE_ROOT."/Authorisation");
         }
-        elseif($_SESSION['clearance'] == Clearance::FROZEN && $controller != 'error' && $controller != 'authorisation' ) {
+        elseif($_SESSION['accessRights'] == AccessRights::FROZEN && $controller != 'error' && $controller != 'authorisation' ) {
             StatFuncs::ThrowError(ErrorCode::YOU_ARE_FROZEN);
             header("Location: " . SITE_ROOT . "/Error");
         }

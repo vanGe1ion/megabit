@@ -1,6 +1,6 @@
 <?php
 
-class Clearance
+class AccessRights
 {
     const ADMIN = 0;
     const PLANNER = 1;

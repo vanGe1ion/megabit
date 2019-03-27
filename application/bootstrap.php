@@ -5,6 +5,7 @@ require_once 'core/model.php';
 require_once 'core/view.php';
 require_once 'core/controller.php';
 require_once 'core/database.php';
+require_once 'core/sessionController.php';
 
 // подключаем файлы классов
 require_once 'classes/querries.php';
@@ -14,7 +15,10 @@ require_once 'classes/statFuncs.php';
 
 // подключаем файлы констант
 require_once 'classes/errorCode.php';
-require_once 'classes/clearance.php';
+require_once 'classes/accessRights.php';
+
+//session_start();
 
 require_once 'core/router.php';
 Router::StartRouting(); // запускаем маршрутизатор
+

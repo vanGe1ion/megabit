@@ -12,7 +12,7 @@ class controller_Authorisation extends Controller
     function action_index()
     {
         if (StatFuncs::LoggedIn())
-            header("Location: ".SITE_ROOT."/Main");
+            header("Location: ".SITE_ROOT."/main");
         else
             $data['pageTitle'] = 'Авторизация';
             $this->view->Generate('authorisation_view.php', 'template_view.php', $data);
@@ -25,7 +25,7 @@ class controller_Authorisation extends Controller
             $data = $this->model->Login();
 
         if ($data['errorCode'] == ErrorCode::WITHOUT_ERRORS)
-            header("Location: ".SITE_ROOT."/Main");
+            header("Location: ".SITE_ROOT."/main");
         else
             header("Location: ".SITE_ROOT."/error");
     }

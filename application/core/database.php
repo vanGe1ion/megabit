@@ -3,8 +3,11 @@
 * Mysql database class - only one connection alowed
 */
 class Database {
+
     private $_connection;
     private static $_instance; //The single instance
+
+
 
     /*
     Get an instance of the Database
@@ -16,6 +19,9 @@ class Database {
         }
         return self::$_instance;
     }
+
+
+
     // Constructor
     private function __construct($HOSTNAME, $LOGIN, $PASSWORD, $DBNAME) {
         $this->_connection = new mysqli($HOSTNAME, $LOGIN, $PASSWORD, $DBNAME);
@@ -25,12 +31,20 @@ class Database {
             trigger_error("Failed to connect to MySQL: " . mysqli_connect_error(),E_USER_ERROR);
         }
     }
+
+
+
     // Magic method clone is empty to prevent duplication of connection
     private function __clone() { }
-    // Get mysqli connection
-    public function getConnection() {
-        return $this->_connection;
-    }
+
+
+
+//    // Get mysqli connection
+//    public function getConnection() {
+//        return $this->_connection;
+//    }
+
+
 
     //query execution
     public static function DBRequest($querry){

@@ -13,7 +13,7 @@ class Controller_DishBase extends Controller
     function action_index()
     {
 
-        if (!StatFuncs::ValidateUsers(array(Clearance::ADMIN, Clearance::PLANNER))) {
+        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
             $data = $this->model->GetNavigation();
             $this->view->Generate('empty_view.php', 'template_view.php', $data);
         }
@@ -21,7 +21,7 @@ class Controller_DishBase extends Controller
 
     function action_dishes($params)
     {
-        if (!StatFuncs::ValidateUsers(array(Clearance::ADMIN, Clearance::PLANNER))) {
+        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
 
             switch ($params){
                 case NULL:{
@@ -46,7 +46,7 @@ class Controller_DishBase extends Controller
 
     function action_ingredients()
     {
-        if (!StatFuncs::ValidateUsers(array(Clearance::ADMIN, Clearance::PLANNER))) {
+        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
             $data = $this->model->GetIngredientList();
             if($data['errorCode'] != ErrorCode::WITHOUT_ERRORS)
                 header("Location: " . SITE_ROOT . "/Error");
@@ -58,7 +58,7 @@ class Controller_DishBase extends Controller
 
     function action_dishtypes()
     {
-        if (!StatFuncs::ValidateUsers(array(Clearance::ADMIN))) {
+        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN))) {
             $data = $this->model->GetDishTypeList();
             if($data['errorCode'] != ErrorCode::WITHOUT_ERRORS)
                 header("Location: " . SITE_ROOT . "/Error");
@@ -69,7 +69,7 @@ class Controller_DishBase extends Controller
 
     function action_measures()
     {
-        if (!StatFuncs::ValidateUsers(array(Clearance::ADMIN))) {
+        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN))) {
             $data = $this->model->GetMeasureList();
             if($data['errorCode'] != ErrorCode::WITHOUT_ERRORS)
                 header("Location: " . SITE_ROOT . "/Error");

@@ -1,5 +1,5 @@
 
-<form action="Authorisation/login" method="post" name="authForm">
+<form action="authorisation/login" method="post" name="authForm">
     <table align="center" width="300px" border="0" style="margin-top: 100px">
         <caption><h3>Пожалуйста, пройдите авторизацию</h3></caption>
         <tr>
@@ -15,6 +15,8 @@
             <td width="50%"><button class="loging" type="submit" value="Войти">Войти</button></td>
         </tr>
     </table>
+</form>
+<!-- После прочтения - сжечь компьютер =) -->
     <p>
         <br>
         Test accounts:<br><br>
@@ -25,4 +27,4 @@
         ea.kichaev - 123<br>
         frozen - 123<br>
     </p>
-</form>
+

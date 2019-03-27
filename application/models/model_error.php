@@ -68,9 +68,9 @@ class Model_Error
             case ErrorCode::SESSION_TIMEOUT:{
                 $data['errorData'] = array(
                     'title' =>      'Ошибка ожидания',
-                    'text' =>       'Время текущей сессии истекло. Выполните повторный вход',
+                    'text' =>       'Время текущей сессии для пользователя '. $_SESSION['login']. ' истекло. Выполните повторный вход',
                     'button' =>     'Войти',
-                    'link' =>       SITE_ROOT.'/Authorisation'
+                    'link' =>       SITE_ROOT.'/cookie_logout_crutch.php'
                 );
                 break;
             }

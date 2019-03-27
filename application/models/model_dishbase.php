@@ -8,8 +8,8 @@ class Model_DishBase
     {
         $data['pageTitle'] = 'База блюд';
 
-        switch ($_SESSION['clearance']) {
-            case Clearance::ADMIN:
+        switch ($_SESSION['accessRights']) {
+            case AccessRights::ADMIN:
                 {
                     $data['headerMenu'] = array(
                         'Блюда' =>          SITE_ROOT.'/dishbase/dishes',
@@ -19,7 +19,7 @@ class Model_DishBase
                     );
                     break;
                 }
-            case Clearance::PLANNER:
+            case AccessRights::PLANNER:
                 {
                     $data['headerMenu'] = array(
                         'Блюда' =>          SITE_ROOT.'/dishbase/dishes',

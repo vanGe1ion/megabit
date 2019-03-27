@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Мар 26 2019 г., 16:49
+-- Время создания: Мар 27 2019 г., 17:53
 -- Версия сервера: 5.6.38-log
 -- Версия PHP: 7.1.12
 
@@ -25,19 +25,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `CLEARANCE`
+-- Структура таблицы `ACESS_RIGHTS`
 --
 
-CREATE TABLE `CLEARANCE` (
-  `Clearance_ID` int(11) NOT NULL,
-  `Clearance_Name` varchar(20) NOT NULL
+CREATE TABLE `ACESS_RIGHTS` (
+  `Access_ID` int(11) NOT NULL,
+  `Access_Name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `CLEARANCE`
+-- Дамп данных таблицы `ACESS_RIGHTS`
 --
 
-INSERT INTO `CLEARANCE` (`Clearance_ID`, `Clearance_Name`) VALUES
+INSERT INTO `ACESS_RIGHTS` (`Access_ID`, `Access_Name`) VALUES
 (0, 'Администратор'),
 (1, 'Планировщик'),
 (2, 'Персонал'),
@@ -274,7 +274,7 @@ CREATE TABLE `USER_LIST` (
   `User_ID` int(11) NOT NULL,
   `Login` varchar(20) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  `Clearance_ID` int(11) NOT NULL,
+  `Access_ID` int(11) NOT NULL,
   `Emp_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -282,7 +282,7 @@ CREATE TABLE `USER_LIST` (
 -- Дамп данных таблицы `USER_LIST`
 --
 
-INSERT INTO `USER_LIST` (`User_ID`, `Login`, `Password`, `Clearance_ID`, `Emp_ID`) VALUES
+INSERT INTO `USER_LIST` (`User_ID`, `Login`, `Password`, `Access_ID`, `Emp_ID`) VALUES
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 0, NULL),
 (2, 'ea.kichaev', '202cb962ac59075b964b07152d234b70', 3, 1),
 (3, 'planner', '0273b494d66af726729c3817b9e194e3', 1, NULL),
@@ -294,10 +294,10 @@ INSERT INTO `USER_LIST` (`User_ID`, `Login`, `Password`, `Clearance_ID`, `Emp_ID
 --
 
 --
--- Индексы таблицы `CLEARANCE`
+-- Индексы таблицы `ACESS_RIGHTS`
 --
-ALTER TABLE `CLEARANCE`
-  ADD PRIMARY KEY (`Clearance_ID`);
+ALTER TABLE `ACESS_RIGHTS`
+  ADD PRIMARY KEY (`Access_ID`);
 
 --
 -- Индексы таблицы `DISH_INGREDIENTS`
@@ -384,7 +384,7 @@ ALTER TABLE `TABLE_LIST`
 --
 ALTER TABLE `USER_LIST`
   ADD PRIMARY KEY (`User_ID`),
-  ADD KEY `Clearance_ID` (`Clearance_ID`),
+  ADD KEY `Clearance_ID` (`Access_ID`),
   ADD KEY `Emp_ID` (`Emp_ID`);
 
 --
@@ -482,8 +482,8 @@ ALTER TABLE `ORDER_LIST`
 -- Ограничения внешнего ключа таблицы `USER_LIST`
 --
 ALTER TABLE `USER_LIST`
-  ADD CONSTRAINT `user_list_ibfk_1` FOREIGN KEY (`Clearance_ID`) REFERENCES `CLEARANCE` (`Clearance_ID`),
-  ADD CONSTRAINT `user_list_ibfk_2` FOREIGN KEY (`Emp_ID`) REFERENCES `EMPLOYEERS_LIST` (`Emp_ID`);
+  ADD CONSTRAINT `user_list_ibfk_2` FOREIGN KEY (`Emp_ID`) REFERENCES `EMPLOYEERS_LIST` (`Emp_ID`),
+  ADD CONSTRAINT `user_list_ibfk_3` FOREIGN KEY (`Access_ID`) REFERENCES `ACESS_RIGHTS` (`Access_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

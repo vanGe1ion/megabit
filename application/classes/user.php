@@ -5,18 +5,18 @@ class User
 
     private $login = "";
     private $md5pass = "";
-    private $clearance = Clearance::UNAUTHORIZED;
+    private $accessRights = AccessRights::UNAUTHORIZED;
     private $empID = 0;
     private $empData = NULL;
 
-    function __construct($login, $md5pass = "", $clearance, $empID)
+    function __construct($login, $md5pass = "", $accessRights, $empID)
     {
         $this->login = $login;
         $this->md5pass = $md5pass;
-        $this->clearance = $clearance;
+        $this->accessRights = $accessRights;
         $this->empID = $empID;
 
-        if ($clearance == Clearance::USER)
+        if ($accessRights == AccessRights::USER)
             $this->empData = $this->GetEmpDbData($this->empID);
 
         //при ловле юзера из сессии записывать туда его снова не надо
@@ -27,15 +27,15 @@ class User
 
     public static function RebuildUser (){
         if (StatFuncs::LoggedIn()){
-            $user = new User($_SESSION['login'],"",  $_SESSION['clearance'], $_SESSION['empID']);
+            $user = new User($_SESSION['login'],"",  $_SESSION['accessRights'], $_SESSION['empID']);
             return $user;
         }
     }
 
 
-    public function GetClearance()
+    public function GetAccessRights()
     {
-        return $this->clearance;
+        return $this->accessRights;
     }
 
     public function GetLogin()
@@ -68,7 +68,7 @@ class User
 
     private function SessLogin(){
         $_SESSION['login'] = $this->login;
-        $_SESSION['clearance'] = $this->clearance;
+        $_SESSION['accessRights'] = $this->accessRights;
         $_SESSION['empID'] = $this->empID;
         if($_SESSION['empID'])
             $_SESSION['fullname'] = $this->empData->GetFullname();
