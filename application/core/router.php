@@ -10,22 +10,11 @@ class Router
 
 	public static function StartRouting()
     {
+        SessionController::SessionCreate();
         $route = explode('/', $_SERVER['REQUEST_URI']);
 
-
-        if (SessionController::SessionCreate() != ErrorCode::SESSION_TIMEOUT)
-        {
-            if (Router::LoginProtection($route) == 0)
-                Router::RouterMain($route);
-
-        }
-        elseif (strtolower($route[1]) == 'error')
-        {
-            if (Router::LoginProtection($route) == 0)
-                Router::RouterMain($route);
-        }
-        else
-            header("Location: ".$_SERVER['SITE_ROOT']."/error");
+        if(self::GlobalRoutingProtection(strtolower($route[1])) == ErrorCode::WITHOUT_ERRORS)
+            self::RouterMain($route);
     }
 
 	static private function RouterMain($route){
@@ -113,21 +102,124 @@ class Router
         header("Location: ".SITE_ROOT."/error");
     }
 
-    static private function LoginProtection($route)
+    //глобальная функция защиты доступа
+    static private function GlobalRoutingProtection($controller)
     {
-        $controller = strtolower($route[1]);
-        $ret = 1;
+        $errorCode = ErrorCode::WITHOUT_ERRORS;
 
-        if (!StatFuncs::LoggedIn() && $controller != 'authorisation' && $controller != 'error') {
-            header("Location: ".SITE_ROOT."/Authorisation");
-        }
-        elseif($_SESSION['accessRights'] == AccessRights::FROZEN && $controller != 'error' && $controller != 'authorisation' ) {
-            StatFuncs::ThrowError(ErrorCode::YOU_ARE_FROZEN);
-            header("Location: " . SITE_ROOT . "/Error");
-        }
-        else $ret = 0;
+        if(self::LoggedInProtection($controller) != ErrorCode::WITHOUT_ERRORS)
+            $errorCode = ErrorCode::UNAUTHORIZED;
+        elseif(StatFuncs::LoggedIn() && self::SessionTimeoutProtection($controller) != ErrorCode::WITHOUT_ERRORS) //обработка времени жизни сессии актуальна только для авторизованных пользователей
+            $errorCode = ErrorCode::SESSION_TIMEOUT;
+        elseif(self::FrozenProtection($controller) != ErrorCode::WITHOUT_ERRORS)
+            $errorCode = ErrorCode::YOU_ARE_FROZEN;
 
-        return $ret;
+        return $errorCode;
+    }
+
+    //функция проверяет залогинен ли пользователь и перенаправляет на форму авторизации если нет
+    //возвращает нулевую ошибку если пользователь не залогинен, но на разрешенные контроллеры!!!
+    //код UNAUTHORIZED контроллером ошибок не обрабатывается. нужно только для воврата факта ошибки
+    static  private function LoggedInProtection($controller)
+    {
+        if (!StatFuncs::LoggedIn() && $controller != 'authorisation' && $controller != 'error')         //разрешение авторизации и ошибок
+        {
+            header("Location: ".SITE_ROOT."/authorisation");
+            return ErrorCode::UNAUTHORIZED;
+        }
+	    return ErrorCode::WITHOUT_ERRORS;
+    }
+
+    static  private function SessionTimeoutProtection($controller)
+    {
+        if (SessionController::TimeoutControl() == ErrorCode::SESSION_TIMEOUT)
+        {
+            //роутинг не в контроллер ошибок - перенаправляем в ошибки
+            if($controller != 'error' && $controller != 'authorisation')
+            {
+                header("Location: " . $_SERVER['SITE_ROOT'] . "/error");
+                return ErrorCode::SESSION_TIMEOUT;
+            }
+            //разрешаем роутинг в контроллер ошибок
+        }
+        //не таймаут - производим штатный роутинг
+        return ErrorCode::WITHOUT_ERRORS;
+    }
+
+    //функция паеренаправляет пользователя с замороженной учеткой на контроллер ошибок
+    static  private function FrozenProtection($controller)
+    {
+        if(StatFuncs::IsFrozen() && $controller != 'error' && $controller != 'authorisation' ) {    //разрешение авторизации и ошибок
+            header("Location: " . SITE_ROOT . "/error");
+            return StatFuncs::ThrowError(ErrorCode::YOU_ARE_FROZEN);
+        }
+
+        return ErrorCode::WITHOUT_ERRORS;
     }
     
 }
+
+
+
+//class Router
+//{
+//    private $routes;
+//
+//    public  function __construct()
+//    {
+//        $routesPath = ROOT.'/config/routes.php';
+//        $this->routes = include($routesPath);
+//    }
+//
+//    private function getURI ()
+//    {
+//        if (!empty($_SERVER['REQUEST_URI'])) {
+//            return trim($_SERVER['REQUEST_URI'], '/');
+//        }
+//    }
+//
+//    public function run ()
+//    {
+//        // Получить строку запроса
+//        $uri = $this->getURI();
+//
+//        // Проверить наличие такого запроса в routes.php
+//        foreach ($this->routes as $uriPattern => $path) {
+//            // Сравниваем $uriPattern  и $uri
+//            if (preg_match("~$uriPattern~", $uri)) {
+//
+//                // Получаем внутренний путь из внешнего согласно правилу
+//                $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+//                // Определить какой контроллер
+//                // и action обрабатывают запрос
+//
+//                $segments = explode('/', $internalRoute);
+//
+//                $controllerName = array_shift($segments).'Controller'; //array_shift выбирает 1-ый елемент и уничтожает его
+//                $controllerName = ucfirst($controllerName);
+//
+//                $actionName = 'action'.ucfirst(array_shift($segments));
+//
+//                $parameters = $segments; //т.к. после 2-ух array_shift останутся одни параметры, они сюда и запишутся
+//
+//                // Подключить файл класса-контроллера
+//                $controllerFile = ROOT . '/controllers/' .
+//                    $controllerName . '.php';
+//
+//                $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+//
+//
+//
+//                if (file_exists($controllerFile)) {
+//                    include_once ($controllerFile);
+//                }
+//                // Создать обьект, вызвать метод (т.е. action)
+//                $controllerObject = new $controllerName;
+//                $result = call_user_func_array(array($controllerObject, $actionName), $parameters);
+//                if ($result != null) {
+//                    break;
+//                }
+//            }
+//        }
+//    }
+//

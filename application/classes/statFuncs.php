@@ -4,6 +4,7 @@
 class StatFuncs
 {
 
+    //функция проверки залогинен ли пользователь
     public static function LoggedIn (){
         return isset($_SESSION['accessRights']) AND $_SESSION['accessRights'] < AccessRights::UNAUTHORIZED;
     }
@@ -14,10 +15,11 @@ class StatFuncs
             if ($_SESSION['accessRights'] == $value)
                 return ErrorCode::WITHOUT_ERRORS;
 
-        header("Location: " . SITE_ROOT . "/Error");
+        header("Location: " . SITE_ROOT . "/error");
         return StatFuncs::ThrowError(ErrorCode::FORBIDDEN);
     }
 
+    //функция отправки кода ошибки, который ловится контроллером ошибок
     public static function ThrowError($errorCode){
         $_SESSION['errorCode'] = $errorCode;
         return $errorCode;
@@ -25,7 +27,7 @@ class StatFuncs
 
 
 
-
+    //проверка текущего уровня доступа
     public static function IsAdmin (){
         return $_SESSION['accessRights'] == AccessRights::ADMIN;
     }
@@ -40,5 +42,9 @@ class StatFuncs
 
     public static function IsUser (){
         return  $_SESSION['accessRights'] == AccessRights::USER;
+    }
+
+    public static function IsFrozen (){
+        return  $_SESSION['accessRights'] == AccessRights::FROZEN;
     }
 }

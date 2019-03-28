@@ -35,7 +35,7 @@ class Controller_DishBase extends Controller
                         $data = $this->model->GetDishIngredients($params[0]);
                 }
             }
-//
+
             if ($data['errorCode'] != ErrorCode::WITHOUT_ERRORS)
                 header("Location: " . SITE_ROOT . "/Error");
             else

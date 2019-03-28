@@ -25,11 +25,12 @@ class User
     }
 
 
-    public static function RebuildUser (){
-        if (StatFuncs::LoggedIn()){
-            $user = new User($_SESSION['login'],"",  $_SESSION['accessRights'], $_SESSION['empID']);
-            return $user;
-        }
+    public static function RebuildUser ()
+    {
+        $user = NULL;
+        if (StatFuncs::LoggedIn())
+            $user = new User($_SESSION['login'], "", $_SESSION['accessRights'], $_SESSION['empID']);
+        return $user;
     }
 
 

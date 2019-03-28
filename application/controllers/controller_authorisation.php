@@ -24,7 +24,7 @@ class controller_Authorisation extends Controller
         if (!StatFuncs::LoggedIn())
             $data = $this->model->Login();
 
-        if ($data['errorCode'] == ErrorCode::WITHOUT_ERRORS)
+        if (isset($data['errorCode']) && $data['errorCode'] == ErrorCode::WITHOUT_ERRORS)
             header("Location: ".SITE_ROOT."/main");
         else
             header("Location: ".SITE_ROOT."/error");
@@ -33,6 +33,6 @@ class controller_Authorisation extends Controller
 
     function action_logout()
     {
-        header("Location: ".SITE_ROOT."/cookie_logout_crutch.php");
+        SessionController::SessionDestroy();
     }
 }

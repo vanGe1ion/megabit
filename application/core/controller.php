@@ -4,7 +4,7 @@ class Controller {
 	
 	public $model;
 	public $view;
-    public $errors = 1;
+
 	
 	function __construct()
     {

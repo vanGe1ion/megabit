@@ -20,7 +20,7 @@ class Model_Error
                     'title' =>      'Ошибка входа',
                     'text' =>       'Пользователя с таким логином и паролем не существует',
                     'button' =>     'Назад',
-                    'link' =>       SITE_ROOT. '/Authorisation'
+                    'link' =>       SITE_ROOT. '/authorisation'
                 );
                 break;
             }
@@ -30,7 +30,7 @@ class Model_Error
                     'title' =>      'Ошибка чтения базы данных',
                     'text' =>       'Запрос к базе данных вернул пустой результат ',
                     'button' =>     'Главное меню',
-                    'link' =>       SITE_ROOT.'/Main'                   //todo
+                    'link' =>       SITE_ROOT.'/main'                   //todo
                 );
                 break;
             }
@@ -40,7 +40,7 @@ class Model_Error
                     'title' =>      'Ошибка доступа',
                     'text' =>       'Не достаточно прав для просмотра этой страницы',
                     'button' =>     'Главное меню',
-                    'link' =>       SITE_ROOT.'/Main'
+                    'link' =>       SITE_ROOT.'/main'
                 );
                 break;
             }
@@ -50,7 +50,7 @@ class Model_Error
                     'title' =>      'Ошибка 404',
                     'text' =>       'Запрашиваемая страница не найдена',
                     'button' =>     'Главное меню',
-                    'link' =>       SITE_ROOT.'/Main'
+                    'link' =>       SITE_ROOT.'/main'
                 );
                 break;
             }
@@ -60,7 +60,7 @@ class Model_Error
                     'title' =>      'Ошибка доступа',
                     'text' =>       'Ваша учетная запись была заморожена. Обратитесь к администратору',
                     'button' =>     'Выйти',
-                    'link' =>       SITE_ROOT.'/Authorisation/logout'
+                    'link' =>       SITE_ROOT.'/authorisation/logout'
                 );
                 break;
             }
@@ -69,8 +69,8 @@ class Model_Error
                 $data['errorData'] = array(
                     'title' =>      'Ошибка ожидания',
                     'text' =>       'Время текущей сессии для пользователя '. $_SESSION['login']. ' истекло. Выполните повторный вход',
-                    'button' =>     'Войти',
-                    'link' =>       SITE_ROOT.'/cookie_logout_crutch.php'
+                    'button' =>     'Авторизация',
+                    'link' =>       SITE_ROOT.'/authorisation/logout'
                 );
                 break;
             }
@@ -80,7 +80,7 @@ class Model_Error
                     'title' =>      'Непредвиденная ошибка',
                     'text' =>       'Обратитесь к разработчику',
                     'button' =>     'Главное меню',
-                    'link' =>       SITE_ROOT.'/Main'
+                    'link' =>       SITE_ROOT.'/main'
                 );
                 break;
             }

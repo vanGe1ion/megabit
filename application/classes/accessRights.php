@@ -8,5 +8,4 @@ class AccessRights
     const USER = 3;
     const FROZEN = 4;
     const UNAUTHORIZED = 5;
-
 }

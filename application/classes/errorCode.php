@@ -4,6 +4,7 @@
 class ErrorCode
 {
     const WITHOUT_ERRORS = 0;
+    const UNAUTHORIZED = 401;
     const FORBIDDEN = 403;
     const NOT_FOUND = 404;
     const USER_DOES_NOT_EXIST = 600;

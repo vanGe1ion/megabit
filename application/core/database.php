@@ -1,7 +1,7 @@
 <?php
-/*
-* Mysql database class - only one connection alowed
-*/
+
+ //Mysql database class - only one connection alowed
+
 class Database {
 
     private $_connection;
@@ -13,9 +13,9 @@ class Database {
     Get an instance of the Database
     @return Instance
     */
-    public static function getInstance($HOSTNAME, $LOGIN, $PASSWORD, $DBNAME) {
+    private static function getInstance() {
         if(!self::$_instance) { // If no instance then make one
-            self::$_instance = new self($HOSTNAME, $LOGIN, $PASSWORD, $DBNAME);
+            self::$_instance = new self();
         }
         return self::$_instance;
     }
@@ -23,8 +23,8 @@ class Database {
 
 
     // Constructor
-    private function __construct($HOSTNAME, $LOGIN, $PASSWORD, $DBNAME) {
-        $this->_connection = new mysqli($HOSTNAME, $LOGIN, $PASSWORD, $DBNAME);
+    private function __construct() {
+        $this->_connection = new mysqli(HOSTNAME, LOGIN, PASSWORD, DBNAME);
 
         // Error handling
         if(mysqli_connect_error()) {
@@ -38,21 +38,12 @@ class Database {
     private function __clone() { }
 
 
-
-//    // Get mysqli connection
-//    public function getConnection() {
-//        return $this->_connection;
-//    }
-
-
-
     //query execution
     public static function DBRequest($querry){
-        $db = Database::getInstance(HOSTNAME, LOGIN, PASSWORD, DBNAME);
+        $db = self::getInstance();
         $dbLink = $db->_connection;
         $querryResult = mysqli_query($dbLink, $querry);
 
         return $querryResult;
     }
 }
-?>

@@ -35,7 +35,7 @@ class Model_DishBase
         }
 
         $data['footerMenu'] = array(
-            'Главное меню' =>   SITE_ROOT.'/Main'
+            'Главное меню' =>   SITE_ROOT.'/main'
         );
 
         return $data;

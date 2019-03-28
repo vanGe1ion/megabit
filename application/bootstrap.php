@@ -17,8 +17,5 @@ require_once 'classes/statFuncs.php';
 require_once 'classes/errorCode.php';
 require_once 'classes/accessRights.php';
 
-//session_start();
-
 require_once 'core/router.php';
 Router::StartRouting(); // запускаем маршрутизатор
-

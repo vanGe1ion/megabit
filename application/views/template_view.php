@@ -1,16 +1,16 @@
-<!-- Page Header -->
-
 <!DOCTYPE html>
-<html lang="ru">
+<html  lang="ru">
+
+<!-- Page Header -->
 
 <head>
     <meta charset="UTF-8">
     <title><? echo $data['pageTitle'].' <~> '.SITE_NAME ?></title>
-    <link rel="stylesheet" type="text/css" href="<? echo SITE_ROOT?>/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
 
-<!-- Body -->
+<!-- Page Body -->
 
 <body class="wrapper">
 <div class="content">
@@ -78,8 +78,3 @@
 
 </body>
 </html>
-
-
-
-
-
