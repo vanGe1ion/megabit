@@ -7,27 +7,27 @@ class controller_Authorisation extends Controller
     {
         $this->model = new Model_Authorisation();
         $this->view = new View();
+        $this->data = new MainDataContainer();
     }
 
     function action_index()
     {
         if (StatFuncs::LoggedIn())
-            header("Location: ".SITE_ROOT."/main");
+            Router::GoOn(Routes::MAIN);
         else
-            $data['pageTitle'] = 'Авторизация';
-            $this->view->Generate('authorisation_view.php', 'template_view.php', $data);
+            $this->data->pageTitle = 'Авторизация';
+            $this->view->Generate('authorisation_view.php', 'template_view.php', $this->data);
     }
 
     function action_login()
     {
-        $data='';
         if (!StatFuncs::LoggedIn())
-            $data = $this->model->Login();
+            $this->data = $this->model->Login();
 
-        if (isset($data['errorCode']) && $data['errorCode'] == ErrorCode::WITHOUT_ERRORS)
-            header("Location: ".SITE_ROOT."/main");
+        if ($this->data->errorCode == ErrorCode::WITHOUT_ERRORS)//isset($data['errorCode']) &&
+            Router::GoOn(Routes::MAIN);
         else
-            header("Location: ".SITE_ROOT."/error");
+            Router::GoOn(Routes::ERRROR);
     }
 
 

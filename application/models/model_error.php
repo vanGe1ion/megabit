@@ -12,79 +12,77 @@ class Model_Error
     public function GetError(){
         $errorType = $_SESSION['errorCode'];
 
-        $data['pageTitle'] = 'Ой, какая неприятность';
+        $data = new MainDataContainer();
+        $data->pageTitle = 'Ой, какая неприятность';
+        $errorData = new ErrorDataContainer();
 
         switch ($errorType){
             case ErrorCode::USER_DOES_NOT_EXIST:{
-                $data['errorData'] = array(
-                    'title' =>      'Ошибка входа',
-                    'text' =>       'Пользователя с таким логином и паролем не существует',
-                    'button' =>     'Назад',
-                    'link' =>       SITE_ROOT. '/authorisation'
-                );
+                $errorData->title =      'Ошибка входа';
+                $errorData->text =       'Пользователя с таким логином и паролем не существует';
+                $errorData->button =     'Назад';
+                $errorData->link =       Router::FullRoute(Routes::AUTHORISATION);
                 break;
             }
 
             case ErrorCode::BAD_DB_CONNECTION:{
-                $data['errorData'] = array(
-                    'title' =>      'Ошибка чтения базы данных',
-                    'text' =>       'Запрос к базе данных вернул пустой результат ',
-                    'button' =>     'Главное меню',
-                    'link' =>       SITE_ROOT.'/main'                   //todo
-                );
+                $errorData->title =      'Ошибка подключения к базе данных';
+                $errorData->text =       'Не возможно подключиться к к базе данных '.HOSTNAME;
+                $errorData->button =     'Главное меню';
+                $errorData->link =       Router::FullRoute(Routes::MAIN);
+                break;
+            }
+
+            case ErrorCode::EMPTY_DB_RESPONSE:{
+                $errorData->title =      'Ошибка чтения базы данных';
+                $errorData->text =       'Запрос к базе данных вернул пустой результат ';
+                $errorData->button =     'Главное меню';
+                $errorData->link =       Router::FullRoute(Routes::MAIN);                   //todo
                 break;
             }
 
             case ErrorCode::FORBIDDEN:{
-                $data['errorData'] = array(
-                    'title' =>      'Ошибка доступа',
-                    'text' =>       'Не достаточно прав для просмотра этой страницы',
-                    'button' =>     'Главное меню',
-                    'link' =>       SITE_ROOT.'/main'
-                );
+                $errorData->title =      'Ошибка доступа';
+                $errorData->text =       'Не достаточно прав для просмотра этой страницы';
+                $errorData->button =     'Главное меню';
+                $errorData->link =       Router::FullRoute(Routes::MAIN);
                 break;
             }
 
             case ErrorCode::NOT_FOUND:{
-                $data['errorData'] = array(
-                    'title' =>      'Ошибка 404',
-                    'text' =>       'Запрашиваемая страница не найдена',
-                    'button' =>     'Главное меню',
-                    'link' =>       SITE_ROOT.'/main'
-                );
+                $errorData->title =      'Ошибка 404';
+                $errorData->text =       'Запрашиваемая страница не найдена';
+                $errorData->button =     'Главное меню';
+                $errorData->link =       Router::FullRoute(Routes::MAIN);
                 break;
             }
 
             case ErrorCode::YOU_ARE_FROZEN:{
-                $data['errorData'] = array(
-                    'title' =>      'Ошибка доступа',
-                    'text' =>       'Ваша учетная запись была заморожена. Обратитесь к администратору',
-                    'button' =>     'Выйти',
-                    'link' =>       SITE_ROOT.'/authorisation/logout'
-                );
+                $errorData->title =      'Ошибка доступа';
+                $errorData->text =       'Ваша учетная запись была заморожена. Обратитесь к администратору';
+                $errorData->button =     'Выйти';
+                $errorData->link =       Router::FullRoute(Routes::LOGOUT);
                 break;
             }
 
             case ErrorCode::SESSION_TIMEOUT:{
-                $data['errorData'] = array(
-                    'title' =>      'Ошибка ожидания',
-                    'text' =>       'Время текущей сессии для пользователя '. $_SESSION['login']. ' истекло. Выполните повторный вход',
-                    'button' =>     'Авторизация',
-                    'link' =>       SITE_ROOT.'/authorisation/logout'
-                );
+                $errorData->title =      'Ошибка ожидания';
+                $errorData->text =       'Время текущей сессии для пользователя '. $_SESSION['login']. ' истекло. Выполните повторный вход';
+                $errorData->button =     'Авторизация';
+                $errorData->link =       Router::FullRoute(Routes::LOGOUT);
                 break;
             }
 
             default:{
-                $data['errorData'] = array(
-                    'title' =>      'Непредвиденная ошибка',
-                    'text' =>       'Обратитесь к разработчику',
-                    'button' =>     'Главное меню',
-                    'link' =>       SITE_ROOT.'/main'
-                );
+                $errorData->title =      'Непредвиденная ошибка';
+                $errorData->text =       'Обратитесь к разработчику';
+                $errorData->button =     'Главное меню';
+                $errorData->link =       Router::FullRoute(Routes::MAIN);
                 break;
             }
         }
+
+        $data->errorData = $errorData;
         $_SESSION['errorCode'] = 0;
 
         return $data;

@@ -10,14 +10,15 @@ class Model_Authorisation extends Model{
 
         $querry = Querries::AuthorizeQuerry($login, $md5pass);
         $result = Database::DBRequest($querry);
+        $data = new MainDataContainer();
 
         if($result->num_rows){
             $row = mysqli_fetch_array($result);
             $authedUser = new User($row['Login'], $row['Password'], $row['Access_ID'], $row['Emp_ID']);
-            $data['errorCode'] = ErrorCode::WITHOUT_ERRORS;
+            $data->errorCode = ErrorCode::WITHOUT_ERRORS;
         }
         else
-            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::USER_DOES_NOT_EXIST);
+            $data->errorCode = StatFuncs::ThrowError(ErrorCode::USER_DOES_NOT_EXIST);
 
         return $data;
     }

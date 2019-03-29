@@ -99,7 +99,7 @@ class Router
 	static private function ErrorPage404()
 	{
 	    StatFuncs::ThrowError(404);
-        header("Location: ".SITE_ROOT."/error");
+        self::GoOn(Routes::ERRROR);
     }
 
     //глобальная функция защиты доступа
@@ -120,24 +120,24 @@ class Router
     //функция проверяет залогинен ли пользователь и перенаправляет на форму авторизации если нет
     //возвращает нулевую ошибку если пользователь не залогинен, но на разрешенные контроллеры!!!
     //код UNAUTHORIZED контроллером ошибок не обрабатывается. нужно только для воврата факта ошибки
-    static  private function LoggedInProtection($controller)
+    static private function LoggedInProtection($controller)
     {
         if (!StatFuncs::LoggedIn() && $controller != 'authorisation' && $controller != 'error')         //разрешение авторизации и ошибок
         {
-            header("Location: ".SITE_ROOT."/authorisation");
+            self::GoOn(Routes::AUTHORISATION);
             return ErrorCode::UNAUTHORIZED;
         }
 	    return ErrorCode::WITHOUT_ERRORS;
     }
 
-    static  private function SessionTimeoutProtection($controller)
+    static private function SessionTimeoutProtection($controller)
     {
         if (SessionController::TimeoutControl() == ErrorCode::SESSION_TIMEOUT)
         {
             //роутинг не в контроллер ошибок - перенаправляем в ошибки
             if($controller != 'error' && $controller != 'authorisation')
             {
-                header("Location: " . $_SERVER['SITE_ROOT'] . "/error");
+                self::GoOn(Routes::ERRROR);
                 return ErrorCode::SESSION_TIMEOUT;
             }
             //разрешаем роутинг в контроллер ошибок
@@ -147,14 +147,22 @@ class Router
     }
 
     //функция паеренаправляет пользователя с замороженной учеткой на контроллер ошибок
-    static  private function FrozenProtection($controller)
+    static private function FrozenProtection($controller)
     {
         if(StatFuncs::IsFrozen() && $controller != 'error' && $controller != 'authorisation' ) {    //разрешение авторизации и ошибок
-            header("Location: " . SITE_ROOT . "/error");
+            self::GoOn(Routes::ERRROR);
             return StatFuncs::ThrowError(ErrorCode::YOU_ARE_FROZEN);
         }
 
         return ErrorCode::WITHOUT_ERRORS;
+    }
+
+    static public function GoOn($defRoute){
+	    header("Location: ".self::FullRoute($defRoute));
+    }
+
+    static public function FullRoute($defRoute){
+        return SITE_ROOT.$defRoute;
     }
     
 }

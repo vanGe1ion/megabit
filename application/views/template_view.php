@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><? echo $data['pageTitle'].' <~> '.SITE_NAME ?></title>
+    <title><? echo $data->pageTitle.' <~> '.SITE_NAME ?></title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
@@ -25,7 +25,7 @@
                 <td class="login">
                     <?php if(StatFuncs::LoggedIn()){ ?>
                         <p style="font-size: 20px">Вы вошли как: <? echo isset($_SESSION['fullname']) ? $_SESSION['fullname'] : $_SESSION['login'] ?></p>
-                        <p><button class="loging" onclick='window.location.href = "<?echo SITE_ROOT.'/authorisation/logout'?>"'>Выйти</button></p>
+                        <p><button class="loging" onclick='window.location.href = "<?echo Router::FullRoute(Routes::LOGOUT)?>"'>Выйти</button></p>
                     <?php } ?>
                 </td>
             </tr>
@@ -35,12 +35,12 @@
 
     <!-- Header Navigation -->
 
-    <? $headMenu = $data['headerMenu']; if(isset($headMenu)){  ?>
+    <? $headMenu = $data->headerMenu; if(isset($headMenu)){  ?>
     <nav>
         <table style="margin-left: 100px; " ><!-- margin-bottom: 50px;-->
             <tr>
                 <? foreach ( $headMenu as $label=>$link){?>
-                    <td><button class="hormenu" onclick="document.location.href='<?echo $link?>'"><?echo $label?></button></td>
+                    <td><button class="hormenu" onclick="document.location.href='<?= $link?>'"><?echo $label?></button></td>
                 <?}?>
             </tr>
         </table>
@@ -64,7 +64,7 @@
         </tr>
         <tr>
             <td align="right" >
-                <? $footMenu = $data['footerMenu']; if(isset($footMenu)){?>
+                <? $footMenu = $data->footerMenu; if(isset($footMenu)){?>
                     <nav style="margin-right: 100px">
                         <? foreach ( $footMenu as $label=>$link){?>
                             <button class="hormenu" onclick="document.location.href='<?echo $link?>'"><?echo $label?></button>

@@ -4,36 +4,37 @@ class Model_main extends Model{
 
     public function GetMain()
     {
-        $data['pageTitle'] = 'Главное меню';
+        $data = new MainDataContainer();
+        $data->pageTitle = 'Главное меню';
 
         switch ($_SESSION['accessRights']){
             case AccessRights::ADMIN:{
-                $data['mainMenu'] = array (
-                    'Управление базой блюд'             => SITE_ROOT.'/dishbase',
-                    'Управление базой пользователей'    => SITE_ROOT.'/userbase'
+                $data->mainMenu = array (
+                    'Управление базой блюд'             => Router::FullRoute(Routes::DISHBASE),
+                    'Управление базой пользователей'    => Router::FullRoute(Routes::USERBASE)
                 );
                 break;
             }
             case AccessRights::PLANNER:{
-                $data['mainMenu'] = array (
-                    'Управление базой блюд'             => SITE_ROOT.'/dishbase'
+                $data->mainMenu = array (
+                    'Управление базой блюд'             => Router::FullRoute(Routes::DISHBASE)
                 );
                 break;
             }
             case AccessRights::SERVE:{
-                $data['mainMenu'] = array (
-                    'Монитор очереди'                   => SITE_ROOT.'/queuemonitor'
+                $data->mainMenu = array (
+                    'Монитор очереди'                   => Router::FullRoute(Routes::QUEUEMONITOR)
                 );
                 break;
             }
             case AccessRights::USER:{
-                $data['mainMenu'] = array (
-                    'Управление меню'                   => SITE_ROOT.'/'
+                $data->mainMenu = array (
+                    'Управление меню'                   => Router::FullRoute(Routes::USERMENU)
                 );
                     break;
             }
             default:{
-                $data['mainMenu'] = NULL;
+                //$data->mainMenu = NULL;
             }
         }
 

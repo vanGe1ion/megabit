@@ -15,7 +15,7 @@ class StatFuncs
             if ($_SESSION['accessRights'] == $value)
                 return ErrorCode::WITHOUT_ERRORS;
 
-        header("Location: " . SITE_ROOT . "/error");
+        Router::GoOn(Routes::ERRROR);
         return StatFuncs::ThrowError(ErrorCode::FORBIDDEN);
     }
 

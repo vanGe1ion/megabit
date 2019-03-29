@@ -1,5 +1,5 @@
 
-<form action="authorisation/login" method="post" name="authForm">
+<form action="<?=Routes::LOGIN?>" method="post" name="authForm">
     <table align="center" width="300px" border="0" style="margin-top: 100px">
         <caption><h3>Пожалуйста, пройдите авторизацию</h3></caption>
         <tr>

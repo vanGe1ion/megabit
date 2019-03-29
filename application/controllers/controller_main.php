@@ -6,11 +6,12 @@ class Controller_Main extends Controller
     {
         $this->model = new Model_Main();
         $this->view = new View();
+        $this->data = new MainDataContainer();
     }
 
 	function action_index()
 	{
-            $data = $this->model->GetMain();
-            $this->view->Generate('main_view.php', 'template_view.php', $data);
+            $this->data = $this->model->GetMain();
+            $this->view->Generate('main_view.php', 'template_view.php', $this->data);
     }
 }

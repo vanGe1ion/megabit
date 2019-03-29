@@ -23,7 +23,8 @@ class SessionController
     }
 
     public static function SessionDestroy(){
-        header("Location: ".SITE_ROOT."/cookie_annihilator.php?sessName=".session_name()."&sessID=".session_id());
+        //header("Location: ".SITE_ROOT."/cookie_annihilator.php?sessName=".session_name()."&sessID=".session_id());
+        Router::GoOn(Routes::ERRROR."?sessName=".session_name()."&sessID=".session_id());
         session_unset();
         session_destroy();
     }

@@ -28,7 +28,9 @@ class Database {
 
         // Error handling
         if(mysqli_connect_error()) {
-            trigger_error("Failed to connect to MySQL: " . mysqli_connect_error(),E_USER_ERROR);
+            StatFuncs::ThrowError(ErrorCode::BAD_DB_CONNECTION);
+            Router::GoOn(Routes::ERRROR);
+            //trigger_error("Failed to connect to MySQL: " . mysqli_connect_error(),E_USER_ERROR);
         }
     }
 

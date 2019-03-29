@@ -8,14 +8,15 @@ class Controller_DishBase extends Controller
     {
         $this->model = new Model_DishBase();
         $this->view = new View();
+        $this->data = new MainDataContainer();
     }
 
     function action_index()
     {
 
         if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
-            $data = $this->model->GetNavigation();
-            $this->view->Generate('empty_view.php', 'template_view.php', $data);
+            $this->data = $this->model->GetNavigation();
+            $this->view->Generate('empty_view.php', 'template_view.php', $this->data);
         }
     }
 
@@ -25,21 +26,21 @@ class Controller_DishBase extends Controller
 
             switch ($params){
                 case NULL:{
-                    $data = $this->model->GetDishList();
+                    $this->data = $this->model->GetDishList();
                     break;
                 }
                 default:{
                     if (count($params) > 1)//заглушка на количество параметров
-                        $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::NOT_FOUND);
+                        $this->data->errorCode = StatFuncs::ThrowError(ErrorCode::NOT_FOUND);
                     else
-                        $data = $this->model->GetDishIngredients($params[0]);
+                        $this->data = $this->model->GetDishIngredients($params[0]);
                 }
             }
 
-            if ($data['errorCode'] != ErrorCode::WITHOUT_ERRORS)
-                header("Location: " . SITE_ROOT . "/Error");
+            if ($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
+                Router::GoOn(Routes::ERRROR);
             else
-                $this->view->Generate('table_view.php', 'template_view.php', $data);
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data);
 
         }
     }
@@ -47,11 +48,11 @@ class Controller_DishBase extends Controller
     function action_ingredients()
     {
         if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
-            $data = $this->model->GetIngredientList();
-            if($data['errorCode'] != ErrorCode::WITHOUT_ERRORS)
-                header("Location: " . SITE_ROOT . "/Error");
+            $this->data = $this->model->GetIngredientList();
+            if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
+                Router::GoOn(Routes::ERRROR);
             else
-                $this->view->Generate('table_view.php', 'template_view.php', $data);
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data);
         }
     }
 
@@ -59,22 +60,22 @@ class Controller_DishBase extends Controller
     function action_dishtypes()
     {
         if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN))) {
-            $data = $this->model->GetDishTypeList();
-            if($data['errorCode'] != ErrorCode::WITHOUT_ERRORS)
-                header("Location: " . SITE_ROOT . "/Error");
+            $this->data = $this->model->GetDishTypeList();
+            if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
+                Router::GoOn(Routes::ERRROR);
             else
-                $this->view->Generate('table_view.php', 'template_view.php', $data);
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data);
         }
     }
 
     function action_measures()
     {
         if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN))) {
-            $data = $this->model->GetMeasureList();
-            if($data['errorCode'] != ErrorCode::WITHOUT_ERRORS)
-                header("Location: " . SITE_ROOT . "/Error");
+            $this->data = $this->model->GetMeasureList();
+            if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
+                Router::GoOn(Routes::ERRROR);
             else
-                $this->view->Generate('table_view.php', 'template_view.php', $data);
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data);
         }
     }
 }
