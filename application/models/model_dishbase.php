@@ -63,6 +63,8 @@ class Model_DishBase
                 $tableData->subTable = array(
                     'Ингредиенты' => Router::FullRoute(Routes::DISHES)     //./'Dish_ID'
                 );
+
+
             }
 
             $data = $this->GetNavigation();
@@ -86,11 +88,13 @@ class Model_DishBase
 
                 $tableData->caption =        "Ингредиенты";
                 $tableData->querryResult =   $querryResult;
+                $tableData->tableMark =      "Ingredient";
 
                 $tableData->headRow =        array(
                     'Ingredient_ID' =>          '№',
                     'Ingredient_Name' =>        'Ингредиент'
                 );
+                $tableData->adderForm = array("ingredient" => "text");
             }
             $data = $this->GetNavigation();
             $data->tableData = $tableData;

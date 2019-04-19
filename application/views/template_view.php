@@ -6,8 +6,16 @@
 <head>
     <meta charset="UTF-8">
     <title><? echo $data->pageTitle.' <~> '.SITE_NAME ?></title>
+    <link rel="shortcut icon" href="/image/favicon.ico" type="image/x-icon">
+
+    <!--libraries-->
+    <script  type="text/javascript" src="/library/jQuery/jQuery.js"></script>
+    <script  type="text/javascript" src="/library/jQuery-UI/jQuery-UI.js"></script>
+    <link rel="stylesheet" type="text/css" href="/library/jQuery-UI/jQuery-UI.css">
+
+    <!--Project data-->
+    <script defer type="text/javascript" src="/script/js/css_script.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
 
 <!-- Page Body -->
@@ -20,7 +28,7 @@
     <header>
         <table style="width: 100%">
             <tr>
-                <td width="100px"><img src="/images/headlogo.png" alt="Megabit logo" class="top"></td>
+                <td width="100px"><img src="/image/headlogo.png" alt="Megabit logo" class="top"></td>
                 <td><h1 class="top"> <?echo SITE_NAME;?></h1></td>
                 <td class="login">
                     <?php if(StatFuncs::LoggedIn()){ ?>

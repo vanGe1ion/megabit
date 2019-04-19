@@ -12,7 +12,7 @@
         </tr>
         <tr>
             <td></td>
-            <td width="50%"><button class="loging" type="submit" value="Войти">Войти</button></td>
+            <td width="50%"><button id="loginButton" class="loging" type="submit" value="Войти">Войти</button></td>
         </tr>
     </table>
 </form>

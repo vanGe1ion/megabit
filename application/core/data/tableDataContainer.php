@@ -8,6 +8,7 @@ class TableDataContainer
     public $caption =        NULL;// - название таблицы
     public $querryResult =   NULL;// - результат выполнения запроса
     public $parentKey =      NULL;// - ключевое поле для вывода подтаблицы
+    public $tableMark =      NULL;
 
 
     //array properties
@@ -18,6 +19,8 @@ class TableDataContainer
     public $subTable =       array(//- кнопки для вывода подтаблиц
         /*'subtableName' => 'subtableRootLink'.'parentTableID', ...*/
     );
+
+    public $adderForm = array();
 
     public function __construct() {}
 

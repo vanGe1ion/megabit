@@ -37,4 +37,14 @@ class Querries
     public static function DishIngredientsQuerry($DishID){
         return 'SELECT Dish_Name, Ingredient_Name, Quantity, Measure_Name FROM DISH_INGREDIENTS, MEASURES_LIST, INGREDIENT_LIST, DISH_LIST WHERE DISH_INGREDIENTS.Dish_ID='.$DishID.' and DISH_INGREDIENTS.Ingredient_ID=INGREDIENT_LIST.Ingredient_ID AND DISH_INGREDIENTS.Measure_ID=MEASURES_LIST.Measure_ID AND DISH_LIST.Dish_ID=DISH_INGREDIENTS.Dish_ID';
     }
+
+    //Запрос добавления ингредиента
+    public static function InsertIngredientQuerry($vstring){
+        return "INSERT INTO INGREDIENT_LIST(Ingredient_ID, Ingredient_Name) VALUES ($vstring)";
+    }
+
+    //Запрос удаления ингредиента
+    public static function DeleteIngredientQuerry($id){
+        return "DELETE FROM INGREDIENT_LIST WHERE Ingredient_ID= '$id'";
+    }
 }
