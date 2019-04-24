@@ -4,11 +4,23 @@ include_once DOC_ROOT."application/core/database.php";
 include_once DOC_ROOT."application/classes/querries.php";
 
 $datastring = "";
-$queryName = "Insert".$_POST['tableMark']."Querry";
+$dbtable = "";
+$tableMark = "";
+
+foreach ($_POST['tableMark'] as $key => $val) {
+    $dbtable = $val;
+    $tableMark = $key;
+}
 unset($_POST['tableMark']);
-foreach ($_POST as $val){
-    $datastring .= "'". $val . "', ";
+
+$fields = $tableMark . "_ID, ";
+foreach ($_POST as $key => $val){
+    $datastring .= "'" . $val . "', ";
+    if($key != "id")
+        $fields .= $key . ", ";
+
 }
 $datastring = substr($datastring, 0, -2);
+$fields = substr($fields, 0, -2);
 
-Database::DBRequest(Querries::$queryName($datastring));
+Database::DBRequest(Querries::InsertQuerry($dbtable, $fields, $datastring));

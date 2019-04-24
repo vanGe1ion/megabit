@@ -40,7 +40,7 @@ class Controller_DishBase extends Controller
             if ($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data);
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data, 'tableScript.js');
 
         }
     }
@@ -52,7 +52,7 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data);
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data, 'tableScript.js');
         }
     }
 
@@ -64,7 +64,7 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data);
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data, 'tableScript.js');
         }
     }
 
@@ -75,7 +75,7 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data);
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data, 'tableScript.js');
         }
     }
 }

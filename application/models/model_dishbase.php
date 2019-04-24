@@ -49,22 +49,26 @@ class Model_DishBase
         $querryResult = Database::DBRequest($querry);
         $data = new MainDataContainer();
 
-        if ($querryResult != NULL) {//$querryResult->num_rows
-            $tableData = new TableDataContainer();//array(
+        if ($querryResult != NULL) {
+            $tableData = new TableDataContainer();
             {
-                $tableData->caption = "Блюда";
-                $tableData->querryResult = $querryResult;
-                $tableData->headRow = array(
-                    'Dish_ID' => '№',
-                    'Dish_Name' => 'Название блюда',
-                    'Dish_Type' => 'Тип блюда'
+                $tableData->caption =       "Блюда";
+                $tableData->querryResult =  $querryResult;
+
+
+                $tableData->tableMark =     array("Dish" => "DISH_LIST");
+
+                $tableData->headRow =       array(
+                    'Dish_ID' =>                '№',
+                    'Dish_Name' =>              'Название блюда',
+                    'Dish_Type' =>              'Тип блюда'
                 );
 
-                $tableData->subTable = array(
-                    'Ингредиенты' => Router::FullRoute(Routes::DISHES)     //./'Dish_ID'
+                $tableData->subTable =      array(
+                    'Ингредиенты' =>            Router::FullRoute(Routes::DISHES)     //./'Dish_ID'
                 );
 
-
+                $tableData->tableForm = array("Dish_Name" => "text", "Dish_Type_ID" => "select");
             }
 
             $data = $this->GetNavigation();
@@ -88,13 +92,13 @@ class Model_DishBase
 
                 $tableData->caption =        "Ингредиенты";
                 $tableData->querryResult =   $querryResult;
-                $tableData->tableMark =      "Ingredient";
+                $tableData->tableMark =      array("Ingredient" => "INGREDIENT_LIST");
 
                 $tableData->headRow =        array(
                     'Ingredient_ID' =>          '№',
                     'Ingredient_Name' =>        'Ингредиент'
                 );
-                $tableData->adderForm = array("ingredient" => "text");
+                $tableData->tableForm = array("Ingredient_Name" => "text");
             }
             $data = $this->GetNavigation();
             $data->tableData = $tableData;
@@ -117,11 +121,14 @@ class Model_DishBase
 
                 $tableData->caption =        "Типы блюд";
                 $tableData->querryResult =   $querryResult;
+                $tableData->tableMark =      array("Dish_Type" => "DISH_TYPES");
 
                 $tableData->headRow =        array(
                     'Dish_Type_ID' =>           '№',
                     'Dish_Type_Name' =>         'Тип блюда'
                 );
+
+                $tableData->tableForm = array("Dish_Type_Name" => "text");
             }
             $data = $this->GetNavigation();
             $data->tableData = $tableData;
@@ -145,11 +152,14 @@ class Model_DishBase
 
                 $tableData->caption =       "Ед. измерения";
                 $tableData->querryResult =  $querryResult;
+                $tableData->tableMark =     array("Measure" => "MEASURES_LIST");
 
                 $tableData->headRow =       array(
                     'Measure_ID' =>             '№',
                     'Measure_Name' =>           'Ед. измерения'
                 );
+
+                $tableData->tableForm = array("Measure_Name" => "text");
             }
             $data = $this->GetNavigation();
             $data->tableData = $tableData;

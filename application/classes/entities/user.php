@@ -62,7 +62,7 @@ class User
 
         if ($result->num_rows)
             $row = mysqli_fetch_array($result);
-        $currentEmp = new Employee($row['Fullname'], $row['Department'], $row['Position'], $row['Table_Name'], $row['Shift'], $row['PACS_ID']);
+        $currentEmp = new Employee($row['Fullname'], $row['Department'], $row['Position'], $row['Table_Name'], $row['Shift_Name'], $row['PACS_ID']);
 
         return $currentEmp;
     }

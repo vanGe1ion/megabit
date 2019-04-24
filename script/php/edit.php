@@ -1,11 +1,23 @@
 <?php
-// including the database connection file
-include_once($_SERVER['DOCUMENT_ROOT']."/db_config.php");
+require_once $_SERVER['DOCUMENT_ROOT']."/config.php";
+include_once DOC_ROOT."application/core/database.php";
+include_once DOC_ROOT."application/classes/querries.php";
 
-$id = mysqli_real_escape_string($mysqli, $_POST['id']);
-$name = mysqli_real_escape_string($mysqli, $_POST['name']);
-$age = mysqli_real_escape_string($mysqli, $_POST['age']);
-$email = mysqli_real_escape_string($mysqli, $_POST['email']);
+$datastring = "";
+$dbtable = "";
+$tableMark = "";
 
-//updating the table
-$result = mysqli_query($mysqli, "UPDATE users SET name='$name',age='$age',email='$email' WHERE id=$id");
+foreach ($_POST['tableMark'] as $key => $val) {
+    $dbtable = $val;
+    $tableMark = $key;
+}
+unset($_POST['tableMark']);
+
+$statement = $tableMark . "_ID = '" . $_POST['id']."'";
+foreach ($_POST as $key => $val){
+    if($key != "id")
+        $datastring .= $key ." = '". $val . "', ";
+}
+$datastring = substr($datastring, 0, -2);
+
+Database::DBRequest(Querries::UpdateQuerry($dbtable, $statement, $datastring));

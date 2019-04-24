@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html  lang="ru">
 
 <!-- Page Header -->
 
 <head>
     <meta charset="UTF-8">
-    <title><? echo $data->pageTitle.' <~> '.SITE_NAME ?></title>
+    <title><?=$data->pageTitle.' <~> '.SITE_NAME ?></title>
     <link rel="shortcut icon" href="/image/favicon.ico" type="image/x-icon">
 
     <!--libraries-->
@@ -14,7 +14,8 @@
     <link rel="stylesheet" type="text/css" href="/library/jQuery-UI/jQuery-UI.css">
 
     <!--Project data-->
-    <script defer type="text/javascript" src="/script/js/css_script.js"></script>
+    <script defer type="text/javascript" src="/script/js/commonScript.js"></script>
+    <?if(isset($script)) echo "<script defer type='text/javascript' src='/script/js/".$script."'></script>" ?>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
