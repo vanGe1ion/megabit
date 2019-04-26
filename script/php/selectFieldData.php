@@ -4,6 +4,8 @@ include_once DOC_ROOT."application/core/database.php";
 include_once DOC_ROOT."application/classes/querries.php";
 
 $select_id = $_POST["select_id"];
+$iterator = $_POST["iter"];
+
 $select_name = substr($select_id,0,-2)."Name";
 switch ($select_id){
     case "Dish_Type_ID":{
@@ -11,6 +13,7 @@ switch ($select_id){
         $result = array();
         while($res = mysqli_fetch_array($resdata))
            $result[$res[$select_id]] = $res[$select_name];
+        $result["iter"] = $iterator;
         break;
     }
     case "Ingredient_ID":{

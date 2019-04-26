@@ -31,53 +31,79 @@ $(document).ready(function () {
 
 
     //функция взытия данных из инпутов для отправки в запросе
-    function SendDataCreator(rowHandler, rowId) {
+
+    function SendDataCreator(rowHolder, rowId, tableData = null) {
+        let currentForm = tableForm;
+        let currentTmark = tableMark;
+        let currentId = rowId;
+        if(isset(tableData))
+        {
+            currentForm = tableData.subTable.tableForm;
+            currentTmark = tableData.subTable.tableMark;
+            currentId = tableData.parent.fieldId;
+        }
+
+
         let data = {
-            tableMark:tableMark,
-            id:rowId
+            id:currentId,
+            tableMark:currentTmark
         };
 
-        $.each(tableForm, function( name ) {
-            data[name] = rowHandler.children().children("#" + name).val();
-
+        $.each(currentForm, function (name) {
+            data[name] = rowHolder.children().children("#" + name).val();
         });
         return data;
     }
 
 
+
+
     //создает из указанной строки стандартную табличную запись с указанным набором данных
-    function RowCreator(rowHandler, data) {
-        rowHandler.html("");
+    function RowCreator(rowHolder, data, tableData = null) {
+        rowHolder.html("");
         let iterator = 1;
+        delete (data.tableMark);
+        if(isset(tableData))
+            delete (data.id);
+
+        //$.each(data, function( id, val ) {rowHolder.append("<td class='db' id='c-" + iterator++ + "'>"+val+"</td>");});
+
+
         $.each(data, function( id, val ) {
-            if(id!="tableMark") {
-                rowHandler.append("<td class='db' id='c-" + iterator + "'></td>");
-                if (id.substr(-2) != "ID") {
-                    rowHandler.children("#c-"+iterator).text(val);                                          //todo kostyl
-                } else {
-                    $.post("/script/php/selectFieldData.php", {select_id: id}, function (res) {
-                        rowHandler.children("#c-"+(iterator-1)).text(res[val]);
-                    }, "json");
-                }
-                ++iterator;
+            if (id.substr(-2) != "ID" || !isNumeric(val)) {
+                rowHolder.append("<td class='db' id='c-" + iterator + "'>"+val+"</td>");
+            } else {
+
+
+                $.post("/script/php/selectFieldData.php", {select_id: id, iter:iterator}, function (res) {
+                    console.log(res);
+                    rowHolder.append("<td class='db' id='c-" + res.iter + "'>" + res[val] + "</td>");
+                }, "json");
+                setTimeout(function(){}, 2000);
             }
+            ++iterator;
         });
 
-        rowHandler.append("<td class='db' id='c-"+iterator+"'><button class='table edit'>Редактировать</button> <button class='table delete'>Удалть</button></td>");
+        rowHolder.append("<td class='db' id='c-"+iterator+"'><button class='table edit'>Редактировать</button> <button class='table delete'>Удалть</button></td>");
 
-        rowHandler.children().children(".edit").bind("click", function(){editor(this)});
-        rowHandler.children().children(".edit").button({icon: "ui-icon-pencil", showLabel: false});
-        rowHandler.children().children(".delete").bind("click", function(){
-            $("#confirm").data("buttonHandler", $(this));
+        rowHolder.children().children(".edit").bind("click", function(){editHandler(this, tableData)});
+        rowHolder.children().children(".edit").button({icon: "ui-icon-pencil", showLabel: false});
+        rowHolder.children().children(".delete").bind("click", function(){
+            $("#confirm").data("buttonHolder", $(this));
+            $("#confirm").data("subTable", tableData);
             $("#confirm").dialog("open");
         });
-        rowHandler.children().children(".delete").button({icon: "ui-icon-trash", showLabel: false});
+        rowHolder.children().children(".delete").button({icon: "ui-icon-trash", showLabel: false});
     }
 
 
     //проверка существования переменной
     var isset = function (variable) {
         return typeof(variable) != "undefined" && variable !== null
+    };
+    //проверка на число
+    var isNumeric = function isNumeric(variable) {
+        return !isNaN(parseFloat(variable)) && isFinite(variable)
     };
 
 
@@ -89,7 +115,8 @@ $(document).ready(function () {
                     name:elemId,
                     id:elemId,
                     css:{
-                        width:width
+                        width:width,
+                        height:"21px"
                     }
                 });
                 $.ajax({
@@ -119,6 +146,7 @@ $(document).ready(function () {
                     name:elemId,
                     id:elemId,
                     value:value,
+                    minValue:0,
                     css:{
                         width:width
                     }
@@ -132,22 +160,44 @@ $(document).ready(function () {
 
 
     //создание заполняемой формы
-    var FormCreator = function (rowHandler, data) {
-        let iterator = 2;
-        rowHandler.html("<td class='db' id='c-1'>"+data.id+"</td>");
+    var FormCreator = function (rowHolder, data) {
+        //console.log(data);
+        let iterator;
+        let currentForm;
+        let newRow;
 
-        $.each(tableForm, function( id, type ) {
+        if(isset(data.tableData))
+        {
+            iterator = 1;
+            currentForm = data.tableData.subTable.tableForm;
+            newRow = data.tableData.parent.fieldId;
+        }
+        else
+        {
+            iterator = 2;
+            currentForm = tableForm;
+            newRow = data.id;
+            rowHolder.html("<td class='db' id='c-1'>"+newRow+"</td>");
+        }
+
+
+        $.each(currentForm, function( id, type ) {
             let newCell = $("<td class='db' id='c-"+iterator+"'></td>");
-            let inpWidth = $("#headRow #c-"+iterator).css("width");
-            let inpValue = isset(data[id])?data[id]:"";
+            let inpWidth = rowHolder.siblings().first().children("#c-"+iterator).css("width");
+            let inpValue = isset(data[id])?data[id]:"";                                                             //todo edit sub
             let newElem = FormElemCreator(type, id, inpWidth, inpValue);
             newCell.append(newElem);
-            rowHandler.append(newCell);
+            rowHolder.append(newCell);
             ++iterator;
         });
-        rowHandler.append("<td class='db' id='c-"+iterator+"' style='text-align: left'><button class='table save'>Сохранить</button> <button class='table cancel'>Отмена</button></td>");
-        rowHandler.children().children(".save").button({icon: "ui-icon-disk", showLabel: false});
-        rowHandler.children().children(".cancel").button({icon: "ui-icon-cancel", showLabel: false});
+        rowHolder.append(
+            "<td class='db' id='c-"+iterator+"' style='text-align: left'>" +
+            "<button class='table save'>Сохранить</button> " +
+            "<button class='table cancel'>Отмена</button>" +
+            "</td>"
+        );
+        rowHolder.children().children(".save").button({icon: "ui-icon-disk", showLabel: false});
+        rowHolder.children().children(".cancel").button({icon: "ui-icon-cancel", showLabel: false});
     };
 
 
@@ -155,64 +205,26 @@ $(document).ready(function () {
 
     //основные табличные кнопки
     $(".add").click(function () {
-        let newId = +($("#adder").prev().attr("id").split('-')[1]) + 1;
-        $(this).addClass("ui-state-disabled");
-
-        FormCreator($("#adder"), new Object({id: newId}));
-        $("#adder :input").show(500).css('display','inline-block');
-
-
-        $("#adder .cancel").bind("click",function () {
-            let currow =($(this).parent()).parent();
-            currow.children().children(":input").hide(150, function () {currow.html("")});
-            $(".add").removeClass("ui-state-disabled");
-        });
-
-
-
-        $("#adder .save").bind("click",function () {
-            let data = SendDataCreator($("#adder"), newId);
-
-            $.ajax({
-                type: "POST",
-                url: "/script/php/add.php",
-                data: data,
-
-                beforeSend: function () {
-                    return notEmpty($("#adder"));
-                },
-                success: function () {
-                    $(".cancel").click();
-                    $("#adder").before("<tr id='row-"+newId+"'></tr>");
-                    let newRow = $("#adder").prev();
-                    RowCreator(newRow, data);
-                },
-                error: function () {
-                    $("#ajaxError").dialog("open");
-                }
-            });
-         });
+        addHandler($("#adder"));
     });
 
-
-
     $(".delete").bind("click", function (){
-        $("#confirm").data("buttonHandler", $(this));
+        $("#confirm").data("buttonHolder", $(this));
         $("#confirm").dialog("open");
     });
 
     $(".edit").bind("click", function (){
-        editor(this);
+        editHandler(this);
     });
 
     $(".expand").bind("click", function (){
-        expander(this);
+        expandHandler(this);
     });
 
 
     //присваиваемы функции основных табличных кнопок
-    var deleter = function (buttonHandler) {
-        let currow = ($(buttonHandler).parent()).parent();
+    var deleteHandler = function (buttonHolder, tableData = null) {
+        let currow = ($(buttonHolder).parent()).parent();
         let data = {
             tableMark:tableMark,
             id: (currow.attr('id')).split('-')[1]
@@ -236,8 +248,8 @@ $(document).ready(function () {
 
 
 
-    var editor = function (buttonHandler){
-        let currow =($(buttonHandler).parent()).parent();
+    var editHandler = function (buttonHolder, tableData = null){
+        let currow =($(buttonHolder).parent()).parent();
         let rownum = (currow.attr('id')).split('-')[1];
 
         let iterator = 2;
@@ -246,7 +258,7 @@ $(document).ready(function () {
             oldrow[name] = currow.children("#c-"+iterator).text();
             ++iterator;
         });
-
+console.log(oldrow);
         FormCreator(currow, oldrow);
 
         currow.children().children(".cancel").bind("click", function () {
@@ -275,16 +287,149 @@ $(document).ready(function () {
 
 
 
-    var expander = function(buttonHandler){
-        let currow =($(buttonHandler).parent()).parent();
-        let parentrownum = (currow.attr('id')).split('-')[1];
-        $.post()
+    var addHandler = function (rowHolder, tableData = null) {
+        let newId;
+        //if(!isset(parent)){
+            newId = +(rowHolder.prev().attr("id").split('-')[1]) + 1;
+        //}
+        //else{
+
+       // }
+        rowHolder.next().children().children(".add").addClass("ui-state-disabled");
+
+        FormCreator(rowHolder,{id: newId, tableData:tableData});
+        rowHolder.children().children(":input").show(500).css('display','inline-block');
+
+        rowHolder.children().children(".cancel").bind("click",function () {
+            let currow =($(this).parent()).parent();
+            currow.children().children(":input").hide(150, function () {currow.html("")});
+            rowHolder.next().children().children(".add").removeClass("ui-state-disabled");
+        });
 
 
 
+        rowHolder.children().children(".save").bind("click",function () {
+            console.log(tableData);
+            let data = SendDataCreator(rowHolder, newId, tableData);
 
-        $("#subTable").dialog("open");
+            $.ajax({
+                type: "POST",
+                url: "/script/php/add.php",
+                data: data,
+
+                beforeSend: function () {
+                    return notEmpty(rowHolder);
+                },
+                success: function () {
+                    rowHolder.children().children(".cancel").click();
+                    if(isset(tableData))
+                        newId = data[Object.keys(tableData.subTable.tableForm)[0]];
+                    rowHolder.before("<tr id='row-"+newId+"'></tr>");
+                    let newRow = rowHolder.prev();
+                    RowCreator(newRow, data, tableData);
+                },
+                error: function () {
+                    $("#ajaxError").dialog("open");
+                }
+            });
+        });
     };
+
+
+
+    var expandHandler = function(buttonHolder){
+        let currow =($(buttonHolder).parent()).parent();
+        let parentrownum = (currow.attr('id')).split('-')[1];
+        let subtableNum= ($(buttonHolder).attr("id")).split('-')[1];
+
+        let data = {
+            subTable:subTables[subtableNum],
+            parent:{
+                fieldName:Object.keys(subTables[subtableNum].tableMark)[0] + "_ID",
+                fieldId: parentrownum
+            }
+        };
+
+        $.post("/script/php/select.php",data,function(res){
+            SubTableCreator(res, data);
+            let caption = data.subTable.caption + res[0];
+            $("#subTable").dialog({title: caption});
+            $("#subTable").dialog("open");
+        },"json");
+        // $.each(tableMark , function (key, value) {
+        //     subTableHandlers[key][subtableNum](data);
+        // })
+    };
+
+// var subTableHandlers = {
+//     Dish:{
+//         0:function (data) {
+//             $.post("/script/php/select.php",data,function(res){
+//                 SubTableCreator(res, data);
+//                 let caption = data.subTable.caption + res[0];
+//                 $("#subTable").dialog({title: caption});
+//                 $("#subTable").dialog("open");
+//             },"json");
+//         }
+//     }
+// };
+
+
+    var SubTableCreator = function (ajaxResult, tableData){
+        let table = $("#subTable").children().first();
+        console.log(tableData);
+
+        table.append("<tr id='headRow'></tr>");
+        let currow = table.children("#headRow");
+        let hrow = tableData.subTable.headRow;
+
+
+        let iterator = 1;
+        $.each(hrow, function (key, value) {
+            currow.append("<th class='db' id='c-"+ iterator++ +"'>"+value+"</th>");
+        });
+        currow.append("<th class='db' id='c-"+iterator+"'>Опции</th>");
+
+
+        $.ajax({
+            type: "POST",
+            dataType:"json",
+            url: "/script/php/selectFieldData.php",
+            data: {select_id:Object.keys(tableData.subTable.tableForm)[0]},
+
+            success: function (res) {
+                let table = $("#subTable").children().first();
+                let currow = table.children("#headRow");
+
+                for(let i=1; i < ajaxResult.length; ++i)
+                {
+                    $.each(res, function (key, value) {
+                        if(value == ajaxResult[i][Object.keys(hrow)[0]])
+                            table.append("<tr id='row-"+key+"'></tr>");
+                    });
+                    currow = currow.next();
+                    RowCreator(currow, ajaxResult[i]);
+                }
+
+
+                table.append("<tr id='adder'></tr>");
+                table.append("<tr>" +
+                    "<td  class='db'  colspan='"+Object.keys(hrow).length+"'></td>" +
+                    "<td  style='padding: 5px;'><button class='table add'>Добавить</button></td>" +
+                    "</tr>");
+                $("#subTable .add").button({icon: "ui-icon-plusthick", showLabel: false}).bind("click", function () {
+                    addHandler($("#subTable #adder"), tableData);
+                });
+            },
+
+            error: function () {
+                $("#ajaxError").dialog("open");
+            }
+        });
+    };
+
+
+
 
 
     //диалоговые формы
@@ -292,9 +437,11 @@ $(document).ready(function () {
         modal:true,
         autoOpen:false,
         closeText:"Закрыть",
+        width:"auto",
+        height:"auto",
         buttons:{
             Да:function () {
-                deleter($(this).data("buttonHandler"));
+                deleteHandler($(this).data("buttonHolder"), $(this).data("subTable"));
                 $(this).dialog("close");
             },
             Нет:function () {
@@ -302,12 +449,12 @@ $(document).ready(function () {
             }
         }
     });
-
-
     $("#isEmpty").dialog({
         modal:true,
         autoOpen:false,
         closeText:"Закрыть",
+        width:"auto",
+        height:"auto",
         buttons:{
             Ок:function () {
                 $("#empf").text("");
@@ -315,26 +462,24 @@ $(document).ready(function () {
             }
         }
     });
-
-
-
     $("#ajaxError").dialog({
         modal:true,
         autoOpen:false,
         closeText:"Закрыть",
+        width:"auto",
+        height:"auto",
         buttons:{
             Ок:function () {
                 $(this).dialog("close");
             }
         }
     });
-
-
-
-     $("#subTable").dialog({
+    $("#subTable").dialog({
          modal:true,
          autoOpen:false,
          closeText:"Закрыть",
+         width:"auto",
+         height:"auto",
          close:function () {
              $(this).children().html("");
          }

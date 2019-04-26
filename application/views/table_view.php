@@ -1,10 +1,10 @@
-<table align="center" class="data">
+<table align="center" class="mainTable data">
 
 
     <tr id="headRow">
         <?  $tableData = $data->tableData;
         $i=1;
-        foreach ($tableData->headRow as $trow=>$label) {
+        foreach ($tableData->headRow as $label) {
             echo "<th class='db' id='c-".$i."'>".$label."</th>";
             ++$i;
         }
@@ -24,11 +24,11 @@
             $subcaption = $res[$tableData->parentKey];
     ?>
         <td  class="db" id="c-<?=$i?>">
-            <? $subTable = $tableData->subTable;
-                if(count($subTable) != 0){//$subTable != NULL
-                    foreach ($subTable as $label => $link)?>
-                        <button class="table expand" onclick="document.location.href='<? echo $link."/".$res[0]?>'"><? echo $label?></button><!--onclick="document.location.href='<? //echo $link."/".$res[0]?>//'"-->
-            <?}?>
+            <? $subButtons = $tableData->subButtons;
+                if(count($subButtons) != 0){
+                    foreach ($subButtons as $tableNum => $label){?><!--as $label => $link-->
+                        <button class="table expand" id="sub-<?=$tableNum?>"><?=$label?></button><!--onclick="document.location.href='<? //echo $link."/".$res[0]?>//'"-->
+            <?}}?>
             <button class="table edit">Редактировать</button>
             <button class="table delete">Удалить</button>
         </td>
@@ -69,4 +69,8 @@
 <script>
     var tableForm = <?=json_encode($tableData->tableForm)?>;
     var tableMark = <?=json_encode($tableData->tableMark)?>;
+    var subTables = <?=json_encode($tableData->subTables)?>;
 </script>
+
+
+<div id="ajaxHolder"></div>
