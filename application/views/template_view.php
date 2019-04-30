@@ -29,12 +29,12 @@
     <header>
         <table style="width: 100%">
             <tr>
-                <td width="100px"><img src="/image/headlogo.png" alt="Megabit logo" class="top"></td>
-                <td><h1 class="top"> <?echo SITE_NAME;?></h1></td>
+                <td width="100px" onclick='window.location.href="<?= Router::FullRoute(Routes::MAIN)?>"'><img src="/image/headlogo.png" alt="Megabit logo" class="top"></td>
+                <td><h1 class="top" onclick='window.location.href="<?= Router::FullRoute(Routes::MAIN)?>"'> <?echo SITE_NAME;?></h1></td>
                 <td class="login">
                     <?php if(StatFuncs::LoggedIn()){ ?>
                         <p style="font-size: 20px">Вы вошли как: <? echo isset($_SESSION['fullname']) ? $_SESSION['fullname'] : $_SESSION['login'] ?></p>
-                        <p><button class="loging" onclick='window.location.href = "<?echo Router::FullRoute(Routes::LOGOUT)?>"'>Выйти</button></p>
+                        <p><button class="loging" onclick='window.location.href = "<?= Router::FullRoute(Routes::LOGOUT)?>"'>Выйти</button></p>
                     <?php } ?>
                 </td>
             </tr>

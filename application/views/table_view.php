@@ -70,6 +70,7 @@
     var tableForm = <?=json_encode($tableData->tableForm)?>;
     var tableMark = <?=json_encode($tableData->tableMark)?>;
     var subTables = <?=json_encode($tableData->subTables)?>;
+    var subButtons = <?=json_encode($tableData->subButtons)?>;
 </script>
 
 

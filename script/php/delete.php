@@ -5,6 +5,9 @@ include_once DOC_ROOT."application/classes/querries.php";
 
 $dbtable = "";
 $tableMark = "";
+$subField = "";
+$subValue = "";
+
 
 foreach ($_POST['tableMark'] as $key => $val) {
     $dbtable = $val;
@@ -13,5 +16,12 @@ foreach ($_POST['tableMark'] as $key => $val) {
 unset($_POST['tableMark']);
 
 $statement = $tableMark . "_ID = '" . $_POST['id']."'";
+
+
+if(isset($_POST["subId"]))
+    foreach ($_POST["subId"] as $key => $val ){
+        $statement .= " AND ". $key . " = '".$val."'";
+    }
+
 
 Database::DBRequest(Querries::DeleteQuerry($dbtable, $statement));
