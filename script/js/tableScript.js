@@ -98,7 +98,8 @@ $(document).ready(function () {
 
         $.each(selects, function(key, value) {
             (async function(){
-                let mySelect =  await $.post("/script/php/selectFieldData.php", {select_id: value.myid}, "json");
+                let mySelect =  await $.post("/script/php/selectFieldData.php", {select_id: value.myid}, "json")
+                    .fail(function (){Notificator($("#ajaxError"), "Ошибка формирования значения элемента (SelectField)")});
                 return await JSON.parse(mySelect);
             })().then(function (result) {
                 rowHolder.children("#c-" + value.iter).text(result[value.myval]);
@@ -168,7 +169,7 @@ $(document).ready(function () {
                         });
                     },
                     error: function () {
-                        $("#ajaxError").dialog("open");
+                        Notificator($("#ajaxError"), "Ошибка создания элемента (SelectField)");
                     }
                 });
                 break;
@@ -282,14 +283,17 @@ $(document).ready(function () {
             type: "POST",
             url: "/script/php/delete.php",
             data: data,
-            success: function () {
-                currow.remove("#" + currow.attr("id"));
+            success: function (result) {
+                if(result)
+                    currow.remove("#" + currow.attr("id"));
+                else
+                    Notificator($("#sqlError"), "Ошибка при удалении записи");
             },
             beforeSend: function (){
                 return $("#confirm").dialog("open");
             },
             error: function () {
-                $("#ajaxError").dialog("open");
+                Notificator($("#ajaxError"), "Ошибка удаления записи");
             }
         });
     };
@@ -330,7 +334,7 @@ $(document).ready(function () {
                 subId[Object.keys(tableData.subTable.tableForm)[0]] = rownum;
                 data.subId = subId;
             }
-            console.log(data);
+
 
             $.ajax({
                 url:"/script/php/edit.php",
@@ -339,11 +343,14 @@ $(document).ready(function () {
                 beforeSend: function () {
                     return notEmpty(currow, tableData);
                 },
-                success: function () {
-                    RowCreator(currow, data, tableData, true);
+                success: function (result) {
+                    if(result)
+                        RowCreator(currow, data, tableData, true);
+                    else
+                        Notificator($("#sqlError"), "Ошибка при редактировании записи");
                 },
                 error: function () {
-                    $("#ajaxError").dialog("open");
+                    Notificator($("#ajaxError"), "Ошибка редактирования записи");
                 }
             })
         })
@@ -360,6 +367,40 @@ $(document).ready(function () {
         FormCreator(rowHolder,{id: newId}, tableData);
         rowHolder.children().children(":input").show(500).css('display','inline-block');
 
+
+        
+
+        //удаление из ключевого селекта подтаблицы значений, уже находящихся в ней
+        if(tableData)
+        {
+            let row = rowHolder.prev();
+            let subkeys = [];
+            while(row.attr('id') != "headRow"){
+                subkeys.push(row.children().first().text());
+                row = row.prev();
+            }
+
+            rowHolder.children("#c-1").children().first().bind("mouseover", function () {
+                let option = rowHolder.children("#c-1").children().first().children("option").eq(1);
+
+                $.each(subkeys, function (num, skval) {
+                    while(option.text() != "")
+                        if (option.text() != skval) {
+                            option = option.next();
+                        }
+                        else {
+                            let next = option.next();
+                            option.remove();
+                            option = next;
+                        }
+                    option = rowHolder.children("#c-1").children().first().children("option").eq(1);
+                });
+            });
+        }
+
+
+
+
         rowHolder.children().children(".cancel").bind("click",function () {
             let currow =($(this).parent()).parent();
             currow.children().children(":input").hide(150, function () {currow.html("")});
@@ -368,8 +409,8 @@ $(document).ready(function () {
 
 
 
+
         rowHolder.children().children(".save").bind("click",function () {
-            //console.log(tableData);
             let data = SendDataCreator(rowHolder, newId, tableData);
 
             $.ajax({
@@ -380,16 +421,20 @@ $(document).ready(function () {
                 beforeSend: function () {
                     return notEmpty(rowHolder, tableData);
                 },
-                success: function () {
-                    rowHolder.children().children(".cancel").click();
-                    if(isset(tableData))
-                        newId = data[Object.keys(tableData.subTable.tableForm)[0]];
-                    rowHolder.before("<tr id='row-"+newId+"'></tr>");
-                    let newRow = rowHolder.prev();
-                    RowCreator(newRow, data, tableData);
+                success: function (result) {
+                    if(result) {
+                        rowHolder.children().children(".cancel").click();
+                        if (isset(tableData))
+                            newId = data[Object.keys(tableData.subTable.tableForm)[0]];
+                        rowHolder.before("<tr id='row-" + newId + "'></tr>");
+                        let newRow = rowHolder.prev();
+                        RowCreator(newRow, data, tableData);
+                    }
+                    else
+                        Notificator($("#sqlError"), "Данная запись уже существует");
                 },
                 error: function () {
-                    $("#ajaxError").dialog("open");
+                    Notificator($("#ajaxError"), "Ошибка добавления записи");
                 }
             });
         });
@@ -415,7 +460,8 @@ $(document).ready(function () {
             let caption = data.subTable.caption + res[0];
             $("#subTable").dialog({title: caption});
             $("#subTable").dialog("open");
-        },"json");
+        },"json")
+            .fail(function (){Notificator($("#ajaxError"), "Ошибка чтения вложенной таблицы")});
     };
 
 
@@ -423,7 +469,6 @@ $(document).ready(function () {
 
     var SubTableCreator = function (ajaxResult, tableData){
         let table = $("#subTable").children().first();
-        //console.log(tableData);
 
         table.append("<tr id='headRow'></tr>");
         let currow = table.children("#headRow");
@@ -464,12 +509,12 @@ $(document).ready(function () {
                     "<td  style='padding: 5px;'><button class='table add'>Добавить</button></td>" +
                     "</tr>");
                 $("#subTable .add").button({icon: "ui-icon-plusthick", showLabel: false}).bind("click", function () {
-                    addHandler($("#subTable #adder"), tableData);
+                    addHandler($("#subTable table #adder"), tableData);
                 });
             },
 
             error: function () {
-                $("#ajaxError").dialog("open");
+                Notificator($("#ajaxError"), "Ошибка формирования вложенной таблицы");
             }
         });
     };
@@ -509,29 +554,33 @@ $(document).ready(function () {
             }
         }
     });
-    $("#ajaxError").dialog({
-        modal:true,
-        autoOpen:false,
-        closeText:"Закрыть",
-        width:"auto",
-        height:"auto",
-        buttons:{
-            Ок:function () {
-                $(this).dialog("close");
-            }
-        }
-    });
+
     $("#subTable").dialog({
          modal:true,
          autoOpen:false,
          closeText:"Закрыть",
          width:"auto",
          height:"auto",
+         resizable: false,
+         maxHeight:($(document).height())*5/6,
+         position:{
+             my: "center center",
+             at: "center top+17%",
+             of: window
+         },
          close:function () {
              $(this).children().html("");
          }
      });
 
+
+    //вызывает оповещени
+    var Notificator = function (widgetHolder, text) {
+        widgetHolder.fadeIn(1000).children("p").children("#text").text(text);
+        setTimeout(function () {
+            widgetHolder.fadeOut(1000).children("p").children("#text").text("");
+        }, 5000);
+    };
 
 
 

@@ -29,4 +29,5 @@ foreach ($_POST as $key => $val){
 $datastring = substr($datastring, 0, -2);
 
 
-Database::DBRequest(Querries::UpdateQuerry($dbtable, $statement, $datastring));
+$result = Database::DBRequest(Querries::UpdateQuerry($dbtable, $statement, $datastring));
+echo $result;

@@ -24,4 +24,5 @@ if(isset($_POST["subId"]))
     }
 
 
-Database::DBRequest(Querries::DeleteQuerry($dbtable, $statement));
+$result = Database::DBRequest(Querries::DeleteQuerry($dbtable, $statement));
+echo $result;

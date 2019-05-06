@@ -146,3 +146,8 @@ hr{
 #adder input, #adder button{
     display: none;
 }
+
+
+.top{
+    cursor: pointer;
+}

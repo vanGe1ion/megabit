@@ -23,4 +23,5 @@ foreach ($_POST as $key => $val){
 $datastring = substr($datastring, 0, -2);
 $fields = substr($fields, 0, -2);
 
-Database::DBRequest(Querries::InsertQuerry($dbtable, $fields, $datastring));
+$result = Database::DBRequest(Querries::InsertQuerry($dbtable, $fields, $datastring));
+echo $result;

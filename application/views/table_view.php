@@ -42,11 +42,24 @@
 
     <tr>
         <td  class="db"  colspan="<? echo count($tableData->headRow) ?>"></td>
-        <td  style="padding: 5px;"><button class="table add">Добавить</button></td>
+        <td  style="padding: 5px;">
+            <button class="table add">Добавить</button>
+        </td>
     </tr>
     <caption><?echo $tableData->caption.$subcaption?></caption>
 </table>
 
+
+
+<div id="subTable">
+    <table class="data">
+
+    </table>
+</div>
+
+
+
+<!--Dialogs-->
 <div id="confirm" title="Подтвердите удаление">
     <p>Вы дествительно хотите удалить этот элемент?</p>
 </div>
@@ -56,21 +69,33 @@
     <p id="empf"></p>
 </div>
 
-<div id="ajaxError" title="Ошибка!">
-    <p>Произошла ощибка во время запроса к базе данных</p>
+
+
+<!-- Highlight / Error -->
+<div id="ajaxError" title="Ошибка!" class="ui-widget ui-state-error ui-corner-all" style="display: none">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong> ajaxError: </strong>
+        <span id="text"></span>
+    </p>
 </div>
 
-<div id="subTable">
-    <table class="data">
-
-    </table>
+<div id="sqlError" title="Ошибка!" class="ui-widget ui-state-highlight ui-corner-all" style="display: none">
+    <p>
+        <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+        <strong> mySqlError: </strong>
+        <span id="text"></span>
+    </p>
 </div>
+
+
+
 
 <script>
     var tableForm = <?=json_encode($tableData->tableForm)?>;
     var tableMark = <?=json_encode($tableData->tableMark)?>;
-    var subTables = <?=json_encode($tableData->subTables)?>;
     var subButtons = <?=json_encode($tableData->subButtons)?>;
+    var subTables = <?=json_encode($tableData->subTables)?>;
 </script>
 
 
