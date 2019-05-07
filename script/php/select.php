@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT']."/config.php";
 include_once DOC_ROOT."application/core/database.php";
-include_once DOC_ROOT."application/classes/querries.php";
+include_once DOC_ROOT . "application/classes/queries.php";
 
 $subTable = $_POST["subTable"];
 
@@ -44,7 +44,7 @@ if(isset($_POST['parent']))
     $idStatement = " AND ".$mainTable.".".$parentKeyId."=".$_POST['parent']['fieldId'];
 
 
-$query = Querries::RSSelectQuerry($fieldList, $tableList, $relationList, $idStatement);
+$query = Queries::RSSelectQuery($fieldList, $tableList, $relationList, $idStatement);
 $resdata = Database::DBRequest($query);
 
 

@@ -16,7 +16,7 @@ require_once 'core/sessionController.php';
 
 
 // подключаем файлы вспомогательных классов
-require_once 'classes/querries.php';
+require_once 'classes/queries.php';
 require_once 'classes/statFuncs.php';
 
 // подключаем файлы классов сущностей

@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT']."/config.php";
 include_once DOC_ROOT."application/core/database.php";
-include_once DOC_ROOT."application/classes/querries.php";
+include_once DOC_ROOT . "application/classes/queries.php";
 
 $datastring = "";
 $dbtable = "";
@@ -23,5 +23,5 @@ foreach ($_POST as $key => $val){
 $datastring = substr($datastring, 0, -2);
 $fields = substr($fields, 0, -2);
 
-$result = Database::DBRequest(Querries::InsertQuerry($dbtable, $fields, $datastring));
+$result = Database::DBRequest(Queries::InsertQuery($dbtable, $fields, $datastring));
 echo $result;

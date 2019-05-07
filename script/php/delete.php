@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT']."/config.php";
 include_once DOC_ROOT."application/core/database.php";
-include_once DOC_ROOT."application/classes/querries.php";
+include_once DOC_ROOT . "application/classes/queries.php";
 
 $dbtable = "";
 $tableMark = "";
@@ -24,5 +24,5 @@ if(isset($_POST["subId"]))
     }
 
 
-$result = Database::DBRequest(Querries::DeleteQuerry($dbtable, $statement));
+$result = Database::DBRequest(Queries::DeleteQuery($dbtable, $statement));
 echo $result;

@@ -11,13 +11,15 @@ class Model_main extends Model{
             case AccessRights::ADMIN:{
                 $data->mainMenu = array (
                     'Управление базой блюд'             => Router::FullRoute(Routes::DISHBASE),
+                    'Планирование меню'                 => Router::FullRoute(Routes::MENUPLANNER),
                     'Управление базой пользователей'    => Router::FullRoute(Routes::USERBASE)
                 );
                 break;
             }
             case AccessRights::PLANNER:{
                 $data->mainMenu = array (
-                    'Управление базой блюд'             => Router::FullRoute(Routes::DISHBASE)
+                    'Управление базой блюд'             => Router::FullRoute(Routes::DISHBASE),
+                    'Планирование меню'                 => Router::FullRoute(Routes::MENUPLANNER),
                 );
                 break;
             }
@@ -29,7 +31,7 @@ class Model_main extends Model{
             }
             case AccessRights::USER:{
                 $data->mainMenu = array (
-                    'Управление меню'                   => Router::FullRoute(Routes::USERMENU)
+                    'Формирование меню'                 => Router::FullRoute(Routes::USERMENU)
                 );
                     break;
             }

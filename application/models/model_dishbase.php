@@ -49,7 +49,7 @@ class Model_DishBase
         $tableList = "DISH_LIST, DISH_TYPES";
         $relationList  = "DISH_TYPES.Dish_Type_ID=DISH_LIST.Dish_Type_ID";
         $idStatement = "ORDER BY Dish_ID";
-        $querry = Querries::RSSelectQuerry($fieldList, $tableList, $relationList, $idStatement);
+        $querry = Queries::RSSelectQuery($fieldList, $tableList, $relationList, $idStatement);
         $querryResult = Database::DBRequest($querry);
         $data = new MainDataContainer();
 
@@ -105,7 +105,7 @@ class Model_DishBase
 
     public function GetIngredientList()
     {
-        $querry = Querries::SelectQuerry("INGREDIENT_LIST");
+        $querry = Queries::SelectQuery("INGREDIENT_LIST");
         $querryResult = Database::DBRequest($querry);
         $data = new MainDataContainer();
 
@@ -134,7 +134,7 @@ class Model_DishBase
 
     public function GetDishTypeList()
     {
-        $querry = Querries::SelectQuerry("DISH_TYPES");
+        $querry = Queries::SelectQuery("DISH_TYPES");
         $querryResult = Database::DBRequest($querry);
         $data = new MainDataContainer();
 
@@ -165,7 +165,7 @@ class Model_DishBase
 
     public function GetMeasureList()
     {
-        $querry = Querries::SelectQuerry("MEASURES_LIST");
+        $querry = Queries::SelectQuery("MEASURES_LIST");
         $querryResult = Database::DBRequest($querry);
         $data = new MainDataContainer();
 
@@ -195,7 +195,7 @@ class Model_DishBase
 
     public function GetDishIngredients($dishID)
     {
-        $querry = Querries::DishIngredientsQuerry($dishID);
+        $querry = Queries::DishIngredientsQuery($dishID);
         $querryResult = Database::DBRequest($querry);
         $data = new MainDataContainer();
 

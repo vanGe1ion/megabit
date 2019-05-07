@@ -57,7 +57,7 @@ class User
     private function GetEmpDbData($empID): Employee
     {
 
-        $querry = Querries::EmpDataQuerry($empID);
+        $querry = Queries::EmpDataQuery($empID);
         $result = Database::DBRequest($querry);
 
         if ($result->num_rows)

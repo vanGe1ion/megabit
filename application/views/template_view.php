@@ -11,6 +11,7 @@
     <!--libraries-->
     <script  type="text/javascript" src="/library/jQuery/jQuery.js"></script>
     <script  type="text/javascript" src="/library/jQuery-UI/jQuery-UI.js"></script>
+    <script  type="text/javascript" src="/library/jQuery-UI/DatePickerRusLoc.js"></script>
     <link rel="stylesheet" type="text/css" href="/library/jQuery-UI/jQuery-UI.css">
 
     <!--Project data-->
@@ -84,6 +85,7 @@
         </tr>
     </table>
 </footer>
+
 
 </body>
 </html>

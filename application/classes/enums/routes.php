@@ -30,4 +30,7 @@ class Routes
     const QUEUEMONITOR = 'queuemonitor';
 
     const USERMENU = 'usermenu';
+
+    const MENUPLANNER = 'menuplanner';
+
 }

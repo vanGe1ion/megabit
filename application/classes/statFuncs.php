@@ -4,7 +4,7 @@
 class StatFuncs
 {
 
-    //функция проверки залогинен ли пользователь
+    //функция возвращает true если пользователь залогинен
     public static function LoggedIn (){
         return isset($_SESSION['accessRights']) AND $_SESSION['accessRights'] < AccessRights::UNAUTHORIZED;
     }

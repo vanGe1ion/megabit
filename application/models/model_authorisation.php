@@ -8,7 +8,7 @@ class Model_Authorisation extends Model{
         $md5pass = md5($_POST["pass"]);
 
 
-        $querry = Querries::AuthorizeQuerry($login, $md5pass);
+        $querry = Queries::AuthorizeQuery($login, $md5pass);
         $result = Database::DBRequest($querry);
         $data = new MainDataContainer();
 

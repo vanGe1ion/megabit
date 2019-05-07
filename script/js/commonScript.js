@@ -1,1 +1,4 @@
-$("button").button();
+$(document).ready(function () {
+    $("button").button();
+    $(".calendar").datepicker();
+});
