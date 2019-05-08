@@ -1,0 +1,37 @@
+/*Table tags*/
+/*Global*/
+
+table {
+    border-collapse: collapse;
+}
+
+caption{
+    font-size: x-large;
+    font-weight: bolder;
+    padding-bottom: 10px;
+}
+
+/*Local*/
+
+table.data{
+    border: 3px solid black;
+    margin-top: 7%;
+    margin-bottom: 7%
+}
+
+td.db, th.db{
+    padding: 5px;
+    text-align: center;
+    border: black 1px solid;
+}
+
+th.db {
+    border: black 3px solid;
+}
+
+
+td.login {
+    text-align: right;
+    padding-right: 100px;
+    width: 50%;
+}

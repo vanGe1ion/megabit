@@ -3,89 +3,60 @@
 
 <!-- Page Header -->
 
-<head>
-    <meta charset="UTF-8">
-    <title><?=$data->pageTitle.' <~> '.SITE_NAME ?></title>
-    <link rel="shortcut icon" href="/image/favicon.ico" type="image/x-icon">
+    <head>
+        <meta charset="UTF-8">
+        <title><?=$data->pageTitle.' <~> '.SITE_NAME ?></title>
+        <link rel="shortcut icon" href="/image/favicon.ico" type="image/x-icon">
 
-    <!--libraries-->
-    <script  type="text/javascript" src="/library/jQuery/jQuery.js"></script>
-    <script  type="text/javascript" src="/library/jQuery-UI/jQuery-UI.js"></script>
-    <script  type="text/javascript" src="/library/jQuery-UI/DatePickerRusLoc.js"></script>
-    <link rel="stylesheet" type="text/css" href="/library/jQuery-UI/jQuery-UI.css">
+        <!--libraries-->
+        <? include "template_view/libraries.html" ?>
 
-    <!--Project data-->
-    <script defer type="text/javascript" src="/script/js/commonScript.js"></script>
-    <?if(isset($script)) echo "<script defer type='text/javascript' src='/script/js/".$script."'></script>" ?>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-</head>
+        <!--Project data-->
+        <!--scripts-->
+        <? include "template_view/scripts.php" ?>
+        <!--stylesheets-->
+        <? include "template_view/stylesheets.html" ?>
 
-<!-- Page Body -->
+    </head>
 
-<body class="wrapper">
-<div class="content">
-
-    <!-- Header -->
-
-    <header>
-        <table style="width: 100%">
-            <tr>
-                <td width="100px" onclick='window.location.href="<?= Router::FullRoute(Routes::MAIN)?>"'><img src="/image/headlogo.png" alt="Megabit logo" class="top"></td>
-                <td><h1 class="top" onclick='window.location.href="<?= Router::FullRoute(Routes::MAIN)?>"'> <?echo SITE_NAME;?></h1></td>
-                <td class="login">
-                    <?php if(StatFuncs::LoggedIn()){ ?>
-                        <p style="font-size: 20px">Вы вошли как: <? echo isset($_SESSION['fullname']) ? $_SESSION['fullname'] : $_SESSION['login'] ?></p>
-                        <p><button class="loging" onclick='window.location.href = "<?= Router::FullRoute(Routes::LOGOUT)?>"'>Выйти</button></p>
-                    <?php } ?>
-                </td>
-            </tr>
-        </table>
-        <hr>
-    </header>
-
-    <!-- Header Navigation -->
-
-    <? $headMenu = $data->headerMenu; if(isset($headMenu)){  ?>
-    <nav>
-        <table style="margin-left: 100px; " ><!-- margin-bottom: 50px;-->
-            <tr>
-                <? foreach ( $headMenu as $label=>$link){?>
-                    <td><button class="hormenu" onclick="document.location.href='<?= $link?>'"><?echo $label?></button></td>
-                <?}?>
-            </tr>
-        </table>
-    </nav>
-    <?}?>
-
-    <!-- Main -->
-
-    <main>
-        <?php include 'application/views/'.$content_view; ?>
-    </main>
-
-</div>
-
-<!-- Footer Navigation-->
-
-<footer class="footer">
-    <table  width="100%" >
-        <tr>
-            <td colspan="2"><hr></td>
-        </tr>
-        <tr>
-            <td align="right" >
-                <? $footMenu = $data->footerMenu; if(isset($footMenu)){?>
-                    <nav style="margin-right: 100px">
-                        <? foreach ( $footMenu as $label=>$link){?>
-                            <button class="hormenu" onclick="document.location.href='<?echo $link?>'"><?echo $label?></button>
-                        <?}?>
-                    </nav>
-                <?}?>
-            </td>
-        </tr>
-    </table>
-</footer>
+    <!-- Page Body -->
+    <body>
+        <div class="wrapper">
+            <div class="content">
 
 
-</body>
+
+                <!-- Header -->
+                <header>
+                    <? include "template_view/header.php" ?>
+                </header>
+
+
+
+                <!-- Header Navigation -->
+                <nav>
+                    <? include "template_view/headNavigation.php" ?>
+                </nav>
+
+
+
+                <!-- Main -->
+                <main>
+                    <?php include 'application/views/content/'.$content_view; ?>
+                </main>
+
+            </div><!--content-->
+
+
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer">
+                    <? include "template_view/footer.php" ?>
+                </div>
+            </footer>
+
+        </div><!--wrapper-->
+
+    </body>
 </html>

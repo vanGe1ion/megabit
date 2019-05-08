@@ -1,0 +1,47 @@
+/*button style*/
+/*Global*/
+
+/*button {
+    color: white;
+    background: #2F73B6;
+    border: 3px solid #2F73B6;
+    border-radius: 5px;
+}
+button:hover {
+    background: steelblue;
+}*/
+
+/*Local*/
+
+button.loging {
+    width: 80px;
+    font-size: 13px;
+    padding: .3em 1em;
+}
+button.menu{
+    padding: 10px;
+    width: 100%;
+    font-size: xx-large;
+    font-style: italic;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+button.hormenu{
+    padding: 10px;
+    width: 150px;
+    font-size: medium;
+    font-style: italic;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+button.table{
+    font-size: small;
+    padding: 0.3em;
+}
+
+button.error {
+    font-size: larger;
+    width: 200px;
+}

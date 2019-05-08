@@ -952,7 +952,7 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="246" parent="226" name="dish_ingredients_ibfk_1">
+    <index id="246" parent="226" name="Dish_ID">
       <ColNames>Dish_ID</ColNames>
       <Type>btree</Type>
     </index>
@@ -964,11 +964,13 @@
       <ColNames>Measure_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="249" parent="226" name="dish_ingredients_ibfk_1">
+    <foreign-key id="249" parent="226" name="dish_ingredients_ibfk_5">
       <ColNames>Dish_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>DISH_LIST</RefTableName>
       <RefColNames>Dish_ID</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
     <foreign-key id="250" parent="226" name="dish_ingredients_ibfk_4">
       <ColNames>Ingredient_ID</ColNames>
@@ -1010,7 +1012,7 @@
       <ColNames>Dish_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="257" parent="227" name="dish_list_ibfk_2">
+    <foreign-key id="257" parent="227" name="dish_list_ibfk_4">
       <ColNames>Dish_Type_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>DISH_TYPES</RefTableName>

@@ -1,0 +1,17 @@
+img.top, h1.top {
+    cursor: pointer;
+}
+
+h1.top {
+    font-size: 50px;
+    font-style: italic;
+    color: red;
+    font-family: sans-serif;
+    width: fit-content;
+}
+
+img.top {
+    width: 100px;
+    height: 100px;
+    margin: 20px 0px 20px 100px;
+}

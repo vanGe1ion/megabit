@@ -8,6 +8,7 @@ class controller_Authorisation extends Controller
         $this->model = new Model_Authorisation();
         $this->view = new View();
         $this->data = new MainDataContainer();
+        $this->scriptSet = array();
     }
 
     function action_index()

@@ -131,14 +131,6 @@ $(document).ready(function () {
     }
 
 
-    //проверка существования переменной
-    var isset = function (variable) {
-        return typeof(variable) != "undefined" && variable !== null
-    };
-    //проверка на число
-    var isNumeric = function isNumeric(variable) {
-        return !isNaN(parseFloat(variable)) && isFinite(variable)
-    };
 
 
     var FormElemCreator = function (elemType, elemId, width, value) {
@@ -182,7 +174,7 @@ $(document).ready(function () {
                     value:value,
                     min:0,
                     css:{
-                        width:width
+                        width:width,
                     }
                 });
             }
@@ -573,14 +565,6 @@ $(document).ready(function () {
          }
      });
 
-
-    //вызывает оповещени
-    var Notificator = function (widgetHolder, text) {
-        widgetHolder.fadeIn(1000).children("p").children("#text").text(text);
-        setTimeout(function () {
-            widgetHolder.fadeOut(1000).children("p").children("#text").text("");
-        }, 5000);
-    };
 
 
 

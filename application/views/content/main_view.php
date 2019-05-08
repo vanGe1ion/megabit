@@ -1,5 +1,5 @@
 <nav>
-    <table width="35%" align="center" ><!-- class="data"-->
+    <table align="center" >
         <caption><h2>Главное меню</h2></caption>
         <? $mainMenu = $data->mainMenu;
         foreach ($mainMenu as $label=>$link){?>

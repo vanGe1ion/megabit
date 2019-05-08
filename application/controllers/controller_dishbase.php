@@ -9,6 +9,7 @@ class Controller_DishBase extends Controller
         $this->model = new Model_DishBase();
         $this->view = new View();
         $this->data = new MainDataContainer();
+        $this->scriptSet = array();
     }
 
     function action_index()
@@ -39,8 +40,10 @@ class Controller_DishBase extends Controller
 
             if ($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
-            else
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data, 'tableScript.js');
+            else {
+                $this->scriptSet = array('tableScript.js');
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data, $this->scriptSet);
+            }
 
         }
     }
@@ -51,8 +54,10 @@ class Controller_DishBase extends Controller
             $this->data = $this->model->GetIngredientList();
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
-            else
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data, 'tableScript.js');
+            else {
+                $this->scriptSet = array('tableScript.js');
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data, $this->scriptSet);
+            }
         }
     }
 
@@ -63,8 +68,10 @@ class Controller_DishBase extends Controller
             $this->data = $this->model->GetDishTypeList();
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
-            else
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data, 'tableScript.js');
+            else {
+                $this->scriptSet = array('tableScript.js');
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data, $this->scriptSet);
+            }
         }
     }
 
@@ -74,8 +81,10 @@ class Controller_DishBase extends Controller
             $this->data = $this->model->GetMeasureList();
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
-            else
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data, 'tableScript.js');
+            else {
+                $this->scriptSet = array('tableScript.js');
+                $this->view->Generate('table_view.php', 'template_view.php', $this->data, $this->scriptSet);
+            }
         }
     }
 }
