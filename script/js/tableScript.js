@@ -447,8 +447,8 @@ $(document).ready(function () {
             }
         };
 
-        $.post("/script/php/select.php",data,function(res){
-            SubTableCreator(res, data);
+        $.post("/script/php/subSelect.php",data,function(res){
+            SubTableCreator($("#subTable"), res, data);
             let caption = data.subTable.caption + res[0];
             $("#subTable").dialog({title: caption});
             $("#subTable").dialog("open");
@@ -459,9 +459,9 @@ $(document).ready(function () {
 
 
 
-    var SubTableCreator = function (ajaxResult, tableData){
-        let table = $("#subTable").children().first();
-
+    var SubTableCreator = function (containerHolder, ajaxResult, tableData){
+        let table = containerHolder.children().first();
+        console.log(ajaxResult);
         table.append("<tr id='headRow'></tr>");
         let currow = table.children("#headRow");
         let hrow = tableData.subTable.headRow;
@@ -481,7 +481,7 @@ $(document).ready(function () {
             data: {select_id:Object.keys(tableData.subTable.tableForm)[0]},
 
             success: function (res) {
-                let table = $("#subTable").children().first();
+                let table = containerHolder.children().first();
                 let currow = table.children("#headRow");
 
                 for(let i=1; i < ajaxResult.length; ++i)
@@ -500,8 +500,11 @@ $(document).ready(function () {
                     "<td  class='db'  colspan='"+Object.keys(hrow).length+"'></td>" +
                     "<td  style='padding: 5px;'><button class='table add'>Добавить</button></td>" +
                     "</tr>");
-                $("#subTable .add").button({icon: "ui-icon-plusthick", showLabel: false}).bind("click", function () {
-                    addHandler($("#subTable table #adder"), tableData);
+                // $("#subTable .add").button({icon: "ui-icon-plusthick", showLabel: false}).bind("click", function () {                                todo delete
+                //     addHandler($("#subTable table #adder"), tableData);
+                // });
+                table.children().last().children().last().children(".add").button({icon: "ui-icon-plusthick", showLabel: false}).bind("click", function () {
+                    addHandler(table.children("#adder"), tableData);
                 });
             },
 

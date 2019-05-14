@@ -45,6 +45,7 @@
                     <?php include 'application/views/content/'.$content_view; ?>
                 </main>
 
+
             </div><!--content-->
 
 
@@ -52,7 +53,17 @@
             <!-- Footer -->
             <footer>
                 <div class="footer">
+
+                    <!--Dialogs-->
+                    <?php include 'template_view/dialogs.html' ?>
+
+                    <!-- Highlights / Errors -->
+                    <?php include 'template_view/notifies.html' ?>
+
+                    <!-- Footer Navigation/Content -->
                     <? include "template_view/footer.php" ?>
+
+
                 </div>
             </footer>
 

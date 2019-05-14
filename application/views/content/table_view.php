@@ -59,44 +59,9 @@
 
 
 
-<!--Dialogs-->
-<div id="confirm" title="Подтвердите удаление">
-    <p>Вы дествительно хотите удалить этот элемент?</p>
-</div>
-
-<div id="isEmpty" title="Внимание">
-    <p>Следующие поля не должны быть пустыми:</p>
-    <p id="empf"></p>
-</div>
-
-
-
-<!-- Highlight / Error -->
-<div id="ajaxError" title="Ошибка!" class="ui-widget ui-state-error ui-corner-all" style="display: none">
-    <p>
-        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-        <strong> ajaxError: </strong>
-        <span id="text"></span>
-    </p>
-</div>
-
-<div id="sqlError" title="Ошибка!" class="ui-widget ui-state-highlight ui-corner-all" style="display: none">
-    <p>
-        <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-        <strong> mySqlError: </strong>
-        <span id="text"></span>
-    </p>
-</div>
-
-
-
-
 <script>
     var tableForm = <?=json_encode($tableData->tableForm)?>;
     var tableMark = <?=json_encode($tableData->tableMark)?>;
     var subButtons = <?=json_encode($tableData->subButtons)?>;
     var subTables = <?=json_encode($tableData->subTables)?>;
 </script>
-
-
-<div id="ajaxHolder"></div>

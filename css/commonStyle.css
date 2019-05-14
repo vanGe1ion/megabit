@@ -1,3 +1,10 @@
 #adder input, #adder button, #adder select{
     display: none;
 }
+
+div.tableDate{
+    font-size: x-large;
+    font-weight: bolder;
+    margin: 10px 0px;
+    text-align: center;
+}

@@ -1,7 +1,6 @@
 //$(document).ready(function () {
     $("button").button();
-    //$(".calendar").datepicker({dateFormat:"D dd.mm.yy", selectWeek: true});
-
+    $("div.content").css("max-height", +$("html").css("height").split("px")[0]-$("footer").css("height").split("px")[0]);
 
 
     //проверка существования переменной
@@ -18,9 +17,14 @@
     //вызывает оповещени
     var Notificator = function (widgetHolder, text) {
         widgetHolder.fadeIn(1000).children("p").children("#text").text(text);
+        $("div.content").css("max-height", +$("html").css("height").split("px")[0]-$("footer").css("height").split("px")[0]);
         setTimeout(function () {
             widgetHolder.fadeOut(500).children("p").children("#text").text("");
+            setTimeout(function () {
+                $("div.content").css("max-height", +$("html").css("height").split("px")[0]-$("footer").css("height").split("px")[0]);
+            }, 510);
         }, 5000);
+
     };
 
 

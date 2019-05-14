@@ -14,8 +14,8 @@ class Controller_MenuPlanner extends Controller
     function action_index()
     {
         if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
-            $this->data = $this->model->Calendar();
-            $this->scriptSet = array('tableScript.js', "planOrderScript.js");
+            $this->data = $this->model->MenuPlanner();
+            $this->scriptSet = array('tableScript.js', "menuPlanScript.js");
             $this->view->Generate('menuplanner_view.php', 'template_view.php', $this->data, $this->scriptSet);
         }
     }

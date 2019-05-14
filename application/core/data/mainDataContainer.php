@@ -15,7 +15,7 @@ class MainDataContainer
 
     //subcontainers
     public $tableData = NULL;//                                 - табличные данные запроса из бд
-    public $errorData = NULL;//                                 -данные обработчика ошибок
+    public $errorData = NULL;//                                 - данные обработчика ошибок
 
 
     public function __construct()

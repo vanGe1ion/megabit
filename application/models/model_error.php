@@ -37,7 +37,7 @@ class Model_Error
                 $errorData->title =      'Ошибка чтения базы данных';
                 $errorData->text =       'Запрос к базе данных вернул пустой результат ';
                 $errorData->button =     'Главное меню';
-                $errorData->link =       Router::FullRoute(Routes::MAIN);                   //todo
+                $errorData->link =       Router::FullRoute(Routes::MAIN);
                 break;
             }
 
