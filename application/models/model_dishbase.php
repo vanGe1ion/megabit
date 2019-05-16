@@ -36,6 +36,7 @@ class Model_DishBase
         }
 
         $data->footerMenu = array(
+            'Планирование' =>   Router::FullRoute(Routes::MENUPLANNER),
             'Главное меню' =>   Router::FullRoute(Routes::MAIN)
         );
 

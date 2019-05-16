@@ -29,40 +29,14 @@ class Controller_DishBase extends Controller
             if ($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->scriptSet = array('tableScript.js');
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data, $this->scriptSet);
+                $this->scriptSet = array('tableScript.js', 'dishBaseScript.js');
+                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data, $this->scriptSet);
             }
 
         }
     }
 
 
-//    function action_dishes($params)                                                                                       todo atavism
-//    {
-//        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
-//
-//            switch ($params){
-//                case NULL:{
-//                    $this->data = $this->model->GetDishList();
-//                    break;
-//                }
-//                default:{
-//                    if (count($params) > 1)//заглушка на количество параметров
-//                        $this->data->errorCode = StatFuncs::ThrowError(ErrorCode::NOT_FOUND);
-//                    else
-//                        $this->data = $this->model->GetDishIngredients($params[0]);
-//                }
-//            }
-//
-//            if ($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
-//                Router::GoOn(Routes::ERRROR);
-//            else {
-//                $this->scriptSet = array('tableScript.js');
-//                $this->view->Generate('table_view.php', 'template_view.php', $this->data, $this->scriptSet);
-//            }
-//
-//        }
-//    }
 
     function action_ingredients()
     {
@@ -71,8 +45,8 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->scriptSet = array('tableScript.js');
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data, $this->scriptSet);
+                $this->scriptSet = array('tableScript.js', 'dishBaseScript.js');
+                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data, $this->scriptSet);
             }
         }
     }
@@ -85,8 +59,8 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->scriptSet = array('tableScript.js');
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data, $this->scriptSet);
+                $this->scriptSet = array('tableScript.js', 'dishBaseScript.js');
+                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data, $this->scriptSet);
             }
         }
     }
@@ -98,8 +72,8 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->scriptSet = array('tableScript.js');
-                $this->view->Generate('table_view.php', 'template_view.php', $this->data, $this->scriptSet);
+                $this->scriptSet = array('tableScript.js', 'dishBaseScript.js');
+                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data, $this->scriptSet);
             }
         }
     }

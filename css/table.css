@@ -13,6 +13,10 @@ caption{
 
 /*Local*/
 
+table.menu{
+    min-width: 55%;
+}
+
 table.data{
     border: 3px solid black;
     margin-top: 3%;

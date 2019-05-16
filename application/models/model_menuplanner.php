@@ -8,6 +8,7 @@ class Model_MenuPlanner extends Model
         {
             $data->pageTitle = 'Планирование меню';
             $data->footerMenu = array(
+                'Блюда' => Router::FullRoute(Routes::DISHES),
                 'Главное меню' => Router::FullRoute(Routes::MAIN)
             );
 
@@ -16,10 +17,12 @@ class Model_MenuPlanner extends Model
                 $tableData->tableMark =     array("Menu" => "MENU_LIST");
                 $tableData->tableForm =     array("Date" => "date");
 
+                $tableData->subButtons =      array();
+
                 $dish_menu_sub = new TableDataContainer();
                 {
                     $dish_menu_sub->headRow =    array(
-                        'Dish_Name' =>      'Количество',
+                        'Dish_Name' =>      'Блюдо',
                         'Price' =>          'Цена'
                     );
 

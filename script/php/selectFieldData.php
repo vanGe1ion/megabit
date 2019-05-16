@@ -29,6 +29,13 @@ switch ($select_id){
             $result[$res[$select_id]] = $res[$select_name];
         break;
     }
+    case "Dish_ID":{
+        $resdata = Database::DBRequest(Queries::SelectQuery("DISH_LIST"));
+        $result = array();
+        while($res = mysqli_fetch_array($resdata))
+            $result[$res[$select_id]] = $res[$select_name];
+        break;
+    }
     case "Access_ID":{
         break;
     }

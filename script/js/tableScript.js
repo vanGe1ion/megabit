@@ -1,12 +1,4 @@
-$(document).ready(function () {
-
-    //настройка вида кнопок
-    $(".add").button({icon: "ui-icon-plusthick", showLabel: false});
-    $(".edit").button({icon: "ui-icon-pencil", showLabel: false});
-    $(".delete").button({icon: "ui-icon-trash", showLabel: false});
-    $(".expand").button({icons: {secondary:"ui-icon-document"}, showLabel: true});
-
-
+//$(document).ready(function () {
 
     //проверка пустых полей
     var notEmpty = function(row, tableData = null){
@@ -230,27 +222,7 @@ $(document).ready(function () {
         rowHolder.children().children(".save").button({icon: "ui-icon-disk", showLabel: false});
         rowHolder.children().children(".cancel").button({icon: "ui-icon-cancel", showLabel: false});
     };
-
-
-
-
-    //основные табличные кнопки
-    $(".add").click(function () {
-        addHandler($("#adder"));
-    });
-
-    $(".delete").bind("click", function (){
-        $("#confirm").data("buttonHolder", $(this));
-        $("#confirm").dialog("open");
-    });
-
-    $(".edit").bind("click", function (){
-        editHandler(this);
-    });
-
-    $(".expand").bind("click", function (){
-        expandHandler(this);
-    });
+    
 
 
     //присваиваемы функции основных табличных кнопок
@@ -350,14 +322,14 @@ $(document).ready(function () {
 
 
 
-    var addHandler = function (rowHolder, tableData = null) {
+    var addHandler = function (buttonHolder, tableData = null) {
+        let adderRow = buttonHolder.parent().parent().prev();
+        let newId =  +(adderRow.prev().attr("id").split('-')[1]) + 1;
 
-        let newId =  +(rowHolder.prev().attr("id").split('-')[1]) + 1;
+        adderRow.next().children().children(".add").addClass("ui-state-disabled");
 
-        rowHolder.next().children().children(".add").addClass("ui-state-disabled");
-
-        FormCreator(rowHolder,{id: newId}, tableData);
-        rowHolder.children().children(":input").show(500).css('display','inline-block');
+        FormCreator(adderRow,{id: newId}, tableData);
+        adderRow.children().children(":input").show(500).css('display','inline-block');
 
 
         
@@ -365,15 +337,15 @@ $(document).ready(function () {
         //удаление из ключевого селекта подтаблицы значений, уже находящихся в ней
         if(tableData)
         {
-            let row = rowHolder.prev();
+            let row = adderRow.prev();
             let subkeys = [];
             while(row.attr('id') != "headRow"){
                 subkeys.push(row.children().first().text());
                 row = row.prev();
             }
 
-            rowHolder.children("#c-1").children().first().bind("mouseover", function () {
-                let option = rowHolder.children("#c-1").children().first().children("option").eq(1);
+            adderRow.children("#c-1").children().first().bind("mouseover", function () {
+                let option = adderRow.children("#c-1").children().first().children("option").eq(1);
 
                 $.each(subkeys, function (num, skval) {
                     while(option.text() != "")
@@ -385,7 +357,7 @@ $(document).ready(function () {
                             option.remove();
                             option = next;
                         }
-                    option = rowHolder.children("#c-1").children().first().children("option").eq(1);
+                    option = adderRow.children("#c-1").children().first().children("option").eq(1);
                 });
             });
         }
@@ -393,17 +365,17 @@ $(document).ready(function () {
 
 
 
-        rowHolder.children().children(".cancel").bind("click",function () {
+        adderRow.children().children(".cancel").bind("click",function () {
             let currow =($(this).parent()).parent();
             currow.children().children(":input").hide(150, function () {currow.html("")});
-            rowHolder.next().children().children(".add").removeClass("ui-state-disabled");
+            adderRow.next().children().children(".add").removeClass("ui-state-disabled");
         });
 
 
 
 
-        rowHolder.children().children(".save").bind("click",function () {
-            let data = SendDataCreator(rowHolder, newId, tableData);
+        adderRow.children().children(".save").bind("click",function () {
+            let data = SendDataCreator(adderRow, newId, tableData);
 
             $.ajax({
                 type: "POST",
@@ -411,15 +383,15 @@ $(document).ready(function () {
                 data: data,
 
                 beforeSend: function () {
-                    return notEmpty(rowHolder, tableData);
+                    return notEmpty(adderRow, tableData);
                 },
                 success: function (result) {
                     if(result) {
-                        rowHolder.children().children(".cancel").click();
+                        adderRow.children().children(".cancel").click();
                         if (isset(tableData))
                             newId = data[Object.keys(tableData.subTable.tableForm)[0]];
-                        rowHolder.before("<tr id='row-" + newId + "'></tr>");
-                        let newRow = rowHolder.prev();
+                        adderRow.before("<tr id='row-" + newId + "'></tr>");
+                        let newRow = adderRow.prev();
                         RowCreator(newRow, data, tableData);
                     }
                     else
@@ -459,9 +431,8 @@ $(document).ready(function () {
 
 
 
-    var SubTableCreator = function (containerHolder, ajaxResult, tableData){
-        let table = containerHolder.children().first();
-        console.log(ajaxResult);
+    var SubTableCreator = function (containerHolder, ajaxResult, tableData, flexWidth=null){
+        let table = containerHolder.children("table");
         table.append("<tr id='headRow'></tr>");
         let currow = table.children("#headRow");
         let hrow = tableData.subTable.headRow;
@@ -471,7 +442,7 @@ $(document).ready(function () {
         $.each(hrow, function (key, value) {
             currow.append("<th class='db' id='c-"+ iterator++ +"'>"+value+"</th>");
         });
-        currow.append("<th class='db' id='c-"+iterator+"'>Опции</th>");
+        currow.append("<th class='db' id='c-"+iterator+"' width='"+flexWidth+"'>Опции</th>");
 
 
         $.ajax({
@@ -481,7 +452,7 @@ $(document).ready(function () {
             data: {select_id:Object.keys(tableData.subTable.tableForm)[0]},
 
             success: function (res) {
-                let table = containerHolder.children().first();
+                let table = containerHolder.children("table");
                 let currow = table.children("#headRow");
 
                 for(let i=1; i < ajaxResult.length; ++i)
@@ -496,15 +467,15 @@ $(document).ready(function () {
 
 
                 table.append("<tr id='adder'></tr>");
-                table.append("<tr>" +
+                table.append(
+                    "<tr>" +
                     "<td  class='db'  colspan='"+Object.keys(hrow).length+"'></td>" +
                     "<td  style='padding: 5px;'><button class='table add'>Добавить</button></td>" +
                     "</tr>");
-                // $("#subTable .add").button({icon: "ui-icon-plusthick", showLabel: false}).bind("click", function () {                                todo delete
-                //     addHandler($("#subTable table #adder"), tableData);
-                // });
+
                 table.children().last().children().last().children(".add").button({icon: "ui-icon-plusthick", showLabel: false}).bind("click", function () {
-                    addHandler(table.children("#adder"), tableData);
+                    addHandler($(this), tableData);
+                    // addHandler(table.children("#adder"), tableData);
                 });
             },
 
@@ -571,4 +542,4 @@ $(document).ready(function () {
 
 
 
-});//end script
+//});//end script
