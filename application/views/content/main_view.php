@@ -4,7 +4,7 @@
         <? $mainMenu = $data->mainMenu;
         foreach ($mainMenu as $label=>$link){?>
             <tr>
-                <td><button class="menu" onclick="window.location.href = '<?echo $link?>'"><?echo $label?></button></td>
+                <td><button class="mainMenu" onclick="window.location.href = '<?echo $link?>'"><?echo $label?></button></td>
             </tr>
         <? } ?>
     </table>

@@ -10,7 +10,7 @@ $("#calendar").css("text-align", "center").datepicker({
 
 
 var MenuHandler = function(selector){
-    $.each($(".menu"), function (key, table) {
+    $.each($("table.menu"), function (key, table) {
         $(table).html("");
     });
 
@@ -30,7 +30,7 @@ var MenuHandler = function(selector){
     $(selector).val(dates[0].format("DD.MM.Y") + " - " + dates[5].format("DD.MM.Y"));
 
 
-    $.each($(".menu"), function (key, table) {
+    $.each($("table.menu"), function (key, table) {
         $(table).append("<caption>" + dates[key].locale('ru').format('D MMMM Y г. ') + "</caption>");
 
         $.ajax({

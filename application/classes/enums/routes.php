@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ea.kichaev
- * Date: 29.03.2019
- * Time: 14:04
- */
+
 
 class Routes
 {
@@ -25,12 +20,15 @@ class Routes
     const DISHTYPES = 'dishbase/dishtypes';
     const MEASURES = 'dishbase/measures';
 
+    const MENUPLANNER = 'menuplanner';
+
+    const ORDERS = 'orders';
+    const NEW_ORDERS = 'orders/new';
+    const ADMIN_ORDERS = 'orders/admin';
+
     const USERBASE = 'userbase';
 
     const QUEUEMONITOR = 'queuemonitor';
-
-    const USERMENU = 'usermenu';
-
-    const MENUPLANNER = 'menuplanner';
+    const ADMIN_QUEUEMONITOR = 'queuemonitor/admin';
 
 }

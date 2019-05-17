@@ -10,9 +10,11 @@ class Model_main extends Model{
         switch ($_SESSION['accessRights']){
             case AccessRights::ADMIN:{
                 $data->mainMenu = array (
+                    'Управление базой пользователей'    => Router::FullRoute(Routes::USERBASE),
                     'Управление базой блюд'             => Router::FullRoute(Routes::DISHBASE),
                     'Планирование меню'                 => Router::FullRoute(Routes::MENUPLANNER),
-                    'Управление базой пользователей'    => Router::FullRoute(Routes::USERBASE)
+                    'Монитор очереди'                   => Router::FullRoute(Routes::ADMIN_QUEUEMONITOR),
+                    'Заказы'                            => Router::FullRoute(Routes::ADMIN_ORDERS),
                 );
                 break;
             }
@@ -31,7 +33,7 @@ class Model_main extends Model{
             }
             case AccessRights::USER:{
                 $data->mainMenu = array (
-                    'Формирование меню'                 => Router::FullRoute(Routes::USERMENU)
+                    'Заказы'                            => Router::FullRoute(Routes::ORDERS)
                 );
                     break;
             }

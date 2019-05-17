@@ -4,15 +4,15 @@
         <caption><h3>Пожалуйста, пройдите авторизацию</h3></caption>
         <tr>
             <td width="50px"><label for="login">Логин</label></td>
-            <td width="50%"><input type="text" id="login" name="logname" placeholder="Логин" value="admin"></td>
+            <td width="50%"><input type="text" id="login" name="logname" placeholder="Логин" value="ea.kichaev"></td>
         </tr>
         <tr>
             <td><label for="password">Пароль</label></td>
-            <td width="50%"><input type="password" id="password" name="pass" placeholder="Пароль" value="admin"></td>
+            <td width="50%"><input type="password" id="password" name="pass" placeholder="Пароль" value="123"></td>
         </tr>
         <tr>
             <td></td>
-            <td width="50%"><button id="loginButton" class="loging" type="submit" value="Войти">Войти</button></td>
+            <td width="50%"><button id="loginButton" class="auth" type="submit" value="Войти">Войти</button></td>
         </tr>
     </table>
 </form>

@@ -7,7 +7,7 @@
             <? $footMenu = $data->footerMenu; if(isset($footMenu)){?>
                 <nav style="margin-right: 100px">
                     <? foreach ( $footMenu as $label=>$link){?>
-                        <button class="hormenu" onclick="document.location.href='<?echo $link?>'"><?echo $label?></button>
+                        <button class="horMenu" onclick="document.location.href='<?echo $link?>'"><?echo $label?></button>
                     <?}?>
                 </nav>
             <?}?>

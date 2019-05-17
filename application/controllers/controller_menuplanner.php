@@ -15,7 +15,7 @@ class Controller_MenuPlanner extends Controller
     {
         if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
             $this->data = $this->model->MenuPlanner();
-            $this->scriptSet = array('tableScript.js', "menuPlanScript.js");
+            $this->scriptSet = array('tableScript.js', "menuPlannerScript.js");
             $this->view->Generate('menuplanner_view.php', 'template_view.php', $this->data, $this->scriptSet);
         }
     }
