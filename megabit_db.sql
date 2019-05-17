@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Мар 27 2019 г., 17:53
+-- Время создания: Май 17 2019 г., 09:54
 -- Версия сервера: 5.6.38-log
 -- Версия PHP: 7.1.12
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- База данных: `megabit_db`
 --
+
+CREATE DATABASE `megabit_db`;
 
 -- --------------------------------------------------------
 
@@ -64,11 +66,13 @@ CREATE TABLE `DISH_INGREDIENTS` (
 INSERT INTO `DISH_INGREDIENTS` (`Dish_ID`, `Ingredient_ID`, `Quantity`, `Measure_ID`) VALUES
 (1, 5, 2, 3),
 (1, 7, 10, 1),
+(2, 2, 2, 2),
 (2, 6, 20, 1),
 (2, 7, 15, 1),
-(3, 1, 10, 1),
-(3, 2, 2, 3),
-(3, 3, 12, 1);
+(3, 2, 1, 1),
+(3, 3, 1, 1),
+(3, 5, 1, 1),
+(3, 6, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -119,10 +123,12 @@ CREATE TABLE `DISH_TYPES` (
 --
 
 INSERT INTO `DISH_TYPES` (`Dish_Type_ID`, `Dish_Type_Name`) VALUES
-(1, 'Первое'),
+(6, 'fa'),
 (2, 'Второе'),
-(3, 'Салат'),
-(4, 'Напиток');
+(5, 'Выпечка'),
+(4, 'Напиток'),
+(1, 'Первое'),
+(3, 'Салат');
 
 -- --------------------------------------------------------
 
@@ -163,13 +169,13 @@ CREATE TABLE `INGREDIENT_LIST` (
 --
 
 INSERT INTO `INGREDIENT_LIST` (`Ingredient_ID`, `Ingredient_Name`) VALUES
-(1, 'Томат'),
+(7, 'Картофель'),
 (2, 'Лист салата'),
 (3, 'Майонез'),
-(4, 'Яйцо'),
-(5, 'Шампиньоны'),
 (6, 'Мясо курицы'),
-(7, 'Картофель');
+(1, 'Томат'),
+(5, 'Шампиньоны'),
+(4, 'Яйцо');
 
 -- --------------------------------------------------------
 
@@ -235,14 +241,14 @@ CREATE TABLE `ORDER_LIST` (
 
 CREATE TABLE `SHIFT` (
   `Shift_ID` tinyint(11) NOT NULL,
-  `Shift` varchar(20) NOT NULL
+  `Shift_Name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `SHIFT`
 --
 
-INSERT INTO `SHIFT` (`Shift_ID`, `Shift`) VALUES
+INSERT INTO `SHIFT` (`Shift_ID`, `Shift_Name`) VALUES
 (1, 'Смена №1'),
 (2, 'Смена №2');
 
@@ -303,21 +309,24 @@ ALTER TABLE `ACESS_RIGHTS`
 -- Индексы таблицы `DISH_INGREDIENTS`
 --
 ALTER TABLE `DISH_INGREDIENTS`
-  ADD KEY `dish_ingredients_ibfk_1` (`Dish_ID`),
-  ADD KEY `dish_ingredients_ibfk_3` (`Measure_ID`),
-  ADD KEY `dish_ingredients_ibfk_4` (`Ingredient_ID`);
+  ADD PRIMARY KEY (`Dish_ID`,`Ingredient_ID`),
+  ADD KEY `Dish_ID` (`Dish_ID`),
+  ADD KEY `dish_ingredients_ibfk_4` (`Ingredient_ID`),
+  ADD KEY `dish_ingredients_ibfk_3` (`Measure_ID`);
 
 --
 -- Индексы таблицы `DISH_LIST`
 --
 ALTER TABLE `DISH_LIST`
   ADD PRIMARY KEY (`Dish_ID`),
+  ADD UNIQUE KEY `Dish_Name` (`Dish_Name`),
   ADD KEY `Dish_Type_ID` (`Dish_Type_ID`);
 
 --
 -- Индексы таблицы `DISH_MENU`
 --
 ALTER TABLE `DISH_MENU`
+  ADD PRIMARY KEY (`Menu_ID`,`Dish_ID`),
   ADD KEY `Menu_ID` (`Menu_ID`),
   ADD KEY `Dish_ID` (`Dish_ID`);
 
@@ -325,7 +334,8 @@ ALTER TABLE `DISH_MENU`
 -- Индексы таблицы `DISH_TYPES`
 --
 ALTER TABLE `DISH_TYPES`
-  ADD PRIMARY KEY (`Dish_Type_ID`);
+  ADD PRIMARY KEY (`Dish_Type_ID`),
+  ADD UNIQUE KEY `Dish_Type_Name` (`Dish_Type_Name`);
 
 --
 -- Индексы таблицы `EMPLOYEERS_LIST`
@@ -339,19 +349,22 @@ ALTER TABLE `EMPLOYEERS_LIST`
 -- Индексы таблицы `INGREDIENT_LIST`
 --
 ALTER TABLE `INGREDIENT_LIST`
-  ADD PRIMARY KEY (`Ingredient_ID`);
+  ADD PRIMARY KEY (`Ingredient_ID`),
+  ADD UNIQUE KEY `Ingredient_Name` (`Ingredient_Name`);
 
 --
 -- Индексы таблицы `MEASURES_LIST`
 --
 ALTER TABLE `MEASURES_LIST`
-  ADD PRIMARY KEY (`Measure_ID`);
+  ADD PRIMARY KEY (`Measure_ID`),
+  ADD UNIQUE KEY `Measure_Name` (`Measure_Name`);
 
 --
 -- Индексы таблицы `MENU_LIST`
 --
 ALTER TABLE `MENU_LIST`
-  ADD PRIMARY KEY (`Menu_ID`);
+  ADD PRIMARY KEY (`Menu_ID`),
+  ADD UNIQUE KEY `Date` (`Date`);
 
 --
 -- Индексы таблицы `ORDERS_MENU`
@@ -413,7 +426,7 @@ ALTER TABLE `INGREDIENT_LIST`
 -- AUTO_INCREMENT для таблицы `MENU_LIST`
 --
 ALTER TABLE `MENU_LIST`
-  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `ORDER_LIST`
@@ -441,21 +454,21 @@ ALTER TABLE `USER_LIST`
 -- Ограничения внешнего ключа таблицы `DISH_INGREDIENTS`
 --
 ALTER TABLE `DISH_INGREDIENTS`
-  ADD CONSTRAINT `dish_ingredients_ibfk_1` FOREIGN KEY (`Dish_ID`) REFERENCES `DISH_LIST` (`Dish_ID`),
   ADD CONSTRAINT `dish_ingredients_ibfk_3` FOREIGN KEY (`Measure_ID`) REFERENCES `MEASURES_LIST` (`Measure_ID`),
-  ADD CONSTRAINT `dish_ingredients_ibfk_4` FOREIGN KEY (`Ingredient_ID`) REFERENCES `INGREDIENT_LIST` (`Ingredient_ID`);
+  ADD CONSTRAINT `dish_ingredients_ibfk_4` FOREIGN KEY (`Ingredient_ID`) REFERENCES `INGREDIENT_LIST` (`Ingredient_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `dish_ingredients_ibfk_5` FOREIGN KEY (`Dish_ID`) REFERENCES `DISH_LIST` (`Dish_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `DISH_LIST`
 --
 ALTER TABLE `DISH_LIST`
-  ADD CONSTRAINT `dish_list_ibfk_2` FOREIGN KEY (`Dish_Type_ID`) REFERENCES `DISH_TYPES` (`Dish_Type_ID`);
+  ADD CONSTRAINT `dish_list_ibfk_4` FOREIGN KEY (`Dish_Type_ID`) REFERENCES `DISH_TYPES` (`Dish_Type_ID`);
 
 --
 -- Ограничения внешнего ключа таблицы `DISH_MENU`
 --
 ALTER TABLE `DISH_MENU`
-  ADD CONSTRAINT `dish_menu_ibfk_1` FOREIGN KEY (`Menu_ID`) REFERENCES `MENU_LIST` (`Menu_ID`),
+  ADD CONSTRAINT `dish_menu_ibfk_1` FOREIGN KEY (`Menu_ID`) REFERENCES `MENU_LIST` (`Menu_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `dish_menu_ibfk_2` FOREIGN KEY (`Dish_ID`) REFERENCES `DISH_LIST` (`Dish_ID`);
 
 --

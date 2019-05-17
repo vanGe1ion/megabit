@@ -169,6 +169,7 @@ var MenuReplaceHandler = function (input){
         tableMark:tableData.tableMark,
         Date:input.val()
     };
+
     $.ajax({
         type: "POST",
         url: "/script/php/edit.php",
@@ -194,11 +195,7 @@ var MenuReplaceHandler = function (input){
                         MenuCreator(newTable, menuID);
                         newTable.append(cut);
                     }
-
                 });
-
-                //console.log(cut);
-
             }
             else
                 Notificator($("#sqlError"), "Указанная дата уже занята");
@@ -230,7 +227,6 @@ var MenuCreator = function(table, menuID){
     $(table).children("caption")
         .append($("<input>", {
                 type: 'text',
-                id: 'replaceCalendar',
                 name: 'replaceCalendar',
                 css: {
                     display: 'none'
@@ -293,6 +289,7 @@ $("#confirmMenuReplace").dialog({
     buttons:{
         Да:function () {
             MenuReplaceHandler($(this).data("menuInputHolder"));
+            $(this).data("menuInputHolder", null);
             $(this).dialog("close");
         },
         Нет:function () {

@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5bb64e-b923-41a8-8770-d0ed52e37a25" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/controller_dishbase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/controller_dishbase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/core/data/tableDataContainer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/core/data/tableDataContainer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/model_dishbase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/model_dishbase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/model_menuplanner.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/model_menuplanner.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/content/menuplanner_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/content/menuplanner_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/content/table_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/content/dishbase_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/template_view/dialogs.html" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/template_view/dialogs.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/table.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/table.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/js/commonScript.js" beforeDir="false" afterPath="$PROJECT_DIR$/script/js/commonScript.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/js/menuPlanScript.js" beforeDir="false" afterPath="$PROJECT_DIR$/script/js/menuPlanScript.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/js/tableScript.js" beforeDir="false" afterPath="$PROJECT_DIR$/script/js/tableScript.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/php/select.php" beforeDir="false" afterPath="$PROJECT_DIR$/script/php/select.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/php/selectFieldData.php" beforeDir="false" afterPath="$PROJECT_DIR$/script/php/selectFieldData.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/php/edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/script/php/edit.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -85,7 +73,7 @@
     <favorites_list name="mvc.megabit" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -98,7 +86,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>SITE_ROOT.</find>
       <find>image</find>
       <find>png</find>
       <find>\</find>
@@ -114,7 +101,6 @@
       <find>tableData</find>
       <find>parentId</find>
       <find>SendDataCreator</find>
-      <find>console</find>
       <find>top</find>
       <find>regional</find>
       <find>#subTable</find>
@@ -128,6 +114,8 @@
       <find>log</find>
       <find>addHandler</find>
       <find>MenuAdderCreator</find>
+      <find>MenuReplaceHandler</find>
+      <find>console</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -143,7 +131,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/css/button.css" />
         <option value="$PROJECT_DIR$/css/top.css" />
         <option value="$PROJECT_DIR$/css/hrTag.css" />
         <option value="$PROJECT_DIR$/css/style.css" />
@@ -193,6 +180,7 @@
         <option value="$PROJECT_DIR$/application/views/template_view/dialogs.html" />
         <option value="$PROJECT_DIR$/script/js/dishBaseScript.js" />
         <option value="$PROJECT_DIR$/script/js/tableScript.js" />
+        <option value="$PROJECT_DIR$/script/php/edit.php" />
         <option value="$PROJECT_DIR$/script/js/menuPlanScript.js" />
       </list>
     </option>
@@ -237,7 +225,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -358,6 +345,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -467,11 +455,12 @@
       <workItem from="1557814323021" duration="20334000" />
       <workItem from="1557900280115" duration="22273000" />
       <workItem from="1557987040353" duration="29031000" />
+      <workItem from="1558072812704" duration="3347000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="538473000" />
+    <option name="totallyTimeSpent" value="541820000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -485,13 +474,13 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49945828" visible="true" weight="0.17377399" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49945828" visible="true" weight="0.17537314" />
       <window_info id="Structure" order="1" sideWeight="0.5005417" side_tool="true" weight="0.09541578" />
       <window_info id="Favorites" order="2" sideWeight="0.5005417" side_tool="true" weight="0.09541578" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4978678" weight="0.32827735" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49626866" weight="0.37378114" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49626866" visible="true" weight="0.37378114" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
@@ -827,13 +816,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/some.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="36" selection-start-line="2" selection-start-column="36" selection-end-line="2" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/some.php" />
     <entry file="file://$PROJECT_DIR$/script/js/commonScript.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
@@ -848,13 +831,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/some.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/some.html" />
     <entry file="file://$PROJECT_DIR$/script/php/delete.php">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -896,13 +873,6 @@
             <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#3;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/php/edit.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
         </state>
       </provider>
     </entry>
@@ -955,29 +925,24 @@
             <element signature="e#16977#17435#0" />
             <element signature="e#17463#17737#0" />
             <element signature="e#17767#18179#0" />
-            <marker date="1558020669039" expanded="true" signature="7954:10982" ph="..." />
-            <marker date="1558020669039" expanded="true" signature="8553:9133" ph="..." />
-            <marker date="1558020669039" expanded="true" signature="17093:17097" ph="..." />
-            <marker date="1558020669039" expanded="true" signature="17097:18322" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/script/js/menuPlanScript.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+        <state relative-caret-position="707">
+          <caret line="228" column="29" lean-forward="true" selection-start-line="228" selection-start-column="29" selection-end-line="228" selection-end-column="29" />
           <folding>
             <element signature="e#72#160#0" />
-            <element signature="e#150#4509#0" />
-            <element signature="e#3605#4405#0" />
-            <element signature="e#6432#8296#0" />
-            <element signature="e#5244#6561#0" />
-            <element signature="e#5350#5663#0" />
-            <element signature="e#7390#7398#0" />
-            <element signature="e#10684#11078#0" />
-            <element signature="e#7260#7592#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/php/edit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
         </state>
       </provider>
     </entry>
