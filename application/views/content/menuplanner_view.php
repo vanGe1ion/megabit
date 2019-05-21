@@ -4,7 +4,7 @@
 </div>
 
 
-<div class="main_block" style="margin-top: 30px">
+<div class="main_block" style="margin-top: 30px; display: none;">
     <?for($i = 0; $i < 3; ++$i){?>
         <div class="sub_block">
             <?for($j = 0; $j < 2; ++$j){?>

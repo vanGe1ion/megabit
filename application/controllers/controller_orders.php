@@ -14,7 +14,7 @@ class Controller_Orders extends Controller
     function action_index()
     {
         if (!StatFuncs::ValidateUsers(array(AccessRights::USER))) {
-            $this->data = $this->model->TodayOrder();
+            $this->data = $this->model->Orders();
             $this->scriptSet = array('tableScript.js', "ordersScript.js");
             $this->view->Generate('todayorder_view.php', 'template_view.php', $this->data, $this->scriptSet);
         }
@@ -23,8 +23,8 @@ class Controller_Orders extends Controller
     function action_new()
     {
         if (!StatFuncs::ValidateUsers(array(AccessRights::USER))) {
-            $this->data = $this->model->NewOrder();
-            $this->scriptSet = array('tableScript.js', "ordersScript.js");
+            $this->data = $this->model->Orders(true);
+            $this->scriptSet = array('table3Script.js', "ordersScript.js");
             $this->view->Generate('neworders_view.php', 'template_view.php', $this->data, $this->scriptSet);
         }
     }

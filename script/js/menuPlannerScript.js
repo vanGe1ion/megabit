@@ -4,6 +4,7 @@ var dates = [];
 $("#calendar").css("text-align", "center").datepicker({
     dateFormat:"dd.mm.yy",
     onSelect:function (){
+        $(".main_block").slideUp(0);
         MenuHandler(this)
     }
 });
@@ -29,6 +30,7 @@ var MenuHandler = function(selector){
 
     $(selector).val(dates[0].format("DD.MM.Y") + " - " + dates[5].format("DD.MM.Y"));
 
+    $(".main_block").slideDown(1000);
 
     $.each($("table.menu"), function (key, table) {
         $(table).append("<caption>" + dates[key].locale('ru').format('D MMMM Y г. ') + "</caption>");
@@ -64,6 +66,7 @@ var MenuHandler = function(selector){
                         data,
                         function (res) {
                             SubTableCreator($("#w-"+key), res, data, "58px");
+
                         },
                         "json"
                     )
@@ -114,7 +117,9 @@ var MenuAddHandler = function (buttonHolder) {
                                 fieldId: newID
                             }
                         };
+                        currentTable.parent().slideUp(0);
                         SubTableCreator(currentTable.parent(), {}, DoT, "58px");
+                        currentTable.parent().slideDown(300);
                     }
                     else
                         Notificator($("#sqlError"), "Данное меню уже существует");
@@ -186,14 +191,17 @@ var MenuReplaceHandler = function (input){
 
 
 
+
                 $.each(dates, function (key, date) {
                     if(date.format("Y-MM-DD") == data.Date)
                     {
+                        $("#w-"+key).slideUp(0);
                         let newTable = $("#w-"+key).children("table");
                         newTable.html("");
                         newTable.append("<caption>" + date.format("D MMMM Y г. ") + "</caption>");
                         MenuCreator(newTable, menuID);
                         newTable.append(cut);
+                        $("#w-"+key).slideDown(500);
                     }
                 });
             }
@@ -297,3 +305,8 @@ $("#confirmMenuReplace").dialog({
         }
     }
 });
+
+
+
+$("#calendar").datepicker("setDate", "+7d");
+MenuHandler("#calendar");

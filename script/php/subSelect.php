@@ -11,7 +11,7 @@ $parentKeyName = "";
 $mainTable = "";
 foreach ($subTable['tableMark'] as $parentMark => $mainT){                          //todo must no kostyl!!! ЪЮЪ
     $parentKeyId = $parentMark."_ID";
-    if($parentMark != "Menu")
+    if($parentMark != "Menu" && $parentMark != "Order")
         $parentKeyName = $parentMark."_Name";
     else
         $parentKeyName = "Date";

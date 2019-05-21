@@ -1,0 +1,15 @@
+div.accordion{
+    display: none;
+    padding: 6%;
+}
+
+div.tableDate{
+    font-size: x-large;
+    font-weight: bolder;
+    margin: 10px 0px;
+    text-align: center;
+}
+
+div.day_order{
+
+}

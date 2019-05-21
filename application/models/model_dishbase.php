@@ -71,8 +71,8 @@ class Model_DishBase
 
 
 
-                $tableData->subButtons =      array(
-                    'Ингредиенты' //=>            Router::FullRoute(Routes::DISHES)     //./'Dish_ID'
+                $tableData->subButtons =    array(
+                    'Ингредиенты'
                 );
 
 
@@ -85,11 +85,11 @@ class Model_DishBase
                         'Measure_Name' =>           'Ед.Измерения'
                     );
 
-                    $dish_ing_sub->tableMark =     array("Dish" => "DISH_INGREDIENTS");
-                    $dish_ing_sub->tableForm =     array("Ingredient_ID" => "select", "Quantity" => "number", "Measure_ID" => "select");
+                    $dish_ing_sub->tableMark =  array("Dish" => "DISH_INGREDIENTS");
+                    $dish_ing_sub->tableForm =  array("Ingredient_ID" => "select", "Quantity" => "number", "Measure_ID" => "select");
 
-                    //$dish_ing_sub->parentKey = 'Dish_Name';
-                    $dish_ing_sub->rsTables = array("DISH_LIST", "INGREDIENT_LIST", "MEASURES_LIST");
+                    //$dish_ing_sub->parentKey = 'Dish_Name';                                                                                               todo
+                    $dish_ing_sub->rsTables =   array("DISH_LIST", "INGREDIENT_LIST", "MEASURES_LIST");
                 }
 
                 $tableData->subTables[0] = $dish_ing_sub;
@@ -195,7 +195,7 @@ class Model_DishBase
         return $data;
     }
 
-//    public function GetDishIngredients($dishID)
+//    public function GetDishIngredients($dishID)                                                                               todo
 //    {
 //        $querry = Queries::DishIngredientsQuery($dishID);
 //        $querryResult = Database::DBRequest($querry);

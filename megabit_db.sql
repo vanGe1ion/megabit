@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Май 17 2019 г., 09:54
+-- Время создания: Май 21 2019 г., 17:56
 -- Версия сервера: 5.6.38-log
 -- Версия PHP: 7.1.12
 
@@ -21,9 +21,7 @@ SET time_zone = "+00:00";
 --
 -- База данных: `megabit_db`
 --
-
 CREATE DATABASE `megabit_db`;
-
 -- --------------------------------------------------------
 
 --
@@ -106,6 +104,16 @@ CREATE TABLE `DISH_MENU` (
   `Dish_ID` int(11) NOT NULL,
   `Price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `DISH_MENU`
+--
+
+INSERT INTO `DISH_MENU` (`Menu_ID`, `Dish_ID`, `Price`) VALUES
+(1, 1, 5),
+(1, 3, 10),
+(2, 2, 15),
+(3, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -208,6 +216,15 @@ CREATE TABLE `MENU_LIST` (
   `Date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `MENU_LIST`
+--
+
+INSERT INTO `MENU_LIST` (`Menu_ID`, `Date`) VALUES
+(1, '2019-05-20'),
+(2, '2019-05-21'),
+(3, '2019-05-27');
+
 -- --------------------------------------------------------
 
 --
@@ -221,6 +238,14 @@ CREATE TABLE `ORDERS_MENU` (
   `Count` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `ORDERS_MENU`
+--
+
+INSERT INTO `ORDERS_MENU` (`Order_ID`, `Menu_ID`, `Dish_ID`, `Count`) VALUES
+(1, 1, 2, 1),
+(1, 1, 3, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -232,6 +257,13 @@ CREATE TABLE `ORDER_LIST` (
   `Employee_ID` int(11) NOT NULL,
   `Date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `ORDER_LIST`
+--
+
+INSERT INTO `ORDER_LIST` (`Order_ID`, `Employee_ID`, `Date`) VALUES
+(1, 1, '2019-05-20');
 
 -- --------------------------------------------------------
 
@@ -370,8 +402,10 @@ ALTER TABLE `MENU_LIST`
 -- Индексы таблицы `ORDERS_MENU`
 --
 ALTER TABLE `ORDERS_MENU`
+  ADD PRIMARY KEY (`Order_ID`,`Menu_ID`,`Dish_ID`),
   ADD KEY `Order_ID` (`Order_ID`),
-  ADD KEY `Menu_ID` (`Menu_ID`);
+  ADD KEY `Menu_ID` (`Menu_ID`),
+  ADD KEY `Dish_ID` (`Dish_ID`);
 
 --
 -- Индексы таблицы `ORDER_LIST`
@@ -426,13 +460,13 @@ ALTER TABLE `INGREDIENT_LIST`
 -- AUTO_INCREMENT для таблицы `MENU_LIST`
 --
 ALTER TABLE `MENU_LIST`
-  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `ORDER_LIST`
 --
 ALTER TABLE `ORDER_LIST`
-  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `SHIFT`
@@ -483,7 +517,8 @@ ALTER TABLE `EMPLOYEERS_LIST`
 --
 ALTER TABLE `ORDERS_MENU`
   ADD CONSTRAINT `orders_menu_ibfk_1` FOREIGN KEY (`Order_ID`) REFERENCES `ORDER_LIST` (`Order_ID`),
-  ADD CONSTRAINT `orders_menu_ibfk_2` FOREIGN KEY (`Menu_ID`) REFERENCES `MENU_LIST` (`Menu_ID`);
+  ADD CONSTRAINT `orders_menu_ibfk_2` FOREIGN KEY (`Dish_ID`) REFERENCES `DISH_LIST` (`Dish_ID`),
+  ADD CONSTRAINT `orders_menu_ibfk_3` FOREIGN KEY (`Menu_ID`) REFERENCES `MENU_LIST` (`Menu_ID`);
 
 --
 -- Ограничения внешнего ключа таблицы `ORDER_LIST`

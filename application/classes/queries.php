@@ -17,6 +17,15 @@ class Queries
                 WHERE EMPLOYEERS_LIST.Table_ID=TABLE_LIST.Table_ID AND EMPLOYEERS_LIST.Shift_ID=SHIFT.Shift_ID AND Emp_ID='$EmpID'";
     }
 
+    //запрос заказа
+    public static function OrderSelectQuery($date, $empID){
+        return "SELECT DISH_LIST.Dish_Name, ORDERS_MENU.Count
+                FROM ORDERS_MENU, ORDER_LIST, MENU_LIST, DISH_LIST 
+                WHERE ORDERS_MENU.Order_ID = ORDER_LIST.Order_ID AND ORDERS_MENU.Menu_ID = MENU_LIST.Menu_ID AND ORDERS_MENU.Dish_ID = DISH_LIST.Dish_ID
+                  AND ORDER_LIST.Employee_ID = '$empID' AND ORDER_LIST.Date = '$date' AND MENU_LIST.Date = '$date'";
+    }
+
+
     //Запрос добавления
     public static function InsertQuery($dbtable, $fields, $vstring){
         return "INSERT INTO $dbtable ($fields) VALUES ($vstring)";
