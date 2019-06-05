@@ -17,7 +17,7 @@ class Model_MenuPlanner extends Model
                 $tableData->tableMark =     array("Menu" => "MENU_LIST");
                 $tableData->tableForm =     array("Date" => "date");
 
-                $tableData->subButtons =      array();
+                $tableData->expandButtons =      array();
 
                 $dish_menu_sub = new TableDataContainer();
                 {

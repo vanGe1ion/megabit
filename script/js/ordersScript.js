@@ -85,13 +85,13 @@ var OrderHandler = function(selector){
                         "json"
                     )
                         .fail(function () {
-                            Notificator($("#ajaxError"), "Ошибка чтения заказа на " + dates[key].format("DD.MM.Y"));
+                            ThrowNotice($("#ajaxError"), "Ошибка чтения заказа на " + dates[key].format("DD.MM.Y"));
                         });
                 }
             },
 
             error: function () {
-                Notificator($("#ajaxError"), "Ошибка чтения списка заказов (" + dates[key].format("DD.MM.Y") +")");
+                ThrowNotice($("#ajaxError"), "Ошибка чтения списка заказов (" + dates[key].format("DD.MM.Y") +")");
             }
         })
     });
@@ -154,15 +154,15 @@ var OrderAddHandler = function (buttonHolder) {
                         //SubTableCreator(currentTable.parent(), {}, DoT, "68px");
                     }
                     else
-                        Notificator($("#sqlError"), "Данный заказ уже существует");
+                        ThrowNotice($("#sqlError"), "Данный заказ уже существует");
                 },
                 error: function () {
-                    Notificator($("#ajaxError"), "Ошибка создания заказа (" + date.format("DD.MM.Y") + ")");
+                    ThrowNotice($("#ajaxError"), "Ошибка создания заказа (" + date.format("DD.MM.Y") + ")");
                 }
             });
         })
         .fail(function () {
-            Notificator($("#ajaxError"), "Ошибка чтения списка заказов (*)");
+            ThrowNotice($("#ajaxError"), "Ошибка чтения списка заказов (*)");
         });
 
 };
@@ -205,10 +205,10 @@ var OrderDeleteHandler = function (buttonHolder) {
                 OrderAdderCreator(currentTable);
             }
             else
-                Notificator($("#sqlError"), "Ошибка при удалении заказа (" + date.locale('ru').format('DD.MM.Y') + ")");
+                ThrowNotice($("#sqlError"), "Ошибка при удалении заказа (" + date.locale('ru').format('DD.MM.Y') + ")");
         },
         error: function () {
-            Notificator($("#ajaxError"), "Ошибка удаления заказа (" + date.locale('ru').format('DD.MM.Y') + ")");
+            ThrowNotice($("#ajaxError"), "Ошибка удаления заказа (" + date.locale('ru').format('DD.MM.Y') + ")");
         }
     });
 

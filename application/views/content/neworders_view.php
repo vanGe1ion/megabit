@@ -14,6 +14,13 @@
 </div>
 
 
+<div id="confirmOrder" title="Подтвердите удаление" style="display: none">
+    <p>Вы дествительно хотите удалить заказ?</p>
+</div>
+
+<div id="confirmMenuReplace" title="Подтвердите перемещение" style="display: none">
+    <p>Вы дествительно хотите переместить это меню?</p>
+</div>
 
 <script>
     var empID = <?=$_SESSION['empID']?>;

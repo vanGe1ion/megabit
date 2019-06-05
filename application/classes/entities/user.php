@@ -16,7 +16,7 @@ class User
         $this->accessRights = $accessRights;
         $this->empID = $empID;
 
-        if ($accessRights == AccessRights::USER)
+        //if ($accessRights == AccessRights::USER)
             $this->empData = $this->GetEmpDbData($this->empID);
 
         //при ловле юзера из сессии записывать туда его снова не надо

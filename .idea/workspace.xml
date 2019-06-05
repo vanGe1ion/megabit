@@ -2,22 +2,42 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f5bb64e-b923-41a8-8770-d0ed52e37a25" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a76c1431-c4a4-4912-aab8-860d7b2e7875.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a76c1431-c4a4-4912-aab8-860d7b2e7875.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/classes/entities/user.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/classes/entities/user.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/classes/enums/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/classes/enums/routes.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/classes/queries.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/classes/queries.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/controller_dishbase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/controller_dishbase.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/controller_orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/controller_orders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/core/data/tableDataContainer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/core/data/tableDataContainer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/model_dishbase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/model_dishbase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/model_orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/model_orders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/model_main.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/model_main.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/model_menuplanner.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/model_menuplanner.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/content/authorisation_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/content/authorisation_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/content/dishbase_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/content/dishbase_view.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/content/menuplanner_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/content/menuplanner_view.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/content/neworders_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/content/neworders_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/template_view/dialogs.html" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/template_view/dialogs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/template_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/template_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/template_view/dialogs.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/template_view/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/template_view/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/template_view/notifies.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/template_view/stylesheets.html" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/template_view/stylesheets.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/button.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/buttonTag.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/commonStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/commonStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library/Moment/MomentLocaled.js" beforeDir="false" afterPath="$PROJECT_DIR$/library/Moment/MomentLocaled.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/divTag.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/divTag.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/table.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/table.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/templateFlex.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/templateFlex.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/jQuery-UI/jQuery-UI.css" beforeDir="false" afterPath="$PROJECT_DIR$/library/jQuery-UI/jQuery-UI.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/jQuery-UI/jQuery-UI.js" beforeDir="false" afterPath="$PROJECT_DIR$/library/jQuery-UI/jQuery-UI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/jQuery-UI/jQuery-UI.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/library/jQuery-UI/jQuery-UI.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/js/commonScript.js" beforeDir="false" afterPath="$PROJECT_DIR$/script/js/commonScript.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/js/dishBaseScript.js" beforeDir="false" afterPath="$PROJECT_DIR$/script/js/dishBaseScript.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/js/menuPlannerScript.js" beforeDir="false" afterPath="$PROJECT_DIR$/script/js/menuPlannerScript.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/js/ordersScript.js" beforeDir="false" afterPath="$PROJECT_DIR$/script/js/ordersScript.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/php/select.php" beforeDir="false" afterPath="$PROJECT_DIR$/script/php/select.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/php/subSelect.php" beforeDir="false" afterPath="$PROJECT_DIR$/script/php/subSelect.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/js/table3Script.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/js/tableScript.js" beforeDir="false" afterPath="$PROJECT_DIR$/script/js/tableScript.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/php/delete.php" beforeDir="false" afterPath="$PROJECT_DIR$/script/php/delete.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,6 +77,20 @@
         <item name="megabit_db@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="megabit_db: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="DISH_INGREDIENTS: table" type="285a2a93:MysqlImplModel$Table" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="megabit_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="megabit_db: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="DISH_LIST: table" type="285a2a93:MysqlImplModel$Table" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="megabit_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="megabit_db: schema" type="76f4a085:MysqlImplModel$Schema" />
         <item name="ORDER_LIST: table" type="285a2a93:MysqlImplModel$Table" />
       </path>
       <path>
@@ -82,60 +116,79 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/js/menuPlannerScript.js">
+        <entry file="file://$PROJECT_DIR$/script/js/tableK1Script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2057">
-              <caret line="121" column="57" selection-start-line="121" selection-start-column="57" selection-end-line="121" selection-end-column="57" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/content/neworders_view.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="17" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/models/model_orders.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="986">
-              <caret line="58" column="100" selection-start-line="58" selection-start-column="100" selection-end-line="58" selection-end-column="100" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/script/js/ordersScript.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2401">
-              <caret line="69" column="23" selection-start-line="69" selection-start-column="23" selection-end-line="69" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/js/tableScript.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5406">
-              <caret line="449" column="28" selection-start-line="449" selection-start-column="28" selection-end-line="449" selection-end-column="28" />
+            <state relative-caret-position="3519">
+              <caret line="235" column="11" selection-start-line="235" selection-start-column="11" selection-end-line="235" selection-end-column="11" />
               <folding>
-                <element signature="e#6182#7888#0" />
-                <element signature="e#8016#9139#0" />
-                <element signature="e#9207#10981#0" />
+                <element signature="n#!!block;n#ExpandHandler#0;n#NS_TableK1#0" />
+                <element signature="n#!!block;n#NotEmpty#0;n#NS_TableK1#0" />
+                <element signature="n#!!block;n#SendDataCreator#0;n#NS_TableK1#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/js/table3Script.js">
+        <entry file="file://$PROJECT_DIR$/script/js/TableK2Script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1326">
-              <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
+            <state relative-caret-position="4403">
+              <caret line="364" column="52" selection-start-line="364" selection-start-column="52" selection-end-line="364" selection-end-column="52" />
+              <folding>
+                <element signature="n#!!block;n#EditHandler#0;n#NS_TableK2#0" />
+                <element signature="n#!!block;n#RowCreator#0;n#NS_TableK2#0" />
+                <element signature="n#!!block;n#FormCreator#0;n#NS_TableK2#0" />
+                <element signature="n#!!block;n#NotEmpty#0;n#NS_TableK2#0" />
+                <element signature="n#!!block;n#SendDataCreator#0;n#NS_TableK2#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/script/js/dishBaseScript.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="67" column="19" selection-start-line="67" selection-start-column="19" selection-end-line="67" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/views/content/dishbase_view.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="680">
+              <caret line="40" column="92" selection-start-line="38" selection-start-column="21" selection-end-line="40" selection-end-column="92" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/models/model_dishbase.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1411">
+              <caret line="83" column="22" selection-start-line="83" selection-start-column="22" selection-end-line="83" selection-end-column="22" />
+              <folding>
+                <marker date="1559567816063" expanded="true" signature="3342:3550" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/core/data/tableDataContainer.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="17" column="30" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/script/js/commonScript.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1564">
+              <caret line="92" column="22" selection-start-line="92" selection-start-column="22" selection-end-line="92" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -154,36 +207,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>iterator</find>
-      <find>adderElems</find>
-      <find>handler</find>
-      <find>notEmpty</find>
-      <find>rowcre</find>
-      <find>tableData</find>
-      <find>parentId</find>
-      <find>SendDataCreator</find>
-      <find>top</find>
-      <find>regional</find>
-      <find>#subTable</find>
-      <find>subTables</find>
-      <find>isset</find>
-      <find>moment</find>
-      <find>error</find>
-      <find>select</find>
-      <find>select.php</find>
-      <find>data(</find>
-      <find>log</find>
-      <find>addHandler</find>
-      <find>MenuAdderCreator</find>
-      <find>MenuReplaceHandler</find>
-      <find>console</find>
-      <find>понедель</find>
-      <find>subButtons</find>
       <find>slideDown</find>
       <find>tableForm</find>
       <find>table</find>
       <find>tableMark</find>
       <find>sub</find>
+      <find>ui-state-highlight</find>
+      <find>ui-state-error</find>
+      <find>F</find>
+      <find>Throw</find>
+      <find>subButt</find>
+      <find>sub-</find>
+      <find>$subTables</find>
+      <find>subTables</find>
+      <find>keys</find>
+      <find>expandButtons</find>
+      <find>min-height</find>
+      <find>display</find>
+      <find>console</find>
+      <find>keyLevel</find>
+      <find>RowCre</find>
+      <find>oldrow</find>
+      <find>oldrows</find>
+      <find>TableData</find>
+      <find>Expands</find>
+      <find>old</find>
+      <find>FormElem</find>
+      <find>FormCreator</find>
+      <find>tableDataPool[</find>
+      <find>substr</find>
+      <find>mainKey</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -199,57 +252,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/application/controllers/controller_main.php" />
-        <option value="$PROJECT_DIR$/css/pTag.css" />
-        <option value="$PROJECT_DIR$/css/siteTop.css" />
-        <option value="$PROJECT_DIR$/application/views/template_view/libraries.html" />
-        <option value="$PROJECT_DIR$/application/models/model_error.php" />
-        <option value="$PROJECT_DIR$/css/divBlock.css" />
-        <option value="$PROJECT_DIR$/application/core/data/mainDataContainer.php" />
-        <option value="$PROJECT_DIR$/application/views/content/table_view.php" />
-        <option value="$PROJECT_DIR$/css/templateFlex.css" />
-        <option value="$PROJECT_DIR$/application/views/template_view/notifies.html" />
-        <option value="$PROJECT_DIR$/css/spanTag.css" />
-        <option value="$PROJECT_DIR$/application/views/template_view.php" />
-        <option value="$PROJECT_DIR$/script/js/planOrderScript.js" />
         <option value="$PROJECT_DIR$/script/php/selectFieldData.php" />
-        <option value="$PROJECT_DIR$/application/controllers/controller_dishbase.php" />
-        <option value="$PROJECT_DIR$/application/core/data/tableDataContainer.php" />
         <option value="$PROJECT_DIR$/some.php" />
-        <option value="$PROJECT_DIR$/script/js/commonScript.js" />
         <option value="$PROJECT_DIR$/some.html" />
-        <option value="$PROJECT_DIR$/script/js/dishBaseScript.js" />
-        <option value="$PROJECT_DIR$/script/js/tableScript.js" />
         <option value="$PROJECT_DIR$/script/php/edit.php" />
         <option value="$PROJECT_DIR$/script/js/menuPlanScript.js" />
         <option value="$PROJECT_DIR$/application/views/content/orders_view.php" />
-        <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/application/views/content/authorisation_view.php" />
         <option value="$PROJECT_DIR$/css/button.css" />
-        <option value="$PROJECT_DIR$/application/views/template_view/header.php" />
-        <option value="$PROJECT_DIR$/application/classes/enums/routes.php" />
-        <option value="$PROJECT_DIR$/application/models/model_main.php" />
-        <option value="$PROJECT_DIR$/css/table.css" />
-        <option value="$PROJECT_DIR$/application/classes/entities/user.php" />
         <option value="$PROJECT_DIR$/library/Moment/MomentLocaled.js" />
         <option value="$PROJECT_DIR$/css/divTag.ts" />
-        <option value="$PROJECT_DIR$/css/commonStyle.css" />
         <option value="$PROJECT_DIR$/application/views/template_view/stylesheets.html" />
         <option value="$PROJECT_DIR$/application/models/model_menuplanner.php" />
-        <option value="$PROJECT_DIR$/application/models/model_dishbase.php" />
-        <option value="$PROJECT_DIR$/application/views/content/menuplanner_view.php" />
         <option value="$PROJECT_DIR$/script/php/select.php" />
-        <option value="$PROJECT_DIR$/css/divTag.css" />
-        <option value="$PROJECT_DIR$/application/views/template_view/dialogs.html" />
         <option value="$PROJECT_DIR$/script/php/subSelect.php" />
         <option value="$PROJECT_DIR$/script/js/menuPlannerScript.js" />
-        <option value="$PROJECT_DIR$/application/controllers/controller_orders.php" />
         <option value="$PROJECT_DIR$/script/php/selectOrder.php" />
-        <option value="$PROJECT_DIR$/application/classes/queries.php" />
         <option value="$PROJECT_DIR$/application/models/model_orders.php" />
-        <option value="$PROJECT_DIR$/application/views/content/neworders_view.php" />
         <option value="$PROJECT_DIR$/script/js/ordersScript.js" />
         <option value="$PROJECT_DIR$/script/js/table3Script.js" />
+        <option value="$PROJECT_DIR$/application/classes/entities/user.php" />
+        <option value="$PROJECT_DIR$/script/php/delete.php" />
+        <option value="$PROJECT_DIR$/application/models/model_main.php" />
+        <option value="$PROJECT_DIR$/application/views/template_view/header.php" />
+        <option value="$PROJECT_DIR$/application/classes/enums/routes.php" />
+        <option value="$PROJECT_DIR$/library/jQuery-UI/jQuery-UI.css" />
+        <option value="$PROJECT_DIR$/application/views/template_view/notifies.html" />
+        <option value="$PROJECT_DIR$/application/views/content/menuplanner_view.php" />
+        <option value="$PROJECT_DIR$/application/views/template_view/dialogs.html" />
+        <option value="$PROJECT_DIR$/application/views/content/neworders_view.php" />
+        <option value="$PROJECT_DIR$/css/commonStyle.css" />
+        <option value="$PROJECT_DIR$/css/buttonTag.css" />
+        <option value="$PROJECT_DIR$/css/divTag.css" />
+        <option value="$PROJECT_DIR$/css/templateFlex.css" />
+        <option value="$PROJECT_DIR$/script/js/namespace.js" />
+        <option value="$PROJECT_DIR$/application/views/template_view/scripts.php" />
+        <option value="$PROJECT_DIR$/script/js/tableScript.js" />
+        <option value="$PROJECT_DIR$/application/views/template_view.php" />
+        <option value="$PROJECT_DIR$/script/php/newSelect.php" />
+        <option value="$PROJECT_DIR$/application/controllers/controller_dishbase.php" />
+        <option value="$PROJECT_DIR$/application/classes/queries.php" />
+        <option value="$PROJECT_DIR$/application/core/data/tableDataContainer.php" />
+        <option value="$PROJECT_DIR$/application/models/model_dishbase.php" />
+        <option value="$PROJECT_DIR$/application/views/content/authorisation_view.php" />
+        <option value="$PROJECT_DIR$/application/controllers/controller_orders.php" />
+        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/css/table.css" />
+        <option value="$PROJECT_DIR$/application/views/content/dishbase_view.php" />
+        <option value="$PROJECT_DIR$/script/js/commonScript.js" />
+        <option value="$PROJECT_DIR$/script/js/TableK2Script.js" />
+        <option value="$PROJECT_DIR$/script/js/tableK1Script.js" />
+        <option value="$PROJECT_DIR$/script/js/dishBaseScript.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -294,6 +347,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -301,92 +355,20 @@
               <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
               <item name="megabit" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="classes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="classes" type="462c0819:PsiDirectoryNode" />
-              <item name="entities" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="classes" type="462c0819:PsiDirectoryNode" />
-              <item name="enums" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="content" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="megabit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="megabit" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-              <item name="php" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="Constants" value="true" />
+    <property name="Constants" value="false" />
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="ToolWindowHierarchy.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="SQL" />
+    <property name="database.console.LAST_STATE" value="true" />
     <property name="jsx.switch.disabled" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/index.php" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -395,22 +377,22 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\OSPanel\domains\megabit\image" />
+      <recent name="C:\OSPanel\domains\megabit\script\php" />
+      <recent name="C:\OSPanel\domains\megabit\library\jQuery-UI" />
+      <recent name="C:\OSPanel\domains\megabit\library" />
+      <recent name="C:\OSPanel\domains\megabit\css" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\OSPanel\domains\megabit\application\views\content" />
       <recent name="C:\OSPanel\domains\megabit\library\jQuery-UI" />
       <recent name="C:\OSPanel\domains\megabit\script\js" />
       <recent name="C:\OSPanel\domains\megabit\image" />
       <recent name="C:\OSPanel\domains\megabit\library\jQuery" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\OSPanel\domains\megabit\script\php" />
-      <recent name="C:\OSPanel\domains\megabit\library\jQuery-UI" />
-      <recent name="C:\OSPanel\domains\megabit\library" />
-      <recent name="C:\OSPanel\domains\megabit\css" />
-      <recent name="C:\OSPanel\domains\megabit\script" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -491,11 +473,24 @@
       <workItem from="1558332752597" duration="20107000" />
       <workItem from="1558418848026" duration="13403000" />
       <workItem from="1558450540827" duration="40000" />
+      <workItem from="1558504689732" duration="9189000" />
+      <workItem from="1558591543579" duration="959000" />
+      <workItem from="1558592713737" duration="19404000" />
+      <workItem from="1558677813941" duration="9921000" />
+      <workItem from="1558937193912" duration="23328000" />
+      <workItem from="1559023406102" duration="18593000" />
+      <workItem from="1559109759366" duration="14276000" />
+      <workItem from="1559196267005" duration="24829000" />
+      <workItem from="1559282688789" duration="18762000" />
+      <workItem from="1559542802251" duration="11816000" />
+      <workItem from="1559628071919" duration="15054000" />
+      <workItem from="1559714828584" duration="17640000" />
+      <workItem from="1559746023922" duration="154000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="582911000" />
+    <option name="totallyTimeSpent" value="766836000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -508,9 +503,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49945828" visible="true" weight="0.18017058" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49945828" visible="true" weight="0.20682302" />
       <window_info id="Structure" order="1" sideWeight="0.5005417" side_tool="true" weight="0.09541578" />
       <window_info id="Favorites" order="2" sideWeight="0.5005417" side_tool="true" weight="0.09541578" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -524,13 +518,14 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49946696" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="PHP-CGI Server" order="10" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49840087" weight="0.32936078" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5042644" side_tool="true" visible="true" weight="0.3445287" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49733475" weight="0.32936078" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5026652" side_tool="true" weight="0.32936078" />
       <window_info anchor="bottom" id="TypeScript" order="13" weight="0.32936078" />
+      <window_info anchor="bottom" id="Database Console" order="14" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" auto_hide="true" content_ui="combo" id="Hierarchy" internal_type="SLIDING" order="2" show_stripe_button="false" type="SLIDING" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.17537314" />
+      <window_info anchor="right" id="Database" order="3" weight="0.17537314" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -616,313 +611,10 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/some.html" />
-    <entry file="file://$PROJECT_DIR$/script/php/delete.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="5" lean-forward="true" selection-start-column="5" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/js/dishBaseScript.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="36" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/content/dishbase_view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="45" column="55" lean-forward="true" selection-start-line="45" selection-start-column="55" selection-end-line="45" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/php/edit.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="42" selection-start-line="3" selection-start-column="42" selection-end-line="3" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/controller_authorisation.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/controller_menuplanner.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="5" lean-forward="true" selection-start-line="5" selection-start-column="4" selection-end-line="20" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/content/authorisation_view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/button.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="12" lean-forward="true" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/hrTag.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/pTag.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/siteTop.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/spanTag.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/templateFlex.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/content/todayorder_view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/model_authorisation.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/template_view/header.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="181" selection-start-line="6" selection-start-column="181" selection-end-line="6" selection-end-column="181" />
-          <folding>
-            <element signature="n#style#0;n#p#0;n#td#3;n#tr#0;n#table#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/classes/enums/accessRights.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="27" lean-forward="true" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/controller_main.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/classes/enums/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="24" lean-forward="true" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/table.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="16" lean-forward="true" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/model_main.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="99" lean-forward="true" selection-start-line="16" selection-start-column="99" selection-end-line="16" selection-end-column="99" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/classes/entities/employee.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="34" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="19" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/classes/entities/user.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="78" column="1" lean-forward="true" selection-start-line="78" selection-start-column="1" selection-end-line="78" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library/Moment/MomentLocaled.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="12003" column="36" lean-forward="true" selection-start-line="12003" selection-start-column="36" selection-end-line="12003" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/divTag.ts" />
-    <entry file="file://$PROJECT_DIR$/application/views/template_view/stylesheets.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/commonStyle.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="1" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/model_dishbase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-313">
-          <caret line="56" column="36" lean-forward="true" selection-start-line="56" selection-start-column="36" selection-end-line="56" selection-end-column="36" />
-          <folding>
-            <element signature="n#GetIngredientList#0;n#Model_DishBase#0;n#!!top" />
-            <element signature="n#GetDishTypeList#0;n#Model_DishBase#0;n#!!top" />
-            <element signature="n#GetMeasureList#0;n#Model_DishBase#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/core/data/mainDataContainer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/core/view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/model_menuplanner.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/php/selectFieldData.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/template_view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-289">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/divBlock.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="15" lean-forward="true" selection-start-column="15" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/divTag.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/template_view/notifies.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="53" selection-start-line="10" selection-start-column="53" selection-end-line="10" selection-end-column="53" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/template_view/dialogs.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="12" lean-forward="true" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/content/menuplanner_view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/controller_orders.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/php/subSelect.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="42" column="1" lean-forward="true" selection-start-line="42" selection-start-column="1" selection-end-line="42" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/classes/queries.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="21" column="58" selection-start-line="21" selection-start-column="58" selection-end-line="21" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/script/php/selectOrder.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/php/select.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="1" lean-forward="true" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/js/menuPlannerScript.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2057">
-          <caret line="121" column="57" selection-start-line="121" selection-start-column="57" selection-end-line="121" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/content/neworders_view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="17" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -933,29 +625,333 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/js/tableScript.js">
+    <entry file="file://$PROJECT_DIR$/script/js/ordersScript.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5406">
-          <caret line="449" column="28" selection-start-line="449" selection-start-column="28" selection-end-line="449" selection-end-column="28" />
+        <state relative-caret-position="340">
+          <caret line="20" column="68" lean-forward="true" selection-start-line="20" selection-start-column="68" selection-end-line="20" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/classes/entities/employee.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="43" column="31" lean-forward="true" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/classes/entities/user.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="63" lean-forward="true" selection-start-line="19" selection-start-column="63" selection-end-line="19" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/model_authorisation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/php/delete.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="13" lean-forward="true" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/js/menuPlannerScript.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="152" column="19" lean-forward="true" selection-start-line="152" selection-start-column="19" selection-end-line="152" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/model_main.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="9" lean-forward="true" selection-start-line="10" selection-start-column="15" selection-end-line="18" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/model_error.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="31" column="67" selection-start-line="31" selection-start-column="67" selection-end-line="31" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/classes/enums/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="47" selection-start-line="20" selection-start-column="47" selection-end-line="20" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://a76c1431-c4a4-4912-aab8-860d7b2e7875/schema/megabit_db/table/DISH_LIST">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://a76c1431-c4a4-4912-aab8-860d7b2e7875/schema/megabit_db/table/DISH_LIST/index/Dish_Name">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="20" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://a76c1431-c4a4-4912-aab8-860d7b2e7875/schema/megabit_db/table/DISH_MENU">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/jQuery-UI/jQuery-UI.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" selection-start-line="3" selection-start-column="39" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/template_view/footer.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/template_view/notifies.html" />
+    <entry file="file://$PROJECT_DIR$/application/views/content/menuplanner_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
           <folding>
-            <element signature="e#6182#7888#0" />
-            <element signature="e#8016#9139#0" />
-            <element signature="e#9207#10981#0" />
+            <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/js/table3Script.js">
+    <entry file="file://$PROJECT_DIR$/application/views/template_view/dialogs.html" />
+    <entry file="file://$PROJECT_DIR$/application/views/content/neworders_view.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1326">
-          <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
+        <state relative-caret-position="374">
+          <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/js/ordersScript.js">
+    <entry file="file://$PROJECT_DIR$/css/divTag.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2401">
-          <caret line="69" column="23" selection-start-line="69" selection-start-column="23" selection-end-line="69" selection-end-column="23" />
+        <state relative-caret-position="51">
+          <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/templateFlex.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/commonStyle.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="18" lean-forward="true" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/js/namespace.js" />
+    <entry file="file://$PROJECT_DIR$/application/views/template_view/scripts.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="79" selection-start-column="79" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/core/data/mainDataContainer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="37" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/php/select.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="29" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/controller_dishbase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="31" column="81" selection-start-line="31" selection-start-column="81" selection-end-line="31" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/classes/queries.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="56" column="54" selection-start-line="56" selection-start-column="54" selection-end-line="56" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="1215" column="4" selection-start-line="1215" selection-start-column="4" selection-end-line="1215" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/php/newSelect.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="40" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/content/authorisation_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="102" selection-start-line="6" selection-start-column="102" selection-end-line="6" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image/hollyhole.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/buttonTag.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="520">
+          <caret line="42" column="16" lean-forward="true" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/template_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="58" column="44" lean-forward="true" selection-start-line="58" selection-start-column="44" selection-end-line="58" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/template_view/header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="156" selection-start-line="2" selection-start-column="97" selection-end-line="2" selection-end-column="156" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image/redMark.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/js/tableScript.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="429" column="48" lean-forward="true" selection-start-line="429" selection-start-column="48" selection-end-line="429" selection-end-column="48" />
+          <folding>
+            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/js/table3Script.js" />
+    <entry file="file://$PROJECT_DIR$/application/controllers/controller_orders.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="1" lean-forward="true" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cookie_annihilator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="94" selection-start-line="5" selection-start-column="94" selection-end-line="5" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="37" lean-forward="true" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/table.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="773">
+          <caret line="55" column="1" lean-forward="true" selection-start-line="55" selection-start-column="1" selection-end-line="55" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/js/tableK1Script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3519">
+          <caret line="235" column="11" selection-start-line="235" selection-start-column="11" selection-end-line="235" selection-end-column="11" />
+          <folding>
+            <element signature="n#!!block;n#ExpandHandler#0;n#NS_TableK1#0" />
+            <element signature="n#!!block;n#NotEmpty#0;n#NS_TableK1#0" />
+            <element signature="n#!!block;n#SendDataCreator#0;n#NS_TableK1#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/js/TableK2Script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4403">
+          <caret line="364" column="52" selection-start-line="364" selection-start-column="52" selection-end-line="364" selection-end-column="52" />
+          <folding>
+            <element signature="n#!!block;n#EditHandler#0;n#NS_TableK2#0" />
+            <element signature="n#!!block;n#RowCreator#0;n#NS_TableK2#0" />
+            <element signature="n#!!block;n#FormCreator#0;n#NS_TableK2#0" />
+            <element signature="n#!!block;n#NotEmpty#0;n#NS_TableK2#0" />
+            <element signature="n#!!block;n#SendDataCreator#0;n#NS_TableK2#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/content/dishbase_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="40" column="92" selection-start-line="38" selection-start-column="21" selection-end-line="40" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/model_dishbase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1411">
+          <caret line="83" column="22" selection-start-line="83" selection-start-column="22" selection-end-line="83" selection-end-column="22" />
+          <folding>
+            <marker date="1559567816063" expanded="true" signature="3342:3550" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/core/data/tableDataContainer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="30" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/js/commonScript.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1564">
+          <caret line="92" column="22" selection-start-line="92" selection-start-column="22" selection-end-line="92" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="8" lean-forward="true" selection-start-column="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/js/dishBaseScript.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="67" column="19" selection-start-line="67" selection-start-column="19" selection-end-line="67" selection-end-column="19" />
         </state>
       </provider>
     </entry>

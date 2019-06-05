@@ -16,6 +16,9 @@
     <?}?>
 </div>
 
+<div id="confirmMenu" title="Подтвердите удаление" style="display: none">
+    <p>Вы дествительно хотите удалить меню?</p>
+</div>
 
 <script>
     var tableData = <?=json_encode($data->tableData)?>;

@@ -71,13 +71,13 @@ var MenuHandler = function(selector){
                         "json"
                     )
                         .fail(function () {
-                            Notificator($("#ajaxError"), "Ошибка чтения меню на " + dates[key].format("DD.MM.Y"));
+                            ThrowNotice($("#ajaxError"), "Ошибка чтения меню на " + dates[key].format("DD.MM.Y"));
                         });
                 }
             },
 
             error: function () {
-                Notificator($("#ajaxError"), "Ошибка чтения списка меню (" + dates[key].format("DD.MM.Y") +")");
+                ThrowNotice($("#ajaxError"), "Ошибка чтения списка меню (" + dates[key].format("DD.MM.Y") +")");
             }
         })
     });
@@ -122,15 +122,15 @@ var MenuAddHandler = function (buttonHolder) {
                         currentTable.parent().slideDown(300);
                     }
                     else
-                        Notificator($("#sqlError"), "Данное меню уже существует");
+                        ThrowNotice($("#sqlError"), "Данное меню уже существует");
                 },
                 error: function () {
-                    Notificator($("#ajaxError"), "Ошибка создания меню (" + date.format("DD.MM.Y") + ")");
+                    ThrowNotice($("#ajaxError"), "Ошибка создания меню (" + date.format("DD.MM.Y") + ")");
                 }
             });
         })
         .fail(function () {
-            Notificator($("#ajaxError"), "Ошибка чтения списка меню (*)");
+            ThrowNotice($("#ajaxError"), "Ошибка чтения списка меню (*)");
         });
 
 };
@@ -157,10 +157,10 @@ var MenuDeleteHandler = function (buttonHolder) {
                 MenuAdderCreator(currentTable);
             }
             else
-                Notificator($("#sqlError"), "Ошибка при удалении меню (" + date.locale('ru').format('DD.MM.Y') + ")");
+                ThrowNotice($("#sqlError"), "Ошибка при удалении меню (" + date.locale('ru').format('DD.MM.Y') + ")");
         },
         error: function () {
-            Notificator($("#ajaxError"), "Ошибка удаления меню (" + date.locale('ru').format('DD.MM.Y') + ")");
+            ThrowNotice($("#ajaxError"), "Ошибка удаления меню (" + date.locale('ru').format('DD.MM.Y') + ")");
         }
     });
 
@@ -206,10 +206,10 @@ var MenuReplaceHandler = function (input){
                 });
             }
             else
-                Notificator($("#sqlError"), "Указанная дата уже занята");
+                ThrowNotice($("#sqlError"), "Указанная дата уже занята");
         },
         error: function () {
-            Notificator($("#ajaxError"), "Ошибка перемещения меню (" + data.Date.format("DD.MM.Y") + ")");
+            ThrowNotice($("#ajaxError"), "Ошибка перемещения меню (" + data.Date.format("DD.MM.Y") + ")");
         }
     });
 };

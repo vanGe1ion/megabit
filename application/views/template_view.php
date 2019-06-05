@@ -54,14 +54,17 @@
             <footer>
                 <div class="footer">
 
-                    <!--Dialogs-->
-                    <?php include 'template_view/dialogs.html' ?>
+
+                    <!-- Dialogs -->
+                    <div id="dialogs"></div>
 
                     <!-- Highlights / Errors -->
-                    <?php include 'template_view/notifies.html' ?>
+                    <div id="notices" align="center"></div>
 
                     <!-- Footer Navigation/Content -->
-                    <? include "template_view/footer.php" ?>
+                    <div>
+                        <? include "template_view/footer.php" ?>
+                    </div>
 
 
                 </div>

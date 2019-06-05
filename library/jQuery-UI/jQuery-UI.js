@@ -8952,7 +8952,7 @@ var widgetsControlgroup = $.widget( "ui.controlgroup", {
 //>>docs: http://api.jqueryui.com/checkboxradio/
 //>>demos: http://jqueryui.com/checkboxradio/
 //>>css.structure: ../../themes/base/core.css
-//>>css.structure: ../../themes/base/button.css
+//>>css.structure: ../../themes/base/buttonTag.css
 //>>css.structure: ../../themes/base/checkboxradio.css
 //>>css.theme: ../../themes/base/theme.css
 
@@ -9222,7 +9222,7 @@ var widgetsCheckboxradio = $.ui.checkboxradio;
 //>>docs: http://api.jqueryui.com/button/
 //>>demos: http://jqueryui.com/button/
 //>>css.structure: ../../themes/base/core.css
-//>>css.structure: ../../themes/base/button.css
+//>>css.structure: ../../themes/base/buttonTag.css
 //>>css.theme: ../../themes/base/theme.css
 
 
@@ -12775,7 +12775,7 @@ var widgetsProgressbar = $.widget( "ui.progressbar", {
 //>>docs: http://api.jqueryui.com/selectmenu/
 //>>demos: http://jqueryui.com/selectmenu/
 //>>css.structure: ../../themes/base/core.css
-//>>css.structure: ../../themes/base/selectmenu.css, ../../themes/base/button.css
+//>>css.structure: ../../themes/base/selectmenu.css, ../../themes/base/buttonTag.css
 //>>css.theme: ../../themes/base/theme.css
 
 

@@ -13,8 +13,9 @@ caption{
 
 /*Local*/
 
-table.mainMenu, table.menu{
+table.mainMenu, table.data{
     min-width: 55%;
+    max-width: 100%;
 }
 
 table.data{
@@ -27,10 +28,19 @@ td.db, th.db{
     padding: 5px;
     text-align: center;
     border: black 1px solid;
+    height: 26px;
 }
 
-th.db {
-    border: black 3px solid;
+tr.addMark {
+    background-color: lightgreen;
+}
+
+tr.editMark {
+    background-color: lightskyblue;
+}
+
+tr.deleteMark {
+    background-color: lightcoral;
 }
 
 
@@ -38,4 +48,9 @@ td.auth {
     text-align: right;
     padding-right: 100px;
     width: auto;
+}
+
+
+td.fit, th.fit{
+    width: 1px;
 }

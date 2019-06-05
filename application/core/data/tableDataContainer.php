@@ -5,42 +5,23 @@
 class TableDataContainer
 {
     //общие поля
-    public $caption =        NULL;  // - название таблицы
-    public $headRow =        array( // - шапка таблицы
-        /*'dbRowName' => 'rowLabel', ...*/
-    );
-    public $tableMark =      array( // - информация для организации асинхронных запросов
-        /*'tableMark' => 'TABLE_NAME'*/
-    );
-    public $tableForm =      array( // - информация об елементах формы строки таблицы
-        /*'elemName' => 'elemType' ...*/
-    );
+    public $caption =     NULL;
+    public $tempData =    NULL;                                                      // - имя контейнера для данных
+    public $headRow =     array(/*'dbRowName' => 'rowLabel', ...*/);                 // - шапка таблицы
+    public $tableForm =   array(/*'elemName' => 'elemType' ...*/);                   // - информация об елементах формы строки таблицы
+    public $querySet =    array(/*'queryType' => 'queryName' ...*/);                 // - набор запросов для работы с таблицей
+
 
 
     //поля основного контейнера
-    public $querryResult =   NULL;  // - результат выполнения запроса
-    public $subButtons =     array( // - кнопки для вывода подтаблиц
-        /*'subtableName', ...*/
-    );
-    public $subTables =      array( // - контейнеры вложенных таблиц
-        /*'tableDataContainer', ...*/
-    );
+    public $queryResult = NULL;  // - результат выполнения запроса
+    public $expands =     array(/*'expNum' => array('label' => 'expTable'), ...*/);  //наборвложенных таблиц
+
 
 
     //поля вложенного контейнера
-    public $parentKey =      NULL;  // - ключевое поле для вывода подтаблицы                        todo переписать subtableselect
-    public $rsTables =       array( // - имена таблицб связанных с таблицей связей
-        /*'TABLE_NAME', ...*/
-    );
+    public $mainKey =    array(/*'elemName', ...*/);                              // - имена таблиц связанных с таблицей связей
 
-
-
-
-
-    public function __construct($subTableCount = NULL) {
-        if(isset($subTableCount))
-            for($i = 0; $i < $subTableCount; ++$i)
-                $this->subTables[$i] = new TableDataContainer();
-    }
+    public function __construct() {}
 
 }

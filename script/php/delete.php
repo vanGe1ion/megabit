@@ -23,6 +23,6 @@ if(isset($_POST["subId"]))
         $statement .= " AND ". $key . " = '".$val."'";
     }
 
-
-$result = Database::DBRequest(Queries::DeleteQuery($dbtable, $statement));
+$query = Queries::DeleteQuery($dbtable, $statement);
+$result = Database::DBRequest($query);
 echo $result;

@@ -5,7 +5,6 @@ class Routes
 {
     const CANNIHILATOR = 'cookie_annihilator.php';
 
-
     const MAIN = 'main';
 
     const AUTHORISATION = 'authorisation';
@@ -13,6 +12,9 @@ class Routes
     const LOGOUT = 'authorisation/logout';
 
     const ERRROR = 'error';
+
+
+
 
     const DISHBASE = 'dishbase';
     const DISHES = 'dishbase/dishes';

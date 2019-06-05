@@ -24,7 +24,7 @@ class Controller_Orders extends Controller
     {
         if (!StatFuncs::ValidateUsers(array(AccessRights::USER))) {
             $this->data = $this->model->Orders(true);
-            $this->scriptSet = array('table3Script.js', "ordersScript.js");
+            $this->scriptSet = array('', "ordersScript.js");
             $this->view->Generate('neworders_view.php', 'template_view.php', $this->data, $this->scriptSet);
         }
     }

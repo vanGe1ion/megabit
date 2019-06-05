@@ -897,74 +897,242 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="225" parent="3" name="ACESS_RIGHTS"/>
-    <table id="226" parent="3" name="DISH_INGREDIENTS"/>
-    <table id="227" parent="3" name="DISH_LIST"/>
-    <table id="228" parent="3" name="DISH_MENU"/>
-    <table id="229" parent="3" name="DISH_TYPES"/>
-    <table id="230" parent="3" name="EMPLOYEERS_LIST"/>
-    <table id="231" parent="3" name="INGREDIENT_LIST"/>
-    <table id="232" parent="3" name="MEASURES_LIST"/>
-    <table id="233" parent="3" name="MENU_LIST"/>
-    <table id="234" parent="3" name="ORDERS_MENU"/>
-    <table id="235" parent="3" name="ORDER_LIST"/>
-    <table id="236" parent="3" name="SHIFT"/>
-    <table id="237" parent="3" name="TABLE_LIST"/>
-    <table id="238" parent="3" name="USER_LIST"/>
-    <column id="239" parent="225" name="Access_ID">
+    <table id="225" parent="3" name="ACCESS_ACTION"/>
+    <table id="226" parent="3" name="ACCESS_CONTROLLER"/>
+    <table id="227" parent="3" name="ACESS_RIGHTS"/>
+    <table id="228" parent="3" name="ACTION_LIST"/>
+    <table id="229" parent="3" name="CONTROLLER_ACTION"/>
+    <table id="230" parent="3" name="CONTROLLER_LIST"/>
+    <table id="231" parent="3" name="DISH_INGREDIENTS"/>
+    <table id="232" parent="3" name="DISH_LIST"/>
+    <table id="233" parent="3" name="DISH_MENU"/>
+    <table id="234" parent="3" name="DISH_TYPES"/>
+    <table id="235" parent="3" name="EMPLOYEERS_LIST"/>
+    <table id="236" parent="3" name="INGREDIENT_LIST"/>
+    <table id="237" parent="3" name="MEASURES_LIST"/>
+    <table id="238" parent="3" name="MENU_LIST"/>
+    <table id="239" parent="3" name="ORDERS_MENU"/>
+    <table id="240" parent="3" name="ORDER_LIST"/>
+    <table id="241" parent="3" name="SHIFT"/>
+    <table id="242" parent="3" name="TABLE_LIST"/>
+    <table id="243" parent="3" name="USER_LIST"/>
+    <column id="244" parent="225" name="Access_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="240" parent="225" name="Access_Name">
+    <column id="245" parent="225" name="Action_ID">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="246" parent="225" name="Access_ID">
+      <ColNames>Access_ID</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="247" parent="225" name="Action_ID">
+      <ColNames>Action_ID</ColNames>
+      <Type>btree</Type>
+    </index>
+    <foreign-key id="248" parent="225" name="access_action_ibfk_1">
+      <ColNames>Access_ID</ColNames>
+      <RefSchemaName>megabit_db</RefSchemaName>
+      <RefTableName>ACESS_RIGHTS</RefTableName>
+      <RefColNames>Access_ID</RefColNames>
+    </foreign-key>
+    <foreign-key id="249" parent="225" name="access_action_ibfk_2">
+      <ColNames>Action_ID</ColNames>
+      <RefSchemaName>megabit_db</RefSchemaName>
+      <RefTableName>ACTION_LIST</RefTableName>
+      <RefColNames>Action_ID</RefColNames>
+    </foreign-key>
+    <column id="250" parent="226" name="Access_ID">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="251" parent="226" name="Controller_ID">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="252" parent="226" name="Access_ID">
+      <ColNames>Access_ID</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="253" parent="226" name="Route_ID">
+      <ColNames>Controller_ID</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="254" parent="226" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>Access_ID
+Controller_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="255" parent="226" name="access_controller_ibfk_1">
+      <ColNames>Access_ID</ColNames>
+      <RefSchemaName>megabit_db</RefSchemaName>
+      <RefTableName>ACESS_RIGHTS</RefTableName>
+      <RefColNames>Access_ID</RefColNames>
+    </foreign-key>
+    <foreign-key id="256" parent="226" name="access_controller_ibfk_2">
+      <ColNames>Controller_ID</ColNames>
+      <RefSchemaName>megabit_db</RefSchemaName>
+      <RefTableName>ROUTE_LIST</RefTableName>
+      <RefColNames>Controller_ID</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+    </foreign-key>
+    <column id="257" parent="227" name="Access_ID">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="258" parent="227" name="Access_Name">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="241" parent="225" name="PRIMARY">
+    <key id="259" parent="227" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Access_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="242" parent="226" name="Dish_ID">
+    <column id="260" parent="228" name="Action_ID">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="261" parent="228" name="Action_Name">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="262" parent="228" name="Route">
+      <Position>3</Position>
+      <DataType>varchar(30)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="263" parent="228" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>Action_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="264" parent="229" name="Controller_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="243" parent="226" name="Ingredient_ID">
+    <column id="265" parent="229" name="Action_ID">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="244" parent="226" name="Quantity">
+    <index id="266" parent="229" name="Controller_ID">
+      <ColNames>Controller_ID</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="267" parent="229" name="Action_ID">
+      <ColNames>Action_ID</ColNames>
+      <Type>btree</Type>
+    </index>
+    <foreign-key id="268" parent="229" name="controller_action_ibfk_2">
+      <ColNames>Controller_ID</ColNames>
+      <RefSchemaName>megabit_db</RefSchemaName>
+      <RefTableName>CONTROLLER_LIST</RefTableName>
+      <RefColNames>Controller_ID</RefColNames>
+    </foreign-key>
+    <foreign-key id="269" parent="229" name="controller_action_ibfk_1">
+      <ColNames>Action_ID</ColNames>
+      <RefSchemaName>megabit_db</RefSchemaName>
+      <RefTableName>ACTION_LIST</RefTableName>
+      <RefColNames>Action_ID</RefColNames>
+    </foreign-key>
+    <column id="270" parent="230" name="Controller_ID">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="271" parent="230" name="Controller_Name">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="272" parent="230" name="Route">
+      <Position>3</Position>
+      <DataType>varchar(30)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="273" parent="230" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>Controller_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="274" parent="230" name="controller_list_ibfk_1">
+      <ColNames>Controller_ID</ColNames>
+      <RefSchemaName>megabit_db</RefSchemaName>
+      <RefTableName>ACCESS_CONTROLLER</RefTableName>
+      <RefColNames>Controller_ID</RefColNames>
+    </foreign-key>
+    <column id="275" parent="231" name="Dish_ID">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="276" parent="231" name="Ingredient_ID">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="277" parent="231" name="Quantity">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="245" parent="226" name="Measure_ID">
+    <column id="278" parent="231" name="Measure_ID">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="246" parent="226" name="Dish_ID">
+    <index id="279" parent="231" name="Dish_ID">
       <ColNames>Dish_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="247" parent="226" name="dish_ingredients_ibfk_4">
+    <index id="280" parent="231" name="dish_ingredients_ibfk_4">
       <ColNames>Ingredient_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="248" parent="226" name="dish_ingredients_ibfk_3">
+    <index id="281" parent="231" name="dish_ingredients_ibfk_3">
       <ColNames>Measure_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="249" parent="226" name="dish_ingredients_ibfk_5">
+    <key id="282" parent="231" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>Dish_ID
+Ingredient_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="283" parent="231" name="dish_ingredients_ibfk_5">
       <ColNames>Dish_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>DISH_LIST</RefTableName>
@@ -972,395 +1140,478 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="250" parent="226" name="dish_ingredients_ibfk_4">
+    <foreign-key id="284" parent="231" name="dish_ingredients_ibfk_4">
       <ColNames>Ingredient_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>INGREDIENT_LIST</RefTableName>
       <RefColNames>Ingredient_ID</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="251" parent="226" name="dish_ingredients_ibfk_3">
+    <foreign-key id="285" parent="231" name="dish_ingredients_ibfk_3">
       <ColNames>Measure_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>MEASURES_LIST</RefTableName>
       <RefColNames>Measure_ID</RefColNames>
     </foreign-key>
-    <column id="252" parent="227" name="Dish_ID">
+    <column id="286" parent="232" name="Dish_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="253" parent="227" name="Dish_Name">
+    <column id="287" parent="232" name="Dish_Name">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="254" parent="227" name="Dish_Type_ID">
+    <column id="288" parent="232" name="Dish_Type_ID">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="255" parent="227" name="Dish_Type_ID">
+    <column id="289" parent="232" name="Price">
+      <Position>4</Position>
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="290" parent="232" name="Dish_Name">
+      <ColNames>Dish_Name</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="291" parent="232" name="Dish_Type_ID">
       <ColNames>Dish_Type_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="256" parent="227" name="PRIMARY">
+    <key id="292" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Dish_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="257" parent="227" name="dish_list_ibfk_4">
+    <key id="293" parent="232" name="Dish_Name">
+      <ColNames>Dish_Name</ColNames>
+      <UnderlyingIndexName>Dish_Name</UnderlyingIndexName>
+    </key>
+    <foreign-key id="294" parent="232" name="dish_list_ibfk_4">
       <ColNames>Dish_Type_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>DISH_TYPES</RefTableName>
       <RefColNames>Dish_Type_ID</RefColNames>
     </foreign-key>
-    <column id="258" parent="228" name="Menu_ID">
+    <column id="295" parent="233" name="Menu_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="259" parent="228" name="Dish_ID">
+    <column id="296" parent="233" name="Dish_ID">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="260" parent="228" name="Price">
+    <column id="297" parent="233" name="Price">
       <Position>3</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="261" parent="228" name="Menu_ID">
+    <index id="298" parent="233" name="Menu_ID">
       <ColNames>Menu_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="262" parent="228" name="Dish_ID">
+    <index id="299" parent="233" name="Dish_ID">
       <ColNames>Dish_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="263" parent="228" name="dish_menu_ibfk_1">
+    <key id="300" parent="233" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>Menu_ID
+Dish_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="301" parent="233" name="dish_menu_ibfk_1">
       <ColNames>Menu_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>MENU_LIST</RefTableName>
       <RefColNames>Menu_ID</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="264" parent="228" name="dish_menu_ibfk_2">
+    <foreign-key id="302" parent="233" name="dish_menu_ibfk_2">
       <ColNames>Dish_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>DISH_LIST</RefTableName>
       <RefColNames>Dish_ID</RefColNames>
     </foreign-key>
-    <column id="265" parent="229" name="Dish_Type_ID">
+    <column id="303" parent="234" name="Dish_Type_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="266" parent="229" name="Dish_Type_Name">
+    <column id="304" parent="234" name="Dish_Type_Name">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="267" parent="229" name="PRIMARY">
+    <index id="305" parent="234" name="Dish_Type_Name">
+      <ColNames>Dish_Type_Name</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="306" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Dish_Type_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="268" parent="230" name="Emp_ID">
+    <key id="307" parent="234" name="Dish_Type_Name">
+      <ColNames>Dish_Type_Name</ColNames>
+      <UnderlyingIndexName>Dish_Type_Name</UnderlyingIndexName>
+    </key>
+    <column id="308" parent="235" name="Emp_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="269" parent="230" name="Fullname">
+    <column id="309" parent="235" name="Fullname">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="270" parent="230" name="Department">
+    <column id="310" parent="235" name="Department">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="271" parent="230" name="Position">
+    <column id="311" parent="235" name="Position">
       <Position>4</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="272" parent="230" name="Table_ID">
+    <column id="312" parent="235" name="Table_ID">
       <Position>5</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="273" parent="230" name="Shift_ID">
+    <column id="313" parent="235" name="Shift_ID">
       <Position>6</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="274" parent="230" name="PACS_ID">
+    <column id="314" parent="235" name="PACS_ID">
       <Position>7</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="275" parent="230" name="Table_ID">
+    <index id="315" parent="235" name="Table_ID">
       <ColNames>Table_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="276" parent="230" name="Shift_ID">
+    <index id="316" parent="235" name="Shift_ID">
       <ColNames>Shift_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="277" parent="230" name="PRIMARY">
+    <key id="317" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Emp_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="278" parent="230" name="employeers_list_ibfk_1">
+    <foreign-key id="318" parent="235" name="employeers_list_ibfk_1">
       <ColNames>Table_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>TABLE_LIST</RefTableName>
       <RefColNames>Table_id</RefColNames>
     </foreign-key>
-    <foreign-key id="279" parent="230" name="employeers_list_ibfk_2">
+    <foreign-key id="319" parent="235" name="employeers_list_ibfk_2">
       <ColNames>Shift_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>SHIFT</RefTableName>
       <RefColNames>Shift_ID</RefColNames>
     </foreign-key>
-    <column id="280" parent="231" name="Ingredient_ID">
+    <column id="320" parent="236" name="Ingredient_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="281" parent="231" name="Ingredient_Name">
+    <column id="321" parent="236" name="Ingredient_Name">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="282" parent="231" name="PRIMARY">
+    <index id="322" parent="236" name="Ingredient_Name">
+      <ColNames>Ingredient_Name</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="323" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Ingredient_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="283" parent="232" name="Measure_ID">
+    <key id="324" parent="236" name="Ingredient_Name">
+      <ColNames>Ingredient_Name</ColNames>
+      <UnderlyingIndexName>Ingredient_Name</UnderlyingIndexName>
+    </key>
+    <column id="325" parent="237" name="Measure_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="284" parent="232" name="Measure_Name">
+    <column id="326" parent="237" name="Measure_Name">
       <Position>2</Position>
       <DataType>varchar(5)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="285" parent="232" name="PRIMARY">
+    <index id="327" parent="237" name="Measure_Name">
+      <ColNames>Measure_Name</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="328" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Measure_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="286" parent="233" name="Menu_ID">
+    <key id="329" parent="237" name="Measure_Name">
+      <ColNames>Measure_Name</ColNames>
+      <UnderlyingIndexName>Measure_Name</UnderlyingIndexName>
+    </key>
+    <column id="330" parent="238" name="Menu_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="287" parent="233" name="Date">
+    <column id="331" parent="238" name="Date">
       <Position>2</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="288" parent="233" name="PRIMARY">
+    <index id="332" parent="238" name="Date">
+      <ColNames>Date</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="333" parent="238" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Menu_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="289" parent="234" name="Order_ID">
+    <key id="334" parent="238" name="Date">
+      <ColNames>Date</ColNames>
+      <UnderlyingIndexName>Date</UnderlyingIndexName>
+    </key>
+    <column id="335" parent="239" name="Order_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="290" parent="234" name="Menu_ID">
+    <column id="336" parent="239" name="Menu_ID">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="291" parent="234" name="Dish_ID">
+    <column id="337" parent="239" name="Dish_ID">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="292" parent="234" name="Count">
+    <column id="338" parent="239" name="Count">
       <Position>4</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="293" parent="234" name="Order_ID">
+    <index id="339" parent="239" name="Order_ID">
       <ColNames>Order_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="294" parent="234" name="Menu_ID">
+    <index id="340" parent="239" name="Menu_ID">
       <ColNames>Menu_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="295" parent="234" name="orders_menu_ibfk_1">
+    <index id="341" parent="239" name="Dish_ID">
+      <ColNames>Dish_ID</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="342" parent="239" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>Order_ID
+Menu_ID
+Dish_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="343" parent="239" name="orders_menu_ibfk_1">
       <ColNames>Order_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>ORDER_LIST</RefTableName>
       <RefColNames>Order_ID</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="296" parent="234" name="orders_menu_ibfk_2">
+    <foreign-key id="344" parent="239" name="orders_menu_ibfk_3">
       <ColNames>Menu_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>MENU_LIST</RefTableName>
       <RefColNames>Menu_ID</RefColNames>
     </foreign-key>
-    <column id="297" parent="235" name="Order_ID">
+    <foreign-key id="345" parent="239" name="orders_menu_ibfk_2">
+      <ColNames>Dish_ID</ColNames>
+      <RefSchemaName>megabit_db</RefSchemaName>
+      <RefTableName>DISH_LIST</RefTableName>
+      <RefColNames>Dish_ID</RefColNames>
+    </foreign-key>
+    <column id="346" parent="240" name="Order_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="298" parent="235" name="Employee_ID">
+    <column id="347" parent="240" name="Employee_ID">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="299" parent="235" name="Date">
+    <column id="348" parent="240" name="Date">
       <Position>3</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="300" parent="235" name="Employee_ID">
+    <index id="349" parent="240" name="Employee_ID">
       <ColNames>Employee_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="301" parent="235" name="PRIMARY">
+    <key id="350" parent="240" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Order_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="302" parent="235" name="order_list_ibfk_1">
+    <foreign-key id="351" parent="240" name="order_list_ibfk_1">
       <ColNames>Employee_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>EMPLOYEERS_LIST</RefTableName>
       <RefColNames>Emp_ID</RefColNames>
     </foreign-key>
-    <column id="303" parent="236" name="Shift_ID">
+    <column id="352" parent="241" name="Shift_ID">
       <Position>1</Position>
       <DataType>tinyint(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="304" parent="236" name="Shift_Name">
+    <column id="353" parent="241" name="Shift_Name">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="305" parent="236" name="PRIMARY">
+    <key id="354" parent="241" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Shift_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="306" parent="237" name="Table_id">
+    <column id="355" parent="242" name="Table_id">
       <Position>1</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="307" parent="237" name="Table_Name">
+    <column id="356" parent="242" name="Table_Name">
       <Position>2</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="308" parent="237" name="PRIMARY">
+    <key id="357" parent="242" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Table_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="309" parent="238" name="User_ID">
+    <column id="358" parent="243" name="User_ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="310" parent="238" name="Login">
+    <column id="359" parent="243" name="Login">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="311" parent="238" name="Password">
+    <column id="360" parent="243" name="Password">
       <Position>3</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="312" parent="238" name="Access_ID">
+    <column id="361" parent="243" name="Access_ID">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="313" parent="238" name="Emp_ID">
+    <column id="362" parent="243" name="Emp_ID">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="314" parent="238" name="Clearance_ID">
+    <index id="363" parent="243" name="Clearance_ID">
       <ColNames>Access_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="315" parent="238" name="Emp_ID">
+    <index id="364" parent="243" name="Emp_ID">
       <ColNames>Emp_ID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="316" parent="238" name="PRIMARY">
+    <key id="365" parent="243" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>User_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="317" parent="238" name="user_list_ibfk_3">
+    <foreign-key id="366" parent="243" name="user_list_ibfk_3">
       <ColNames>Access_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>ACESS_RIGHTS</RefTableName>
       <RefColNames>Access_ID</RefColNames>
     </foreign-key>
-    <foreign-key id="318" parent="238" name="user_list_ibfk_2">
+    <foreign-key id="367" parent="243" name="user_list_ibfk_2">
       <ColNames>Emp_ID</ColNames>
       <RefSchemaName>megabit_db</RefSchemaName>
       <RefTableName>EMPLOYEERS_LIST</RefTableName>
       <RefColNames>Emp_ID</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
   </database-model>
 </dataSource>
