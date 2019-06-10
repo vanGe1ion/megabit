@@ -36,9 +36,9 @@
             foreach ($expand as $label => $expandTable){
                 echo "<td style='text-align: left' class='db' id='c-".$i."'>";
                 echo "<button class='table expand' id='exp-".$key."'>".$label."</button>";
-                echo "<img src='/image/greenMark.png' alt='add' class='createInd hidden'>";
-                echo "<img src='/image/blueMark.png' alt='edit' class='updateInd hidden'>";
-                echo "<img src='/image/redMark.png' alt='delete' class='deleteInd hidden'>";
+                echo "<img src='/image/greenMark.png' alt='add' class='indicator createInd hidden'>";
+                echo "<img src='/image/blueMark.png' alt='edit' class='indicator updateInd hidden'>";
+                echo "<img src='/image/redMark.png' alt='delete' class='indicator deleteInd hidden'>";
                 echo "</td>";
                 ++$i;
         }
@@ -61,13 +61,25 @@
 
 </table>
 
-
+<!-- Expands -->
 <?foreach ($tableData->expands  as $key=>$val){?>
 <div id="expTable-<?=$key?>" class="hidden">
     <table class="data"></table>
 </div>
 <?}?>
 
+<!-- Waiter -->
+<div class="overlay"></div>
+<div class="wait-box ui-corner-all">
+    <div class="wait-text">
+        Пожалуйста, дождитесь выполнения операции
+    </div>
+    <div class="wait-img">
+        <img src="/image/loader.gif"/>
+    </div>
+</div>
+
+<!-- Script data -->
 <script>
     var TableData = <?=json_encode($tableData)?>;
 </script>

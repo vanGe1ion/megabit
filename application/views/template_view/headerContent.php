@@ -13,10 +13,5 @@
             <?}?>
         </td>
     </tr>
-    <tr>
-        <td colspan="4">
-            <hr class="template">
-        </td>
-    </tr>
 </table>
 

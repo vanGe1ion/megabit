@@ -6,7 +6,7 @@ class TableDataContainer
 {
     //общие поля
     public $caption =     NULL;
-    public $tempData =    NULL;                                                      // - имя контейнера для данных
+    public $poolName =    NULL;                                                      // - имя контейнера для данных
     public $headRow =     array(/*'dbRowName' => 'rowLabel', ...*/);                 // - шапка таблицы
     public $tableForm =   array(/*'elemName' => 'elemType' ...*/);                   // - информация об елементах формы строки таблицы
     public $querySet =    array(/*'queryType' => 'queryName' ...*/);                 // - набор запросов для работы с таблицей

@@ -9,7 +9,6 @@ class Controller_DishBase extends Controller
         $this->model = new Model_DishBase();
         $this->view = new View();
         $this->data = new MainDataContainer();
-        $this->scriptSet = array();
     }
 
     function action_index()
@@ -29,8 +28,7 @@ class Controller_DishBase extends Controller
             if ($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->scriptSet = array('tableK1Script.js', 'tableK2Script.js', 'dishBaseScript.js');
-                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data, $this->scriptSet);
+                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data);
             }
 
         }
@@ -45,8 +43,7 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->scriptSet = array('tableK1Script.js', 'dishBaseScript.js');
-                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data, $this->scriptSet);
+                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data);
             }
         }
     }
@@ -59,8 +56,7 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->scriptSet = array('tableK1Script.js', 'dishBaseScript.js');
-                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data, $this->scriptSet);
+                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data);
             }
         }
     }
@@ -72,8 +68,7 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->scriptSet = array('tableK1Script.js', 'dishBaseScript.js');
-                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data, $this->scriptSet);
+                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data);
             }
         }
     }

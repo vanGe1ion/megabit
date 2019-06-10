@@ -9,7 +9,7 @@ class NS_TableK2 {
         let hrow = tableData.headRow;
         let tform = tableData.tableForm;
 
-        let tableDataPool = tempDataPool[tableData.tempData];
+        let currentDataPool = queryDataPool[tableData.poolName];
         let parent = table.attr("id");
         parent = parent.substring(7, parent.length);
 
@@ -59,19 +59,19 @@ class NS_TableK2 {
                 curOpts.width(curOpts.width()*2+4);
 
 
-                if(!$(".footer").children().first().children().first().hasClass("hidden"))
+                if(!$("div.pageFooter").children().first().children().first().hasClass("hidden"))
                     $(".options").addClass("hidden");
 
 
-                $.each(tableDataPool.delete[parent], function (key, data) {
+                $.each(currentDataPool.delete[parent], function (key, data) {
                     table.children("#row-"+key).children().last().children(".delete").click();
                 });
-                $.each(tableDataPool.create[parent], function (key, data) {
-                    let newRow = $("<tr id='row-" + parent + "' class='addMark'></tr>");
+                $.each(currentDataPool.create[parent], function (key, data) {
+                    let newRow = $("<tr id='row-" + key + "' class='addMark'></tr>");
                     NS_TableK2.RowCreator(newRow, tableData, data);
                     table.children().last().before(newRow);
                 });
-                $.each(tableDataPool.update[parent], function (key, data) {
+                $.each(currentDataPool.update[parent], function (key, data) {
                     NS_TableK2.RowCreator(table.children("#row-"+key).addClass("editMark"), tableData, data);
                 });
 
@@ -86,7 +86,7 @@ class NS_TableK2 {
 
     //присваиваемы функции основных табличных кнопок
     static AddHandler (buttonSelector, tableData) {
-        let tableDataPool = tempDataPool[tableData.tempData];
+        let currentDataPool = queryDataPool[tableData.poolName];
         $(buttonSelector).parent().parent().before($("<tr />"));
         let adderRow = $(buttonSelector).parent().parent().prev();
         let parent = adderRow.parent().attr("id");
@@ -157,7 +157,7 @@ class NS_TableK2 {
                 let data = NS_TableK2.SendDataCreator(adderRow, tableData);
 
                 //pool
-                PoolDataInserter(tableDataPool, "create", parent, rownum, data);
+                PoolDataInserter(currentDataPool, "create", parent, rownum, data);
                 //dom
                 adderRow.addClass("addMark");
                 adderRow.children().children("select, :text, [type='number']").hide(500, function () {
@@ -169,7 +169,7 @@ class NS_TableK2 {
 
 
     static DeleteHandler (buttonSelector, tableData) {
-        let tableDataPool = tempDataPool[tableData.tempData];
+        let currentDataPool = queryDataPool[tableData.poolName];
         let currow = $(buttonSelector).parent().parent();
         let rownum = currow.attr('id').split('-')[1];
         let parent = currow.parent().attr("id");
@@ -179,7 +179,7 @@ class NS_TableK2 {
         if(currow.hasClass("addMark")){
             ThrowDialog("#dialogs", "Удаление", "Удалить новый элемент?", function () {
                 //pool
-                PoolDataRemover(tableDataPool, "create", parent, rownum);
+                PoolDataRemover(currentDataPool, "create", parent, rownum);
                 //dom
                 currow.remove();
             })
@@ -188,13 +188,13 @@ class NS_TableK2 {
         {
             ThrowDialog("#dialogs", "Удаление", "Элемент был изменен. Вернуть первоначальное значение и пометить на удаление?", function () {
                 //dom
-                NS_TableK2.RowCreator(currow, tableData, tableDataPool.olds[parent][rownum]);
+                NS_TableK2.RowCreator(currow, tableData, currentDataPool.olds[parent][rownum]);
                 currow.addClass("deleteMark").removeClass("editMark").children().last().children().first().button("disable");
                 currow.children().last().children().last().text("Отменить удл.").button({icon: "ui-icon-trash"}).prev().button("disable");
                 //pool
-                PoolDataRemover(tableDataPool, "olds", parent, rownum);
-                PoolDataRemover(tableDataPool, "update", parent, rownum);
-                PoolDataInserter(tableDataPool, "delete", parent, rownum, {});
+                PoolDataRemover(currentDataPool, "olds", parent, rownum);
+                PoolDataRemover(currentDataPool, "update", parent, rownum);
+                PoolDataInserter(currentDataPool, "delete", parent, rownum, {id:rownum});
             })
         }
         else if(currow.hasClass("deleteMark"))
@@ -203,21 +203,20 @@ class NS_TableK2 {
             currow.removeClass("deleteMark");
             $(buttonSelector).text("Удалить").button({icon: "ui-icon-trash"}).prev().button("enable");
             //pool
-            PoolDataRemover(tableDataPool, "delete", parent, rownum);
+            PoolDataRemover(currentDataPool, "delete", parent, rownum);
         }
         else {
             //dom
             currow.addClass("deleteMark");
             $(buttonSelector).text("Отменить удл.").button({icon: "ui-icon-trash"}).prev().button("disable");
             //pool
-            //console.log(isset(tableDataPool.delete[parent]))
-            PoolDataInserter(tableDataPool, "delete", parent, rownum, {})
+            PoolDataInserter(currentDataPool, "delete", parent, rownum, {id:rownum})
         }
     };
 
 
     static EditHandler (buttonSelector, tableData){
-        let tableDataPool = tempDataPool[tableData.tempData];
+        let currentDataPool = queryDataPool[tableData.poolName];
         let currow = $(buttonSelector).parent().parent();
         let rownum = currow.attr('id').split('-')[1];
         let parent = currow.parent().attr("id");
@@ -248,16 +247,16 @@ class NS_TableK2 {
                     NS_TableK2.RowCreator(currow,tableData, data);
                     if(currow.hasClass("addMark")) {
                         //pool
-                        PoolDataInserter(tableDataPool, "create", parent, rownum, data);
+                        PoolDataInserter(currentDataPool, "create", parent, rownum, data);
                     }
                     if(currow.hasClass("editMark")) {
                         //pool
-                        PoolDataInserter(tableDataPool, "update", parent, rownum, data);
+                        PoolDataInserter(currentDataPool, "update", parent, rownum, data);
                     }
                     if(!currow.hasClass("addMark") && !currow.hasClass("editMark")) {
                         //pool
-                        PoolDataInserter(tableDataPool, "olds", parent, rownum, oldrow);
-                        PoolDataInserter(tableDataPool, "update", parent, rownum, data);
+                        PoolDataInserter(currentDataPool, "olds", parent, rownum, oldrow);
+                        PoolDataInserter(currentDataPool, "update", parent, rownum, data);
                         //dom
                         currow.addClass("editMark");
                     }
@@ -286,7 +285,7 @@ class NS_TableK2 {
     //         default:{namespace = NS_TableK1; break;}
     //     }
     //
-    //     $.post("/script/php/newSelect.php",data,function(res){
+    //     $.post("/script/php/Select.php",data,function(res){
     //         $("#expTable-"+expandNum).children("table").attr("id", "parent-"+parentRowNum);
     //         namespace.TableCreator("#expTable-"+expandNum, currentExp, res);
     //         let caption = currentExp.caption + currow.children("#c-2").text();
@@ -360,7 +359,6 @@ class NS_TableK2 {
     }
 
 
-
     //создание заполняемой формы
     static FormCreator (rowHolder, tableData, data) {
 
@@ -372,9 +370,9 @@ class NS_TableK2 {
 
         $.each(currentForm, function( id, type ) {
             let newCell = $("<td class='db' id='c-"+iterator+"'></td>");
-            let inpWidth = rowHolder.siblings().first().children("#c-"+iterator).css("width");
+            let inpWidth = rowHolder.siblings().first().children("#c-"+iterator).width();
             let inpValue = isset(data[id])?data[id]:"";
-            let newElem = FormElemCreator(type, id, inpWidth, inpValue);
+            let newElem = NS_TableK2.FormElemCreator(type, id, inpWidth-4, inpValue);
             newCell.append(newElem);
             rowHolder.append(newCell);
             ++iterator;
@@ -408,6 +406,59 @@ class NS_TableK2 {
     };
 
 
+    //функция создания элемента формы
+    static FormElemCreator (elemType, elemId, width, value) {
+        let newElem;
+        switch (elemType) {
+            case "select": {
+                newElem = $("<select>", {
+                    name:elemId,
+                    id:elemId,
+                    class: "hidden",
+                    css:{
+                        width:width,
+                        height:"21px"
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    dataType:"json",
+                    url: "/script/php/selectFieldData.php",
+                    data: {select_id:elemId},
+
+                    success: function (res) {
+                        newElem.append("<option></option>");
+                        $.each(res, function (val, label) {
+                            let sel = "";
+                            if (label == value)
+                                sel = "selected";
+                            newElem.append("<option "+sel+" value='"+val+"'>"+label+"</option>")
+                        });
+                    },
+                    error: function () {
+                        ThrowNotice("#notices", "Error", "Ошибка!", "ajax","Ошибка создания элемента (SelectField)");
+                    }
+                });
+                break;
+            }
+            default: {
+                newElem = $("<input>", {
+                    type:elemType,
+                    name:elemId,
+                    id:elemId,
+                    value:value,
+                    class:"hidden",
+                    min:0,
+                    css:{
+                        width:width,
+                        minWidth: 40
+                    }
+                });
+            }
+        }
+        return newElem;
+    };
+
 
     //проверка пустых полей
     static NotEmpty (rowHolder, tableData){
@@ -426,12 +477,11 @@ class NS_TableK2 {
         if (errText == '')
             return true;
         else {
-            ThrowNotice("#notices", "Info", "Подсказка", "JS",
+            ThrowNotice("#notices", "Info", "Подсказка", "js",
                 "Следующие поля не должны быть пустыми:<br><p style='margin-left: 5%'>"+errText+"</p>");
             return false;
         }
     }
-
 
 
     //функция взятия данных с формы

@@ -8,7 +8,12 @@ class Model_DishBase
     {
         $data = new MainDataContainer();
         {
-            $data->pageTitle = 'База блюд';
+            $data->pageTitle =      'База блюд';
+
+            $data->scripts =        array(
+                'tableK1Script.js',
+                'dishBaseScript.js'
+            );
 
             $query = Queries::SelectActions($data->pageTitle, $_SESSION['accessRights']);
             $result = Database::DBRequest($query);
@@ -20,8 +25,8 @@ class Model_DishBase
             $data->headerMenu = $headerMenu;
 
             $data->footerMenu = array(
-                'Планирование' => Router::FullRoute(Routes::MENUPLANNER),                                      //todo
-                'Главное меню' => Router::FullRoute(Routes::MAIN)
+                'Планирование' =>       Router::FullRoute(Routes::MENUPLANNER),                                      //todo
+                'Главное меню' =>       Router::FullRoute(Routes::MAIN)
             );
         }
         return $data;
@@ -38,7 +43,7 @@ class Model_DishBase
             $tableData = new TableDataContainer();
             {
                 $tableData->caption =       "Список блюд";
-                $tableData->tempData =      "dishTemp";
+                $tableData->poolName =      "dishPool";
                 $tableData->queryResult =   $queryResult;
                 $tableData->headRow =       array(
                     'Dish_ID' =>                '№',
@@ -47,10 +52,10 @@ class Model_DishBase
                     'Price' =>                  'Цена'
                 );
                 $tableData->querySet =      array(
-                    'create' =>                 '',
+                    'create' =>                 'InsertDishList',
                     'read' =>                   '',
-                    'update' =>                 '',
-                    'delete' =>                 '',
+                    'update' =>                 'UpdateDishList',
+                    'delete' =>                 'DeleteDishList',
                 );
                 $tableData->tableForm =     array(
                     "Dish_Name" =>              "text",
@@ -62,17 +67,17 @@ class Model_DishBase
                 $dish_ing_exp = new TableDataContainer();
                 {
                     $dish_ing_exp->caption =    "Ингредиенты: ";
-                    $dish_ing_exp->tempData =   "dishIngredientsTemp";
+                    $dish_ing_exp->poolName =   "dishIngredientsPool";
                     $dish_ing_exp->headRow =    array(
                         'Ingredient_Name' =>        'Ингредиент',
                         'Quantity' =>               'Количество',
                         'Measure_Name' =>           'Ед.Измерения'
                     );
                     $dish_ing_exp->querySet =      array(
-                        'create' =>                 '',
+                        'create' =>                 'InsertDishIngredients',
                         'read' =>                   'SelectDishIngredients',
-                        'update' =>                 '',
-                        'delete' =>                 '',
+                        'update' =>                 'UpdateDishIngredients',
+                        'delete' =>                 'DeleteDishIngredients',
                     );
                     $dish_ing_exp->tableForm =  array(
                         "Ingredient_ID" =>          "select",
@@ -82,11 +87,6 @@ class Model_DishBase
                     $dish_ing_exp->mainKey =   array(
                         "Dish_ID"
                     );
-
-
-//                    $dish_ing_exp->expands = array(
-//                        0 => array('sommersby' => new TableDataContainer())                                                             //todo delete
-//                    );
                 }
 
                 $tableData->expands = array(
@@ -95,6 +95,7 @@ class Model_DishBase
             }
 
             $data = $this->GetNavigation();
+            array_push($data->scripts, 'tableK2Script.js');
             $data->tableData = $tableData;
         } else
             $data->errorCode = StatFuncs::ThrowError(ErrorCode::EMPTY_DB_RESPONSE);
@@ -105,24 +106,31 @@ class Model_DishBase
 
     public function GetIngredientList()
     {
-        $query = Queries::SelectQuery("INGREDIENT_LIST");
-        $queryResult = Database::DBRequest($query." ORDER BY Ingredient_ID");
+        $query = Queries::SelectIngredientList();
+        $queryResult = Database::DBRequest($query);
         $data = new MainDataContainer();
 
         if ($queryResult != NULL) {
             $tableData = new TableDataContainer();
             {
-
-                $tableData->caption =        "Ингредиенты";
+                $tableData->caption =       "Ингредиенты";
+                $tableData->poolName =      "ingredientPool";
                 $tableData->queryResult =   $queryResult;
-                $tableData->tableMark =      array("Ingredient" => "INGREDIENT_LIST");
-
-                $tableData->headRow =        array(
+                $tableData->headRow =       array(
                     'Ingredient_ID' =>          '№',
                     'Ingredient_Name' =>        'Ингредиент'
                 );
-                $tableData->tableForm = array("Ingredient_Name" => "text");
+                $tableData->querySet =      array(
+                    'create' =>                 'InsertIngredientList',
+                    'read' =>                   '',
+                    'update' =>                 'UpdateIngredientList',
+                    'delete' =>                 'DeleteIngredientList',
+                );
+                $tableData->tableForm =     array(
+                    "Ingredient_Name" =>        "text"
+                );
             }
+
             $data = $this->GetNavigation();
             $data->tableData = $tableData;
         }
@@ -135,24 +143,31 @@ class Model_DishBase
 
     public function GetDishTypeList()
     {
-        $query = Queries::SelectQuery("DISH_TYPES");
-        $queryResult = Database::DBRequest($query." ORDER BY Dish_Type_ID");
+        $query = Queries::SelectDishTypeList();
+        $queryResult = Database::DBRequest($query);
         $data = new MainDataContainer();
 
         if ($queryResult != NULL) {
             $tableData = new TableDataContainer();
             {
 
-                $tableData->caption =        "Типы блюд";
+                $tableData->caption =       "Типы блюд";
+                $tableData->poolName =      "dishTypePool";
                 $tableData->queryResult =   $queryResult;
-                $tableData->tableMark =      array("Dish_Type" => "DISH_TYPES");
 
-                $tableData->headRow =        array(
+                $tableData->headRow =       array(
                     'Dish_Type_ID' =>           '№',
                     'Dish_Type_Name' =>         'Тип блюда'
                 );
-
-                $tableData->tableForm = array("Dish_Type_Name" => "text");
+                $tableData->querySet =      array(
+                    'create' =>                 'InsertDishTypeList',
+                    'read' =>                   '',
+                    'update' =>                 'UpdateDishTypeList',
+                    'delete' =>                 'DeleteDishTypeList',
+                );
+                $tableData->tableForm =     array(
+                    "Dish_Type_Name" =>         "text"
+                );
             }
             $data = $this->GetNavigation();
             $data->tableData = $tableData;
@@ -166,8 +181,8 @@ class Model_DishBase
 
     public function GetMeasureList()
     {
-        $query = Queries::SelectQuery("MEASURES_LIST");
-        $queryResult = Database::DBRequest($query." ORDER BY Measure_ID");
+        $query = Queries::SelectMeasureList();
+        $queryResult = Database::DBRequest($query);
         $data = new MainDataContainer();
 
         if ($queryResult != NULL) {
@@ -175,15 +190,22 @@ class Model_DishBase
             {
 
                 $tableData->caption =       "Ед. измерения";
-                $tableData->queryResult =  $queryResult;
-                $tableData->tableMark =     array("Measure" => "MEASURES_LIST");
+                $tableData->poolName =      "measurePool";
+                $tableData->queryResult =   $queryResult;
 
                 $tableData->headRow =       array(
                     'Measure_ID' =>             '№',
                     'Measure_Name' =>           'Ед. измерения'
                 );
-
-                $tableData->tableForm = array("Measure_Name" => "text");
+                $tableData->querySet =      array(
+                    'create' =>                 'InsertMeasureList',
+                    'read' =>                   '',
+                    'update' =>                 'UpdateMeasureList',
+                    'delete' =>                 'DeleteMeasureList',
+                );
+                $tableData->tableForm =     array(
+                    "Measure_Name" =>           "text"
+                );
             }
             $data = $this->GetNavigation();
             $data->tableData = $tableData;
@@ -193,35 +215,4 @@ class Model_DishBase
 
         return $data;
     }
-
-//    public function GetDishIngredients($dishID)                                                                               todo
-//    {
-//        $querry = Queries::DishIngredientsQuery($dishID);
-//        $querryResult = Database::DBRequest($querry);
-//        $data = new MainDataContainer();
-//
-//        if ($querryResult != NULL) {
-//            $tableData = new TableDataContainer();
-//            {
-//
-//                $tableData->caption =       "Ингредиенты для блюда: ";
-//                $tableData->parentKey =     'Dish_Name';
-//                $tableData->querryResult =  $querryResult;
-//
-//                $tableData->headRow =       array(
-//                    'Ingredient_Name' =>        'Ингредиент',
-//                    'Quantity' =>               'Количество',
-//                    'Measure_Name' =>           'Ед.Измерения'
-//                );
-//            }
-//            $data = $this->GetNavigation();
-//            $data->footerMenu += array('Назад' =>Router::FullRoute(Routes::DISHES));
-//            $data->tableData = $tableData;
-//        } else
-//            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::EMPTY_DB_RESPONSE);
-//
-//        return $data;
-//    }
-
-
 }

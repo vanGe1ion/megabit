@@ -8,7 +8,6 @@ class controller_Authorisation extends Controller
         $this->model = new Model_Authorisation();
         $this->view = new View();
         $this->data = new MainDataContainer();
-        $this->scriptSet = array();
     }
 
     function action_index()
@@ -25,7 +24,7 @@ class controller_Authorisation extends Controller
         if (!StatFuncs::LoggedIn())
             $this->data = $this->model->Login();
 
-        if ($this->data->errorCode == ErrorCode::WITHOUT_ERRORS)//isset($data['errorCode']) &&
+        if ($this->data->errorCode == ErrorCode::WITHOUT_ERRORS)
             Router::GoOn(Routes::MAIN);
         else
             Router::GoOn(Routes::ERRROR);

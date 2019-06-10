@@ -6,33 +6,59 @@ class Model_MenuPlanner extends Model
     public function MenuPlanner(){
         $data = new MainDataContainer();
         {
-            $data->pageTitle = 'Планирование меню';
+            $data->pageTitle =      'Планирование меню';
+            $data->scripts = array(
+                "tableK1Script.js",
+                "tableK2Script.js",
+                "menuPlannerScript.js"
+            );
             $data->footerMenu = array(
-                'Блюда' => Router::FullRoute(Routes::DISHES),
-                'Главное меню' => Router::FullRoute(Routes::MAIN)
+                'Список блюд' =>        Router::FullRoute(Routes::DISHES),
+                'Главное меню' =>       Router::FullRoute(Routes::MAIN)
             );
 
-            $tableData = new TableDataContainer(1);
+            $tableData = new TableDataContainer();
             {
-                $tableData->tableMark =     array("Menu" => "MENU_LIST");
-                $tableData->tableForm =     array("Date" => "date");
+                $tableData->poolName =      "menuPlanPool";
 
-                $tableData->expandButtons =      array();
+                $tableData->tableForm =     array(
+                    "Date" =>                   "date"
+                );
+                $tableData->querySet =      array(
+                    'create' =>                 '',
+                    'read' =>                   '',
+                    'update' =>                 '',
+                    'delete' =>                 '',
+                );
 
-                $dish_menu_sub = new TableDataContainer();
+
+                $dish_menu_exp = new TableDataContainer();
                 {
-                    $dish_menu_sub->headRow =    array(
-                        'Dish_Name' =>      'Блюдо',
-                        'Price' =>          'Цена'
+                    $dish_menu_exp->poolName =   "dishMenuPool";
+
+                    $dish_menu_exp->headRow =    array(
+                        'Dish_Name' =>              'Блюдо'
+                    );
+                    $dish_menu_exp->tableForm =  array(
+                        "Dish_ID" =>                "select",
+                        "Free" =>                   "checkbox",
+                        "Price" =>                  "number"
+                    );
+                    $dish_menu_exp->querySet =   array(
+                        'create' =>                 '',
+                        'read' =>                   '',
+                        'update' =>                 '',
+                        'delete' =>                 '',
+                    );
+                    $dish_menu_exp->mainKey =    array(
+                        "Menu_ID"
                     );
 
-                    $dish_menu_sub->tableMark =     array("Menu" => "DISH_MENU");
-                    $dish_menu_sub->tableForm =     array("Dish_ID" => "select", "Price" => "number");
-
-                    $dish_menu_sub->rsTables =      array("MENU_LIST", "DISH_LIST");
                 }
 
-                $tableData->subTables[0] = $dish_menu_sub;
+                $tableData->expands = array(
+                    0 =>                        array('Меню' => $dish_menu_exp)
+                );
             }
 
             $data->tableData = $tableData;

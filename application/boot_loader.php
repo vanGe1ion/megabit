@@ -1,11 +1,11 @@
 <?php
 
 //подключаем файлы ядра
-//представление данных
+//паттерны данных
 require_once 'core/data/tableDataContainer.php';
 require_once 'core/data/errorDataContainer.php';
 require_once 'core/data/mainDataContainer.php';
-//представление MVC
+//MVC
 require_once 'core/model.php';
 require_once 'core/view.php';
 require_once 'core/controller.php';

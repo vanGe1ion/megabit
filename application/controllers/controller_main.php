@@ -7,7 +7,6 @@ class Controller_Main extends Controller
         $this->model = new Model_Main();
         $this->view = new View();
         $this->data = new MainDataContainer();
-        $this->scriptSet = array();
     }
 
 	function action_index()

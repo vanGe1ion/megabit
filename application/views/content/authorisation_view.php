@@ -16,15 +16,18 @@
         </tr>
     </table>
 </form>
+
+
+
 <!-- После прочтения - сжечь компьютер =) -->
-    <p>
-        <br>
-        Test accounts:<br><br>
-        Login - Password<br><br>
-        admin - admin<br>
-        planner - planner<br>
-        serve - serve<br>
-        ea.kichaev - 123<br>
-        frozen - 123<br>
-    </p>
+<p>
+    <br>
+    Test login (pass - 123):<br><br>
+
+    admin<br>
+    planner<br>
+    serve<br>
+    user<br>
+    frozen<br>
+</p>
 

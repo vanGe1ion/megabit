@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Май 21 2019 г., 17:56
+-- Время создания: Июн 10 2019 г., 11:41
 -- Версия сервера: 5.6.38-log
 -- Версия PHP: 7.1.12
 
@@ -21,28 +21,143 @@ SET time_zone = "+00:00";
 --
 -- База данных: `megabit_db`
 --
-CREATE DATABASE `megabit_db`;
+
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `ACESS_RIGHTS`
+-- Структура таблицы `ACCESS_ACTION`
 --
 
-CREATE TABLE `ACESS_RIGHTS` (
+CREATE TABLE `ACCESS_ACTION` (
+  `Access_ID` int(11) NOT NULL,
+  `Action_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `ACCESS_ACTION`
+--
+
+INSERT INTO `ACCESS_ACTION` (`Access_ID`, `Action_ID`) VALUES
+(0, 1),
+(0, 2),
+(0, 3),
+(0, 4),
+(1, 1),
+(1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ACCESS_CONTROLLER`
+--
+
+CREATE TABLE `ACCESS_CONTROLLER` (
+  `Access_ID` int(11) NOT NULL,
+  `Controller_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `ACCESS_CONTROLLER`
+--
+
+INSERT INTO `ACCESS_CONTROLLER` (`Access_ID`, `Controller_ID`) VALUES
+(0, 1),
+(0, 2),
+(0, 3),
+(0, 4),
+(0, 5),
+(1, 1),
+(1, 2),
+(2, 5),
+(3, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ACESS_RIGHT_LIST`
+--
+
+CREATE TABLE `ACESS_RIGHT_LIST` (
   `Access_ID` int(11) NOT NULL,
   `Access_Name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `ACESS_RIGHTS`
+-- Дамп данных таблицы `ACESS_RIGHT_LIST`
 --
 
-INSERT INTO `ACESS_RIGHTS` (`Access_ID`, `Access_Name`) VALUES
+INSERT INTO `ACESS_RIGHT_LIST` (`Access_ID`, `Access_Name`) VALUES
 (0, 'Администратор'),
 (1, 'Планировщик'),
 (2, 'Персонал'),
 (3, 'Сотрудник'),
 (4, 'Приостановлен');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ACTION_LIST`
+--
+
+CREATE TABLE `ACTION_LIST` (
+  `Action_ID` int(11) NOT NULL,
+  `Action_Name` varchar(50) NOT NULL,
+  `Route` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `ACTION_LIST`
+--
+
+INSERT INTO `ACTION_LIST` (`Action_ID`, `Action_Name`, `Route`) VALUES
+(1, 'Список блюд', 'dishes'),
+(2, 'Ингредиенты', 'ingredients'),
+(3, 'Типы блюд', 'dishtypes'),
+(4, 'Ед. измерения', 'measures');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `CONTROLLER_ACTION`
+--
+
+CREATE TABLE `CONTROLLER_ACTION` (
+  `Controller_ID` int(11) NOT NULL,
+  `Action_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `CONTROLLER_ACTION`
+--
+
+INSERT INTO `CONTROLLER_ACTION` (`Controller_ID`, `Action_ID`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `CONTROLLER_LIST`
+--
+
+CREATE TABLE `CONTROLLER_LIST` (
+  `Controller_ID` int(11) NOT NULL,
+  `Controller_Name` varchar(50) NOT NULL,
+  `Route` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `CONTROLLER_LIST`
+--
+
+INSERT INTO `CONTROLLER_LIST` (`Controller_ID`, `Controller_Name`, `Route`) VALUES
+(1, 'База блюд', 'dishbase'),
+(2, 'Планирование меню', 'menuplanner'),
+(3, 'Заказы', 'orders'),
+(4, 'База пользователей', 'userbase'),
+(5, 'Электронная очередь', 'queuemonitor');
 
 -- --------------------------------------------------------
 
@@ -62,15 +177,20 @@ CREATE TABLE `DISH_INGREDIENTS` (
 --
 
 INSERT INTO `DISH_INGREDIENTS` (`Dish_ID`, `Ingredient_ID`, `Quantity`, `Measure_ID`) VALUES
-(1, 5, 2, 3),
 (1, 7, 10, 1),
-(2, 2, 2, 2),
-(2, 6, 20, 1),
-(2, 7, 15, 1),
-(3, 2, 1, 1),
-(3, 3, 1, 1),
-(3, 5, 1, 1),
-(3, 6, 1, 1);
+(2, 1, 0, 2),
+(2, 6, 17, 1),
+(2, 7, 20, 1),
+(3, 1, 1, 1),
+(3, 2, 2, 1),
+(3, 5, 5, 1),
+(14, 1, 1, 1),
+(14, 2, 1, 1),
+(14, 3, 1, 1),
+(14, 4, 1, 1),
+(14, 5, 1, 1),
+(14, 6, 1, 1),
+(14, 7, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -81,17 +201,19 @@ INSERT INTO `DISH_INGREDIENTS` (`Dish_ID`, `Ingredient_ID`, `Quantity`, `Measure
 CREATE TABLE `DISH_LIST` (
   `Dish_ID` int(11) NOT NULL,
   `Dish_Name` varchar(20) NOT NULL,
-  `Dish_Type_ID` int(11) NOT NULL
+  `Dish_Type_ID` int(11) NOT NULL,
+  `Price` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `DISH_LIST`
 --
 
-INSERT INTO `DISH_LIST` (`Dish_ID`, `Dish_Name`, `Dish_Type_ID`) VALUES
-(1, 'Грибной суп', 1),
-(2, 'Куриный суп', 1),
-(3, 'Салат Цезарь', 3);
+INSERT INTO `DISH_LIST` (`Dish_ID`, `Dish_Name`, `Dish_Type_ID`, `Price`) VALUES
+(1, 'Грибной супп', 1, 20),
+(2, 'Куриный суп', 1, 30),
+(3, 'Салат Цезарь', 3, 45),
+(14, 'fhd', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -105,32 +227,22 @@ CREATE TABLE `DISH_MENU` (
   `Price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `DISH_MENU`
---
-
-INSERT INTO `DISH_MENU` (`Menu_ID`, `Dish_ID`, `Price`) VALUES
-(1, 1, 5),
-(1, 3, 10),
-(2, 2, 15),
-(3, 1, 2);
-
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `DISH_TYPES`
+-- Структура таблицы `DISH_TYPE_LIST`
 --
 
-CREATE TABLE `DISH_TYPES` (
+CREATE TABLE `DISH_TYPE_LIST` (
   `Dish_Type_ID` int(11) NOT NULL,
   `Dish_Type_Name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `DISH_TYPES`
+-- Дамп данных таблицы `DISH_TYPE_LIST`
 --
 
-INSERT INTO `DISH_TYPES` (`Dish_Type_ID`, `Dish_Type_Name`) VALUES
+INSERT INTO `DISH_TYPE_LIST` (`Dish_Type_ID`, `Dish_Type_Name`) VALUES
 (6, 'fa'),
 (2, 'Второе'),
 (5, 'Выпечка'),
@@ -141,25 +253,29 @@ INSERT INTO `DISH_TYPES` (`Dish_Type_ID`, `Dish_Type_Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `EMPLOYEERS_LIST`
+-- Структура таблицы `EMPLOYEE_LIST`
 --
 
-CREATE TABLE `EMPLOYEERS_LIST` (
+CREATE TABLE `EMPLOYEE_LIST` (
   `Emp_ID` int(11) NOT NULL,
   `Fullname` varchar(30) NOT NULL,
   `Department` varchar(20) NOT NULL,
   `Position` varchar(20) NOT NULL,
   `Table_ID` tinyint(4) NOT NULL,
   `Shift_ID` tinyint(4) NOT NULL,
-  `PACS_ID` int(11) NOT NULL
+  `PACS_ID` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `EMPLOYEERS_LIST`
+-- Дамп данных таблицы `EMPLOYEE_LIST`
 --
 
-INSERT INTO `EMPLOYEERS_LIST` (`Emp_ID`, `Fullname`, `Department`, `Position`, `Table_ID`, `Shift_ID`, `PACS_ID`) VALUES
-(1, 'Кичаев Евгений Андреевич', 'НИОКР', 'Инженер-программист', 9, 2, 12345);
+INSERT INTO `EMPLOYEE_LIST` (`Emp_ID`, `Fullname`, `Department`, `Position`, `Table_ID`, `Shift_ID`, `PACS_ID`) VALUES
+(1, 'Кичаев Евгений Андреевич', 'НИОКР', 'Инженер-программист', 9, 2, 12345),
+(2, 'Иванов Иван Иванович', 'где-то', 'кто-то', 9, 1, 68765875),
+(3, 'Сидоров Дмитрий Петрович', 'тут-то', 'этот', 9, 2, 988976875),
+(4, 'Петров Петр Сидорович', 'здесь', 'тот самый', 9, 1, 785760098),
+(5, 'Захаров Захар Захарович', 'еще где-то', 'еще один', 9, 1, 23446568);
 
 -- --------------------------------------------------------
 
@@ -188,19 +304,19 @@ INSERT INTO `INGREDIENT_LIST` (`Ingredient_ID`, `Ingredient_Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `MEASURES_LIST`
+-- Структура таблицы `MEASURE_LIST`
 --
 
-CREATE TABLE `MEASURES_LIST` (
+CREATE TABLE `MEASURE_LIST` (
   `Measure_ID` int(11) NOT NULL,
   `Measure_Name` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `MEASURES_LIST`
+-- Дамп данных таблицы `MEASURE_LIST`
 --
 
-INSERT INTO `MEASURES_LIST` (`Measure_ID`, `Measure_Name`) VALUES
+INSERT INTO `MEASURE_LIST` (`Measure_ID`, `Measure_Name`) VALUES
 (1, 'г'),
 (2, 'л'),
 (3, 'шт');
@@ -216,15 +332,6 @@ CREATE TABLE `MENU_LIST` (
   `Date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `MENU_LIST`
---
-
-INSERT INTO `MENU_LIST` (`Menu_ID`, `Date`) VALUES
-(1, '2019-05-20'),
-(2, '2019-05-21'),
-(3, '2019-05-27');
-
 -- --------------------------------------------------------
 
 --
@@ -238,14 +345,6 @@ CREATE TABLE `ORDERS_MENU` (
   `Count` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `ORDERS_MENU`
---
-
-INSERT INTO `ORDERS_MENU` (`Order_ID`, `Menu_ID`, `Dish_ID`, `Count`) VALUES
-(1, 1, 2, 1),
-(1, 1, 3, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -258,29 +357,22 @@ CREATE TABLE `ORDER_LIST` (
   `Date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `ORDER_LIST`
---
-
-INSERT INTO `ORDER_LIST` (`Order_ID`, `Employee_ID`, `Date`) VALUES
-(1, 1, '2019-05-20');
-
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `SHIFT`
+-- Структура таблицы `SHIFT_LIST`
 --
 
-CREATE TABLE `SHIFT` (
+CREATE TABLE `SHIFT_LIST` (
   `Shift_ID` tinyint(11) NOT NULL,
   `Shift_Name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `SHIFT`
+-- Дамп данных таблицы `SHIFT_LIST`
 --
 
-INSERT INTO `SHIFT` (`Shift_ID`, `Shift_Name`) VALUES
+INSERT INTO `SHIFT_LIST` (`Shift_ID`, `Shift_Name`) VALUES
 (1, 'Смена №1'),
 (2, 'Смена №2');
 
@@ -291,7 +383,7 @@ INSERT INTO `SHIFT` (`Shift_ID`, `Shift_Name`) VALUES
 --
 
 CREATE TABLE `TABLE_LIST` (
-  `Table_id` tinyint(4) NOT NULL,
+  `Table_ID` tinyint(4) NOT NULL,
   `Table_Name` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -299,7 +391,7 @@ CREATE TABLE `TABLE_LIST` (
 -- Дамп данных таблицы `TABLE_LIST`
 --
 
-INSERT INTO `TABLE_LIST` (`Table_id`, `Table_Name`) VALUES
+INSERT INTO `TABLE_LIST` (`Table_ID`, `Table_Name`) VALUES
 (9, 9);
 
 -- --------------------------------------------------------
@@ -313,7 +405,7 @@ CREATE TABLE `USER_LIST` (
   `Login` varchar(20) NOT NULL,
   `Password` varchar(50) NOT NULL,
   `Access_ID` int(11) NOT NULL,
-  `Emp_ID` int(11) DEFAULT NULL
+  `Emp_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -321,21 +413,55 @@ CREATE TABLE `USER_LIST` (
 --
 
 INSERT INTO `USER_LIST` (`User_ID`, `Login`, `Password`, `Access_ID`, `Emp_ID`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 0, NULL),
-(2, 'ea.kichaev', '202cb962ac59075b964b07152d234b70', 3, 1),
-(3, 'planner', '0273b494d66af726729c3817b9e194e3', 1, NULL),
-(4, 'serve', '20cc39187933346eee8108ec76a2f796', 2, NULL),
-(5, 'frozen', '202cb962ac59075b964b07152d234b70', 4, NULL);
+(1, 'admin', '202cb962ac59075b964b07152d234b70', 0, 1),
+(2, 'planner', '202cb962ac59075b964b07152d234b70', 1, 2),
+(3, 'serve', '202cb962ac59075b964b07152d234b70', 2, 3),
+(4, 'user', '202cb962ac59075b964b07152d234b70', 3, 4),
+(5, 'frozen', '202cb962ac59075b964b07152d234b70', 4, 5);
 
 --
 -- Индексы сохранённых таблиц
 --
 
 --
--- Индексы таблицы `ACESS_RIGHTS`
+-- Индексы таблицы `ACCESS_ACTION`
 --
-ALTER TABLE `ACESS_RIGHTS`
+ALTER TABLE `ACCESS_ACTION`
+  ADD KEY `Access_ID` (`Access_ID`),
+  ADD KEY `Action_ID` (`Action_ID`);
+
+--
+-- Индексы таблицы `ACCESS_CONTROLLER`
+--
+ALTER TABLE `ACCESS_CONTROLLER`
+  ADD PRIMARY KEY (`Access_ID`,`Controller_ID`),
+  ADD KEY `Access_ID` (`Access_ID`),
+  ADD KEY `Route_ID` (`Controller_ID`);
+
+--
+-- Индексы таблицы `ACESS_RIGHT_LIST`
+--
+ALTER TABLE `ACESS_RIGHT_LIST`
   ADD PRIMARY KEY (`Access_ID`);
+
+--
+-- Индексы таблицы `ACTION_LIST`
+--
+ALTER TABLE `ACTION_LIST`
+  ADD PRIMARY KEY (`Action_ID`);
+
+--
+-- Индексы таблицы `CONTROLLER_ACTION`
+--
+ALTER TABLE `CONTROLLER_ACTION`
+  ADD KEY `Controller_ID` (`Controller_ID`),
+  ADD KEY `Action_ID` (`Action_ID`);
+
+--
+-- Индексы таблицы `CONTROLLER_LIST`
+--
+ALTER TABLE `CONTROLLER_LIST`
+  ADD PRIMARY KEY (`Controller_ID`);
 
 --
 -- Индексы таблицы `DISH_INGREDIENTS`
@@ -363,16 +489,16 @@ ALTER TABLE `DISH_MENU`
   ADD KEY `Dish_ID` (`Dish_ID`);
 
 --
--- Индексы таблицы `DISH_TYPES`
+-- Индексы таблицы `DISH_TYPE_LIST`
 --
-ALTER TABLE `DISH_TYPES`
+ALTER TABLE `DISH_TYPE_LIST`
   ADD PRIMARY KEY (`Dish_Type_ID`),
   ADD UNIQUE KEY `Dish_Type_Name` (`Dish_Type_Name`);
 
 --
--- Индексы таблицы `EMPLOYEERS_LIST`
+-- Индексы таблицы `EMPLOYEE_LIST`
 --
-ALTER TABLE `EMPLOYEERS_LIST`
+ALTER TABLE `EMPLOYEE_LIST`
   ADD PRIMARY KEY (`Emp_ID`),
   ADD KEY `Table_ID` (`Table_ID`),
   ADD KEY `Shift_ID` (`Shift_ID`);
@@ -385,9 +511,9 @@ ALTER TABLE `INGREDIENT_LIST`
   ADD UNIQUE KEY `Ingredient_Name` (`Ingredient_Name`);
 
 --
--- Индексы таблицы `MEASURES_LIST`
+-- Индексы таблицы `MEASURE_LIST`
 --
-ALTER TABLE `MEASURES_LIST`
+ALTER TABLE `MEASURE_LIST`
   ADD PRIMARY KEY (`Measure_ID`),
   ADD UNIQUE KEY `Measure_Name` (`Measure_Name`);
 
@@ -415,16 +541,16 @@ ALTER TABLE `ORDER_LIST`
   ADD KEY `Employee_ID` (`Employee_ID`);
 
 --
--- Индексы таблицы `SHIFT`
+-- Индексы таблицы `SHIFT_LIST`
 --
-ALTER TABLE `SHIFT`
+ALTER TABLE `SHIFT_LIST`
   ADD PRIMARY KEY (`Shift_ID`);
 
 --
 -- Индексы таблицы `TABLE_LIST`
 --
 ALTER TABLE `TABLE_LIST`
-  ADD PRIMARY KEY (`Table_id`);
+  ADD PRIMARY KEY (`Table_ID`);
 
 --
 -- Индексы таблицы `USER_LIST`
@@ -439,16 +565,28 @@ ALTER TABLE `USER_LIST`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `ACTION_LIST`
+--
+ALTER TABLE `ACTION_LIST`
+  MODIFY `Action_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT для таблицы `CONTROLLER_LIST`
+--
+ALTER TABLE `CONTROLLER_LIST`
+  MODIFY `Controller_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT для таблицы `DISH_LIST`
 --
 ALTER TABLE `DISH_LIST`
-  MODIFY `Dish_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Dish_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT для таблицы `EMPLOYEERS_LIST`
+-- AUTO_INCREMENT для таблицы `EMPLOYEE_LIST`
 --
-ALTER TABLE `EMPLOYEERS_LIST`
-  MODIFY `Emp_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `EMPLOYEE_LIST`
+  MODIFY `Emp_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `INGREDIENT_LIST`
@@ -460,18 +598,18 @@ ALTER TABLE `INGREDIENT_LIST`
 -- AUTO_INCREMENT для таблицы `MENU_LIST`
 --
 ALTER TABLE `MENU_LIST`
-  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `ORDER_LIST`
 --
 ALTER TABLE `ORDER_LIST`
-  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT для таблицы `SHIFT`
+-- AUTO_INCREMENT для таблицы `SHIFT_LIST`
 --
-ALTER TABLE `SHIFT`
+ALTER TABLE `SHIFT_LIST`
   MODIFY `Shift_ID` tinyint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
@@ -485,18 +623,33 @@ ALTER TABLE `USER_LIST`
 --
 
 --
+-- Ограничения внешнего ключа таблицы `ACCESS_ACTION`
+--
+ALTER TABLE `ACCESS_ACTION`
+  ADD CONSTRAINT `access_action_ibfk_1` FOREIGN KEY (`Access_ID`) REFERENCES `ACESS_RIGHT_LIST` (`Access_ID`),
+  ADD CONSTRAINT `access_action_ibfk_2` FOREIGN KEY (`Action_ID`) REFERENCES `ACTION_LIST` (`Action_ID`);
+
+--
+-- Ограничения внешнего ключа таблицы `ACCESS_CONTROLLER`
+--
+ALTER TABLE `ACCESS_CONTROLLER`
+  ADD CONSTRAINT `access_controller_ibfk_1` FOREIGN KEY (`Access_ID`) REFERENCES `ACESS_RIGHT_LIST` (`Access_ID`),
+  ADD CONSTRAINT `access_controller_ibfk_2` FOREIGN KEY (`Controller_ID`) REFERENCES `CONTROLLER_LIST` (`Controller_ID`) ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `CONTROLLER_ACTION`
+--
+ALTER TABLE `CONTROLLER_ACTION`
+  ADD CONSTRAINT `controller_action_ibfk_1` FOREIGN KEY (`Action_ID`) REFERENCES `ACTION_LIST` (`Action_ID`),
+  ADD CONSTRAINT `controller_action_ibfk_2` FOREIGN KEY (`Controller_ID`) REFERENCES `CONTROLLER_LIST` (`Controller_ID`);
+
+--
 -- Ограничения внешнего ключа таблицы `DISH_INGREDIENTS`
 --
 ALTER TABLE `DISH_INGREDIENTS`
-  ADD CONSTRAINT `dish_ingredients_ibfk_3` FOREIGN KEY (`Measure_ID`) REFERENCES `MEASURES_LIST` (`Measure_ID`),
+  ADD CONSTRAINT `dish_ingredients_ibfk_3` FOREIGN KEY (`Measure_ID`) REFERENCES `MEASURE_LIST` (`Measure_ID`),
   ADD CONSTRAINT `dish_ingredients_ibfk_4` FOREIGN KEY (`Ingredient_ID`) REFERENCES `INGREDIENT_LIST` (`Ingredient_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `dish_ingredients_ibfk_5` FOREIGN KEY (`Dish_ID`) REFERENCES `DISH_LIST` (`Dish_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `DISH_LIST`
---
-ALTER TABLE `DISH_LIST`
-  ADD CONSTRAINT `dish_list_ibfk_4` FOREIGN KEY (`Dish_Type_ID`) REFERENCES `DISH_TYPES` (`Dish_Type_ID`);
 
 --
 -- Ограничения внешнего ключа таблицы `DISH_MENU`
@@ -506,17 +659,17 @@ ALTER TABLE `DISH_MENU`
   ADD CONSTRAINT `dish_menu_ibfk_2` FOREIGN KEY (`Dish_ID`) REFERENCES `DISH_LIST` (`Dish_ID`);
 
 --
--- Ограничения внешнего ключа таблицы `EMPLOYEERS_LIST`
+-- Ограничения внешнего ключа таблицы `EMPLOYEE_LIST`
 --
-ALTER TABLE `EMPLOYEERS_LIST`
-  ADD CONSTRAINT `employeers_list_ibfk_1` FOREIGN KEY (`Table_ID`) REFERENCES `TABLE_LIST` (`Table_id`),
-  ADD CONSTRAINT `employeers_list_ibfk_2` FOREIGN KEY (`Shift_ID`) REFERENCES `SHIFT` (`Shift_ID`);
+ALTER TABLE `EMPLOYEE_LIST`
+  ADD CONSTRAINT `employee_list_ibfk_1` FOREIGN KEY (`Table_ID`) REFERENCES `TABLE_LIST` (`Table_ID`),
+  ADD CONSTRAINT `employee_list_ibfk_2` FOREIGN KEY (`Shift_ID`) REFERENCES `SHIFT_LIST` (`Shift_ID`);
 
 --
 -- Ограничения внешнего ключа таблицы `ORDERS_MENU`
 --
 ALTER TABLE `ORDERS_MENU`
-  ADD CONSTRAINT `orders_menu_ibfk_1` FOREIGN KEY (`Order_ID`) REFERENCES `ORDER_LIST` (`Order_ID`),
+  ADD CONSTRAINT `orders_menu_ibfk_1` FOREIGN KEY (`Order_ID`) REFERENCES `ORDER_LIST` (`Order_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `orders_menu_ibfk_2` FOREIGN KEY (`Dish_ID`) REFERENCES `DISH_LIST` (`Dish_ID`),
   ADD CONSTRAINT `orders_menu_ibfk_3` FOREIGN KEY (`Menu_ID`) REFERENCES `MENU_LIST` (`Menu_ID`);
 
@@ -524,14 +677,14 @@ ALTER TABLE `ORDERS_MENU`
 -- Ограничения внешнего ключа таблицы `ORDER_LIST`
 --
 ALTER TABLE `ORDER_LIST`
-  ADD CONSTRAINT `order_list_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `EMPLOYEERS_LIST` (`Emp_ID`);
+  ADD CONSTRAINT `order_list_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `EMPLOYEE_LIST` (`Emp_ID`);
 
 --
 -- Ограничения внешнего ключа таблицы `USER_LIST`
 --
 ALTER TABLE `USER_LIST`
-  ADD CONSTRAINT `user_list_ibfk_2` FOREIGN KEY (`Emp_ID`) REFERENCES `EMPLOYEERS_LIST` (`Emp_ID`),
-  ADD CONSTRAINT `user_list_ibfk_3` FOREIGN KEY (`Access_ID`) REFERENCES `ACESS_RIGHTS` (`Access_ID`);
+  ADD CONSTRAINT `user_list_ibfk_2` FOREIGN KEY (`Emp_ID`) REFERENCES `EMPLOYEE_LIST` (`Emp_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_list_ibfk_3` FOREIGN KEY (`Access_ID`) REFERENCES `ACESS_RIGHT_LIST` (`Access_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

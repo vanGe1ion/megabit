@@ -1,5 +1,5 @@
 $("button").button();
-$("div.content").height($("body").height()-$("footer").height())
+$("div.pageContent").height($("body").height()-$("div.pageFooter").height())
     .css("min-height", $("header").height() + $("nav").height());
 
 
@@ -64,18 +64,20 @@ var ThrowNotice = function (containerSelector, messageType, title, noticer, mess
     notice.addClass(noticeClass);
     notice.children().children(".ui-icon").addClass(icon);
 
-    $("div.content").css("height", 0); //я хз как это сработало, но сработало
+    $("div.pageContent").css("height", 0); //я хз как это сработало, но сработало
     $(notice).appendTo(containerSelector).fadeIn(800).fadeTo(5000, 1.0, function (){
         $(this).fadeOut(800, function () {
-            $("div.content").css("height", $("body").height()-$("footer").height());
+            $("div.pageContent").css("height", $("body").height()-$("div.pageFooter").height());
             $(this).remove()
         })
     });
+    console.log(noticer + messageType + ": " + message);
 };
 
 //вызывает диалоговое окно
-var ThrowDialog = function(containerSelector, title, text, func, buttonSelector = null){                                    //todo bs
+var ThrowDialog = function(containerSelector, title, text, callbackYes, callbackNo = null){
 
+    let answer = null;
     let dialog = $("<div />", {
         title:title,
         class: "hidden"
@@ -83,7 +85,6 @@ var ThrowDialog = function(containerSelector, title, text, func, buttonSelector 
         .append($("<p />", {
             html: text
         }));
-    $(dialog).data("buttonSelector", buttonSelector);
 
     $(dialog).appendTo(containerSelector).dialog({
         modal:true,
@@ -93,10 +94,12 @@ var ThrowDialog = function(containerSelector, title, text, func, buttonSelector 
         height:"auto",
         buttons:{
             Да:function (){
-                func($(this).data("buttonSelector"));
+                callbackYes();
                 $(this).dialog("close").dialog("destroy").remove();
             },
             Нет:function () {
+                if (callbackNo)
+                    callbackNo();
                 $(this).dialog("close").dialog("destroy").remove();
             }
         }
@@ -104,62 +107,11 @@ var ThrowDialog = function(containerSelector, title, text, func, buttonSelector 
         .dialog("open");
 };
 
-//функция создания элемента формы
-var FormElemCreator = function(elemType, elemId, width, value) {
-    let newElem;
-    switch (elemType) {
-        case "select": {
-            newElem = $("<select>", {
-                name:elemId,
-                id:elemId,
-                class: "hidden",
-                css:{
-                    width:width,
-                    height:"21px"
-                }
-            });
-            $.ajax({
-                type: "POST",
-                dataType:"json",
-                url: "/script/php/selectFieldData.php",
-                data: {select_id:elemId},
 
-                success: function (res) {
-                    newElem.append("<option></option>");
-                    $.each(res, function (val, label) {
-                        let sel = "";
-                        if (label == value)
-                            sel = "selected";
-                        newElem.append("<option "+sel+" value='"+val+"'>"+label+"</option>")
-                    });
-                },
-                error: function () {
-                    ThrowNotice("#notices", "Error", "Ошибка!", "ajax","Ошибка создания элемента (SelectField)");
-                }
-            });
-            break;
-        }
-        default: {
-            newElem = $("<input>", {
-                type:elemType,
-                name:elemId,
-                id:elemId,
-                value:value,
-                class:"hidden",
-                min:0,
-                css:{
-                    width:width,
-                    minWidth: 40
-                }
-            });
-        }
-    }
-    return newElem;
-};
 
 //создает пул данных запросов для таблиц бд
-var CreateDataPool = function (dataPool, tableData) {
-    dataPool[tableData.tempData] = {
+var DataPoolCreator = function (dataPool, tableData) {
+    dataPool[tableData.poolName] = {
         create: {},
         update: {},
         delete: {},
@@ -168,7 +120,120 @@ var CreateDataPool = function (dataPool, tableData) {
     if(tableData.expands)
         $.each(tableData.expands, function (key, expand) {
             $.each(expand, function (label, table) {
-                CreateDataPool(dataPool, table)
+                DataPoolCreator(dataPool, table)
+            });
+        });
+};
+
+//выполняет запросы к базе с данными пула, удаляет из него отработанные данные
+var DataPoolRequester = function(dataPool, tableData, expNum = null){
+    let currentPool = JSON.parse(JSON.stringify(dataPool[tableData.poolName]));
+    delete(currentPool.olds);
+
+
+
+    $.each(currentPool, function (levelName, level) {
+        if(expNum == null) {
+            $.each(level, function (id, field) {
+                let data = {
+                    queryName: tableData.querySet[levelName],
+                    queryData: field
+                };
+                $.ajax({
+                    url:"/script/php/ajaxOperator.php",
+                    type:"post",
+                    data:data,
+                    success:function (res) {
+                        if(res){
+                            //pool
+                            PoolDataRemover(dataPool[tableData.poolName], levelName, null, id);
+                            if(levelName == "update")
+                                PoolDataRemover(dataPool[tableData.poolName], "olds", null, id);
+                            //dom
+                            switch (levelName) {
+                                case "delete":{$("#row-"+id).remove(); break;}
+                                case "update":{$("#row-"+id).removeClass("editMark"); break;}
+                                case "create":{$("#row-"+id).removeClass("addMark"); break;}
+                            }
+                        }
+                        else
+                            ThrowNotice("#notices", "Warning", "Результат запроса: Ошибка!", "sql",
+                                "Отклонен запрос для " + tableData.poolName + "." + levelName + " (id " + id + ")");
+                    },
+                    error:function () {
+                        ThrowNotice("#notices", "Error", "Ошибка!", "ajax",
+                            "Ошибка выполнения запроса для " + tableData.poolName + "." + levelName + " (id: " + id + ")");
+                    }
+                })
+            });
+        }
+        else {
+            $.each(level, function (parent, fields) {
+                $.each(fields, function (id, field) {
+                    let data = {
+                        queryName: tableData.querySet[levelName],
+                        queryData: {
+                            parent:parent,
+                            field:field
+                        }
+                    };
+                    $.ajax({
+                        url: "/script/php/ajaxOperator.php",
+                        type: "post",
+                        data: data,
+                        success: function (res) {
+                            if(res) {
+                                //pool
+                                PoolDataRemover(dataPool[tableData.poolName], levelName, parent, id);
+                                if(isset(dataPool[tableData.poolName].olds[parent]))
+                                    PoolDataRemover(dataPool[tableData.poolName], "olds", parent, id);
+                                //dom
+                                if(!isset(dataPool[tableData.poolName][levelName][parent])) {
+                                    let curCell =  $("#row-" + parent + " td").children("#exp-" + expNum).parent();
+                                    curCell.children("." + levelName + "Ind").addClass("hidden");
+                                    if(curCell.children("img.hidden").length == 3)
+                                        curCell.width(1);
+                                }
+                            }
+                            else
+                                ThrowNotice("#notices", "Warning", "Результат запроса: Ошибка!", "sql",
+                                    "Отклонен запрос для " + tableData.poolName + "." + levelName + " (parent: " + parent + ", id: " + id + ")");
+                        },
+                        error:function () {
+                            ThrowNotice("#notices", "Error", "Ошибка!", "ajax",
+                                "Ошибка выполнения запроса для " + tableData.poolName + "." + levelName + " (parent: " + parent + ", id: " + id + ")");
+                        }
+                    })
+                });
+            });
+        }
+    });
+
+
+
+    // let warningText = "";                                                                                                //todo
+    // $.each(currentPool, function (levelName, level) {
+    //     if(Object.keys(level).length) {
+    //         warningText += tableData.poolName + "." + levelName + ":<br>";
+    //         if(expNum == null)
+    //             $.each(level, function (id, field) {
+    //                 warningText += "id: " + id + "<br>";
+    //             });
+    //         else{
+    //             $.each(level, function (parent, fields) {
+    //                 $.each(fields, function (id, field) {
+    //                     warningText += "parent: " + parent + ", id: " + id + "<br>";
+    //                 });
+    //             });
+    //         }
+    //         warningText += "<br>";
+    //     }
+    // });
+
+    if(tableData.expands)
+        $.each(tableData.expands, function (key, expand) {
+            $.each(expand, function (label, table) {
+                DataPoolRequester(dataPool, table, key)
             });
         });
 };

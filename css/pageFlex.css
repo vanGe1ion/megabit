@@ -4,17 +4,17 @@ body {
     background-color: #DDF8FC;
 }
 
-.wrapper {
+.pageWrapper {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
-.content {
+.pageContent {
     flex: 1 0 auto;
     overflow-y: scroll;
 }
 
-.footer {
+.pageFooter {
     flex: 0 0 auto;
 }

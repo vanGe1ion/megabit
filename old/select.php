@@ -15,7 +15,7 @@ if(count($_POST) != 0) {
 $statement = substr($statement, 0, -5);
 
 
-$query = Queries::SelectQuery($dbtable, $statement);
+$query = Queries::SimpleSelectQuery($dbtable, $statement);
 $resdata = Database::DBRequest($query);
 
 

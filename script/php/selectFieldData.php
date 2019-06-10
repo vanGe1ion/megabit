@@ -4,49 +4,22 @@ include_once DOC_ROOT."application/core/database.php";
 include_once DOC_ROOT . "application/classes/queries.php";
 
 $select_id = $_POST["select_id"];
-
+$query = NULL;
 
 $select_name = substr($select_id,0,-2)."Name";
 switch ($select_id){
-    case "Dish_Type_ID":{
-        $resdata = Database::DBRequest(Queries::SelectQuery("DISH_TYPES"));
-        $result = array();
-        while($res = mysqli_fetch_array($resdata))
-           $result[$res[$select_id]] = $res[$select_name];
-        break;
-    }
-    case "Ingredient_ID":{
-        $resdata = Database::DBRequest(Queries::SelectQuery("INGREDIENT_LIST"));
-        $result = array();
-        while($res = mysqli_fetch_array($resdata))
-            $result[$res[$select_id]] = $res[$select_name];
-        break;
-    }
-    case "Measure_ID":{
-        $resdata = Database::DBRequest(Queries::SelectQuery("MEASURES_LIST"));
-        $result = array();
-        while($res = mysqli_fetch_array($resdata))
-            $result[$res[$select_id]] = $res[$select_name];
-        break;
-    }
-    case "Dish_ID":{
-        $resdata = Database::DBRequest(Queries::SelectQuery("DISH_LIST"));
-        $result = array();
-        while($res = mysqli_fetch_array($resdata))
-            $result[$res[$select_id]] = $res[$select_name];
-        break;
-    }
-    case "Access_ID":{
-        break;
-    }
-    case "Shift_ID":{
-        break;
-    }
-    case "Table_ID":{
-        break;
-    }
-    default:
-        $result = array();
+    case "Dish_ID":{$query = "SelectDishList"; break;}
+    case "Ingredient_ID":{$query ="SelectIngredientList"; break;}
+    case "Dish_Type_ID":{$query = "SelectDishTypeList"; break;}
+    case "Measure_ID":{$query = "SelectMeasureList"; break;}
+    case "Access_ID":{break;}
+    case "Shift_ID":{break;}
+    case "Table_ID":{break;}
+    default: {};
 }
+$resdata = Database::DBRequest(Queries::$query());
+$result = array();
+while($res = mysqli_fetch_array($resdata))
+    $result[$res[$select_id]] = $res[$select_name];
 
 echo json_encode($result);

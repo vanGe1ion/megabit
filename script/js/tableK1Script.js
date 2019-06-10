@@ -2,7 +2,7 @@ class NS_TableK1 {
 
     //присваиваемы функции основных табличных кнопок
     static AddHandler(buttonSelector, tableData) {
-        let tableDataPool = tempDataPool[tableData.tempData];
+        let currentDataPool = queryDataPool[tableData.poolName];
         $(buttonSelector).parent().parent().before($("<tr />"));
         let adderRow = $(buttonSelector).parent().parent().prev();
         let newId =  +(adderRow.prev().attr("id").split('-')[1]) + 1;
@@ -23,10 +23,10 @@ class NS_TableK1 {
                 let data = NS_TableK1.SendDataCreator(adderRow, tableData);
 
                 //pool
-                PoolDataInserter(tableDataPool, "create", null, newId, data);
+                PoolDataInserter(currentDataPool, "create", null, newId, data);
                 //dom
                 adderRow.addClass("addMark");
-                adderRow.children().children("select, :text, [type='number']").hide(500, function () {
+                adderRow.children().children("select, :text, [type='number']").hide(150, function () {
                     NS_TableK1.RowCreator(adderRow, tableData, data);
                 });
             }
@@ -35,16 +35,16 @@ class NS_TableK1 {
 
 
     static DeleteHandler (buttonSelector, tableData) {
-        let tableDataPool = tempDataPool[tableData.tempData];
+        let currentDataPool = queryDataPool[tableData.poolName];
         let currow = $(buttonSelector).parent().parent();
         let rownum = currow.attr('id').split('-')[1];
         if(currow.hasClass("addMark")){
             ThrowDialog("#dialogs", "Удаление", "Удалить новый элемент?", function () {
                 //pool
-                PoolDataRemover(tableDataPool, "create", null, rownum);
+                PoolDataRemover(currentDataPool, "create", null, rownum);
                 $.each(tableData.expands, function (num, expand) {
                     $.each(expand, function (label, expTable) {
-                        PoolDataRemover(tempDataPool[expTable.tempData], "create", rownum, null);
+                        PoolDataRemover(queryDataPool[expTable.poolName], "create", rownum, null);
                     })
                 });
                 //dom
@@ -54,7 +54,7 @@ class NS_TableK1 {
         else if(currow.hasClass("editMark"))
             ThrowDialog("#dialogs", "Удаление", "Элемент был изменен. Вернуть первоначальное значение и пометить на удаление (изменения во вложенных таблицах так же будут отменены)?", function () {
                 //dom
-                NS_TableK1.RowCreator(currow, tableData, tableDataPool.olds[rownum]);
+                NS_TableK1.RowCreator(currow, tableData, currentDataPool.olds[rownum]);
                 currow.addClass("deleteMark").removeClass("editMark").children().last().children().first().button("disable");
                 currow.children().last().children().last().text("Отменить удл.").button({icon: "ui-icon-trash"}).prev().button("disable");
                 currow.children("td").children(".expand").button("disable");
@@ -62,13 +62,13 @@ class NS_TableK1 {
                 currow.children().children("img").addClass("hidden").parent().width(1);
 
                 //pool
-                PoolDataRemover(tableDataPool, "olds", null, rownum);
-                PoolDataRemover(tableDataPool, "update", null, rownum);
-                PoolDataInserter(tableDataPool, "delete", null, rownum, {});
+                PoolDataRemover(currentDataPool, "olds", null, rownum);
+                PoolDataRemover(currentDataPool, "update", null, rownum);
+                PoolDataInserter(currentDataPool, "delete", null, rownum, {id:rownum});
 
                 $.each(tableData.expands, function (num, expand) {
                     $.each(expand, function (label, expTable) {
-                        let tdp = tempDataPool[expTable.tempData];
+                        let tdp = queryDataPool[expTable.poolName];
                         $.each(Object.keys(tdp), function (key, level) {
                             PoolDataRemover(tdp, level, rownum, null);
                         });
@@ -83,17 +83,10 @@ class NS_TableK1 {
             $(buttonSelector).text("Удалить").button({icon: "ui-icon-trash"}).prev().button("enable");
             $(buttonSelector).parent().parent().children("td").children(".expand").button("enable");
             //pool
-            PoolDataRemover(tableDataPool, "delete", null, rownum);
+            PoolDataRemover(currentDataPool, "delete", null, rownum);
         }
         else {
-            if(currow.children().children("img.hidden").length == 3){
-                currow.addClass("deleteMark");
-                $(buttonSelector).text("Отменить удл.").button({icon: "ui-icon-trash"}).prev().button("disable");
-                $(buttonSelector).parent().parent().children("td").children(".expand").button("disable");
-                //poll
-                PoolDataInserter(tableDataPool, "delete", null, rownum, {});
-            }
-            else{
+            if(currow.children().children("img").length > 0 && currow.children().children("img.hidden").length < 3){
                 ThrowDialog("#dialogs", "Удаление", "Во вложенных таблицах имеются изминения. Пометка на удаление их отменит. Продолжить?", function () {
                     //dom
                     currow.addClass("deleteMark");
@@ -103,11 +96,11 @@ class NS_TableK1 {
                     currow.children().children("img").addClass("hidden").parent().width(1);
 
                     //poll
-                    PoolDataInserter(tableDataPool, "delete", null, rownum, {});
+                    PoolDataInserter(currentDataPool, "delete", null, rownum, {id:rownum});
 
                     $.each(tableData.expands, function (num, expand) {
                         $.each(expand, function (label, expTable) {
-                            let tdp = tempDataPool[expTable.tempData];
+                            let tdp = queryDataPool[expTable.poolName];
                             $.each(Object.keys(tdp), function (key, level) {
                                 PoolDataRemover(tdp, level, rownum, null);
                             });
@@ -115,12 +108,19 @@ class NS_TableK1 {
                     });
                 });
             }
+            else{
+                currow.addClass("deleteMark");
+                $(buttonSelector).text("Отменить удл.").button({icon: "ui-icon-trash"}).prev().button("disable");
+                $(buttonSelector).parent().parent().children("td").children(".expand").button("disable");
+                //poll
+                PoolDataInserter(currentDataPool, "delete", null, rownum, {id:rownum});
+            }
         }
     };
 
 
     static EditHandler (buttonSelector, tableData){
-        let tableDataPool = tempDataPool[tableData.tempData];
+        let currentDataPool = queryDataPool[tableData.poolName];
         let currow = $(buttonSelector).parent().parent();
         let rownum = currow.attr('id').split('-')[1];
 
@@ -138,7 +138,7 @@ class NS_TableK1 {
         NS_TableK1.FormCreator(currow, tableData, oldrow);
 
         currow.children().children(".cancel").bind("click", function () {
-            currow.children().children("select, :text, [type='number']").hide(500, function () {
+            currow.children().children("select, :text, [type='number']").hide(150, function () {
                 NS_TableK1.RowCreator(currow, tableData, oldrow);
             });
         });
@@ -146,21 +146,21 @@ class NS_TableK1 {
         currow.children().children(".save").bind("click", function () {
             let data = NS_TableK1.SendDataCreator(currow, tableData, rownum);
             if(NS_TableK1.NotEmpty(currow, tableData)) {
-                currow.children().children("select, :text, [type='number']").hide(500, function () {
+                currow.children().children("select, :text, [type='number']").hide(150, function () {
                     NS_TableK1.RowCreator(currow,tableData, data);
 
                     if(currow.hasClass("addMark")){
                         //pool
-                        PoolDataInserter(tableDataPool, "create", null, rownum, data);
+                        PoolDataInserter(currentDataPool, "create", null, rownum, data);
                     }
                     if(currow.hasClass("editMark")){
                         //pool
-                        PoolDataInserter(tableDataPool, "update", null, rownum, data);
+                        PoolDataInserter(currentDataPool, "update", null, rownum, data);
                     }
                     if(!currow.hasClass("addMark") && !currow.hasClass("editMark")) {
                         //pool
-                        PoolDataInserter(tableDataPool, "olds", null, rownum, oldrow);
-                        PoolDataInserter(tableDataPool, "update", null, rownum, data);
+                        PoolDataInserter(currentDataPool, "olds", null, rownum, oldrow);
+                        PoolDataInserter(currentDataPool, "update", null, rownum, data);
                         //dom
                         currow.addClass("editMark");
                     }
@@ -179,7 +179,9 @@ class NS_TableK1 {
 
         let data = {
             queryName:currentExp.querySet['read'],
-            queryData:parentRowNum
+            queryData:{
+                parent:parentRowNum
+            }
         };
 
         let namespace = '';
@@ -189,7 +191,7 @@ class NS_TableK1 {
             default:{namespace = NS_TableK1; break;}
         }
 
-        $.post("/script/php/newSelect.php",data,function(res){
+        $.post("/script/php/Select.php",data,function(res){
             $("#expTable-"+expandNum).children("table").attr("id", "parent-"+parentRowNum);
             namespace.TableCreator("#expTable-"+expandNum, currentExp, res);
             let caption = currentExp.caption + currow.children("#c-2").text();
@@ -215,9 +217,9 @@ class NS_TableK1 {
             expIndies[key] = rowHolder.children().children("#exp-"+key).siblings("img");
             if(!expIndies[key].length)
                 expIndies[key] =
-                     $("<img src='/image/greenMark.png' alt='add' class='createInd hidden'>"+
-                     "<img src='/image/blueMark.png' alt='edit' class='updateInd hidden'>"+
-                     "<img src='/image/redMark.png' alt='delete' class='deleteInd hidden'>")
+                     $("<img src='/image/greenMark.png' alt='add' class='indicator createInd hidden'>"+
+                     "<img src='/image/blueMark.png' alt='edit' class='indicator updateInd hidden'>"+
+                     "<img src='/image/redMark.png' alt='delete' class='indicator deleteInd hidden'>")
         });
 
 
@@ -227,9 +229,9 @@ class NS_TableK1 {
 
         $.each(currentForm, function( id, type ) {
             let newCell = $("<td class='db' id='c-"+iterator+"'></td>");
-            let inpWidth = rowHolder.siblings().first().children("#c-"+iterator).css("width");
+            let inpWidth = rowHolder.siblings().first().children("#c-"+iterator).width()-4;
             let inpValue = isset(data[id])?data[id]:"";
-            let newElem = FormElemCreator(type, id, inpWidth, inpValue);
+            let newElem = NS_TableK1.FormElemCreator(type, id, inpWidth, inpValue);
             newCell.append(newElem);
             rowHolder.append(newCell);
             ++iterator;
@@ -241,18 +243,18 @@ class NS_TableK1 {
                 $.each(expand, function (label, expTable) {
                     let newButton = $("<button class='table expand ' id='exp-"+key+"'>"+label+"</button>");
                     let newCell = $("<td class='db fit' style='text-align: left' id='c-"+iterator+"'></td>");
-                    newCell.append(newButton).append(expIndies[key]).appendTo(rowHolder);
+                    newCell.append(newButton).append(expIndies[key]);
                     if(expIndies[key].siblings("img.hidden").length < 3)
-                        newCell.width($("[id='exp-"+key+"']").width()+10+38);
+                        newCell.width($("[id='exp-" + key + "']").width() + 10 + 38);
+                    newCell.appendTo(rowHolder);
                     ++iterator;
                 });
             });
 
         rowHolder.append(
-            "<td class='db fit options' id='c-"+iterator+"' style='text-align: left'>" +
-            "<button class='table save '>Сохранить</button> " +
-            "<button class='table cancel '>Отмена</button>" +
-            "</td>"
+            $("<td class='db options hidden' id='c-"+iterator+"' style='text-align: left'></td>").css("display", "table-cell")
+                .append($("<button class='table save '>Сохранить</button>")).append("  ")
+                .append($("<button class='table cancel '>Отмена</button>"))
         );
         rowHolder.children().children(".save").button({icon: "ui-icon-disk"});
         rowHolder.children().children(".cancel").button({icon: "ui-icon-cancel"});
@@ -261,6 +263,60 @@ class NS_TableK1 {
 
         rowHolder.children().children(":input").show(500).css('display','inline-block');
     }
+
+
+    //функция создания элемента формы
+    static FormElemCreator(elemType, elemId, width, value) {
+        let newElem;
+        switch (elemType) {
+            case "select": {
+                newElem = $("<select>", {
+                    name:elemId,
+                    id:elemId,
+                    class: "hidden",
+                    css:{
+                        width:width,
+                        height:"21px"
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    dataType:"json",
+                    url: "/script/php/selectFieldData.php",
+                    data: {select_id:elemId},
+
+                    success: function (res) {
+                        newElem.append("<option></option>");
+                        $.each(res, function (val, label) {
+                            let sel = "";
+                            if (label == value)
+                                sel = "selected";
+                            newElem.append("<option "+sel+" value='"+val+"'>"+label+"</option>")
+                        });
+                    },
+                    error: function () {
+                        ThrowNotice("#notices", "Error", "Ошибка!", "ajax","Ошибка создания элемента (SelectField)");
+                    }
+                });
+                break;
+            }
+            default: {
+                newElem = $("<input>", {
+                    type:elemType,
+                    name:elemId,
+                    id:elemId,
+                    value:value,
+                    class:"hidden",
+                    min:0,
+                    css:{
+                        width:width,
+                        minWidth: 40
+                    }
+                });
+            }
+        }
+        return newElem;
+    };
 
 
     //проверка пустых полей
@@ -280,7 +336,7 @@ class NS_TableK1 {
         if (errText == '')
             return true;
         else {
-            ThrowNotice("#notices", "Info", "Подсказка", "JS",
+            ThrowNotice("#notices", "Info", "Подсказка", "js",
                 "Следующие поля не должны быть пустыми:<br><p style='margin-left: 5%'>"+errText+"</p>");
             return false;
         }
@@ -327,7 +383,7 @@ class NS_TableK1 {
         });
 
 
-        //переписать бы енту хуйню, но день. еще сломаю боюсь, а так вроде работает
+        //переписать бы енту хуйню, но лень. еще сломаю боюсь, а так вроде работает
         $.each(selects, function(key, value) {
             (async function(){
                 let mySelect =  await $.post("/script/php/selectFieldData.php", {select_id: value.myid}, "json")
@@ -348,9 +404,10 @@ class NS_TableK1 {
                 $.each(expand, function (label, expTable) {
                     let newButton = $("<button class='table expand' id='exp-"+key+"'>"+label+"</button>");
                     let newCell = $("<td class='db fit' style='text-align: left' id='c-"+iterator+"'></td>");
-                    newCell.append(newButton).append(expIndies[key]).appendTo(rowHolder);
+                    newCell.append(newButton).append(expIndies[key]);
                     if(expIndies[key].siblings("img.hidden").length < 3)
                         newCell.width($("[id='exp-"+key+"']").width()+10+38);
+                    newCell.appendTo(rowHolder);
                     ++iterator;
                 });
             });
@@ -360,9 +417,9 @@ class NS_TableK1 {
             NS_TableK1.ExpandHandler(this, tableData);
         });
 
-        rowHolder.append($("<td class='db fit options' id='c-"+iterator+"'></td>"));
+        rowHolder.append($("<td class='db options hidden' id='c-"+iterator+"'></td>").css("display", "table-cell"));
 
-        rowHolder.children().last().append("<button class='table edit'>Редактировать</button> <button class='table delete'>Удалть</button>");
+        rowHolder.children().last().append("<button class='table edit'>Редактировать</button>  <button class='table delete'>Удалть</button>");
 
         rowHolder.children().children(".edit").button({icon: "ui-icon-pencil"}).bind("click", function(){
             NS_TableK1.EditHandler(this, tableData);

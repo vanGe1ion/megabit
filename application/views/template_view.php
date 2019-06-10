@@ -12,8 +12,10 @@
         <? include "template_view/libraries.html" ?>
 
         <!--Project data-->
+
         <!--scripts-->
         <? include "template_view/scripts.php" ?>
+
         <!--stylesheets-->
         <? include "template_view/stylesheets.html" ?>
 
@@ -21,21 +23,21 @@
 
     <!-- Page Body -->
     <body>
-        <div class="wrapper">
-            <div class="content">
+        <div class="pageWrapper">
+            <div class="pageContent">
 
 
 
-                <!-- Header -->
+                <!-- Header Content-->
                 <header>
-                    <? include "template_view/header.php" ?>
+                    <? include "template_view/headerContent.php" ?>
                 </header>
 
 
 
                 <!-- Header Navigation -->
                 <nav>
-                    <? include "template_view/headNavigation.php" ?>
+                    <? include "template_view/headerNavigation.php" ?>
                 </nav>
 
 
@@ -46,13 +48,11 @@
                 </main>
 
 
-            </div><!--content-->
+            </div><!--pageContent-->
 
 
 
-            <!-- Footer -->
-            <footer>
-                <div class="footer">
+            <div class="pageFooter">
 
 
                     <!-- Dialogs -->
@@ -61,16 +61,20 @@
                     <!-- Highlights / Errors -->
                     <div id="notices" align="center"></div>
 
-                    <!-- Footer Navigation/Content -->
-                    <div>
-                        <? include "template_view/footer.php" ?>
-                    </div>
+                    <!-- Footer Navigation -->
+                    <nav>
+                        <? include "template_view/footerNavigation.php" ?>
+                    </nav>
+
+                    <!-- Footer Content -->
+                    <footer>
+                        <? include "template_view/footerContent.php" ?>
+                    </footer>
 
 
-                </div>
-            </footer>
+            </div><!--pageFooter-->
 
-        </div><!--wrapper-->
+        </div><!--pageWrapper-->
 
     </body>
 </html>

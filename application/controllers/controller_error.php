@@ -8,7 +8,6 @@ class Controller_Error extends Controller
         $this->model = new Model_Error();
         $this->view = new View();
         $this->data = new MainDataContainer();
-        $this->scriptSet = array();
     }
 
     function action_index()
