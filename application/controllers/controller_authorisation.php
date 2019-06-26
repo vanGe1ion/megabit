@@ -1,7 +1,7 @@
 <?php
 
 
-class controller_Authorisation extends Controller
+class Controller_Authorisation extends Controller
 {
     function __construct()
     {
@@ -14,9 +14,10 @@ class controller_Authorisation extends Controller
     {
         if (StatFuncs::LoggedIn())
             Router::GoOn(Routes::MAIN);
-        else
+        else {
             $this->data->pageTitle = 'Авторизация';
             $this->view->Generate('authorisation_view.php', 'template_view.php', $this->data);
+        }
     }
 
     function action_login()

@@ -96,7 +96,7 @@ class NS_TableK2 {
         NS_TableK2.FormCreator(adderRow, tableData, {});
 
 
-        //управление набором опций ключевого селекта(ебаная дичь, кторая трахала мне мозг на протяжении 2 дней)
+        //управление набором опций ключевого селекта(ебаная дичь, которая трахала мне мозг на протяжении 2 дней)
         let keySelect = adderRow.children().first().children("select");
         keySelect.hover(function () {
             let row = $(buttonSelector).parent().parent().prev();

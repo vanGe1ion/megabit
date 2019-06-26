@@ -12,7 +12,7 @@ class Controller_Orders extends Controller
 
     function action_index()
     {
-        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER, AccessRights::USER))) {
+        if (StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER, AccessRights::USER))) {
             $this->data = $this->model->Orders();
             $this->view->Generate('order_view.php', 'template_view.php', $this->data);
         }

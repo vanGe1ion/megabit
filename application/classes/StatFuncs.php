@@ -1,7 +1,7 @@
 <?php
 
 
-class StatFuncs
+abstract class StatFuncs
 {
 
     //функция возвращает true если пользователь залогинен

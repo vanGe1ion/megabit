@@ -1,29 +1,75 @@
-<div style="text-align: center; padding: 3px">
-    <label for="calendar">Выберите неделю: </label>
-    <input type="text" id="calendar" name="calendar" class="calendar" >
-</div>
+<div class="mainBody" align="center">
 
-
-<div class="main_block" style="margin-top: 30px; display: none;">
-    <?for($i = 0; $i < 3; ++$i){?>
-        <div class="sub_block">
-            <?for($j = 0; $j < 2; ++$j){?>
-                <div id="w-<?=$i*2+$j?>" class="table_block dayOfWeek" align="center">
-                    <table class="data menu"></table>
-                </div>
-            <?}?>
+    <div class="calendarMain">
+        <div style="width: 200px;"></div>
+        <div align="center">
+            <h2 style="margin: 0;">Текущая неделя:<br></h2>
         </div>
-    <?}?>
+        <div style="text-align: center;">
+            <label for="calendar"><h3 style="margin: 3px;">Выбор недели:</h3></label>
+            <input type="text" id="calendar" name="calendar" class="calendar">
+            <div class="calendarButtons">
+                <button id="prev" class="calendar">&lt;</button>
+                <button id="today" class="calendar">#</button>
+                <button id="next" class="calendar">&gt;</button>
+            </div>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="menuBody" style="width: 93%;">
+        <?$week = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница"]?>
+
+        <table id="mptable" class="data" style="width: 100%">
+            <tr id="headRow">
+                <th class="db fit">Тип блюда</th>
+                <?foreach ($week as $key=>$dayWeek)
+                    echo "<th id='c-".$key."' class='db'>".$dayWeek."<br><span></span></th>"?>
+            </tr>
+
+
+
+            <?$tableData = $data->tableData;
+            while($res = mysqli_fetch_array($tableData->queryResult)) {?>
+                <tr id="row-<?=$res["Dish_Type_ID"]?>">
+                    <th class="db"><?=$res["Dish_Type_Name"]?></th>
+                    <?foreach ($week as $key=>$dayWeek){?>
+                        <td id="c-<?=$key?>" class="db"><div class="menuDishList"></div></td>
+                    <?}?>
+                </tr>
+            <?}?>
+
+
+
+            <tr class="options">
+                <td class="db"></td>
+                <?for($i = 0; $i <= count($week)-1; ++$i){?>
+                <td id="c-<?=$i?>" class="db"></td>
+                <?}?>
+            </tr>
+
+
+        </table>
+
+    </div>
+
 </div>
 
-<div id="confirmMenu" title="Подтвердите удаление" style="display: none">
-    <p>Вы дествительно хотите удалить меню?</p>
+<!-- Waiter -->
+<div class="overlay"></div>
+<div class="wait-box ui-corner-all">
+    <div class="wait-text">
+        Пожалуйста, дождитесь выполнения операции
+    </div>
+    <div class="wait-img">
+        <img src="/image/loader.gif"/>
+    </div>
 </div>
 
+<!-- Script data -->
 <script>
-    var tableData = <?=json_encode($data->tableData)?>;
-    var tableForm = tableData.tableForm;
-    var tableMark = tableData.tableMark;
-    var subButtons = tableData.subButtons;
-    var subTables = tableData.subTables;
+    var TableData = <?=json_encode($data->tableData)?>
 </script>
+
+

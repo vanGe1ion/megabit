@@ -1,6 +1,6 @@
 <?php
 
-class AccessRights
+abstract class AccessRights
 {
     const ADMIN = 0;
     const PLANNER = 1;

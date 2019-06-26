@@ -1,10 +1,3 @@
-div.tableDate{
-    font-size: x-large;
-    font-weight: bolder;
-    margin: 10px 0px;
-    text-align: center;
-}
-
 div.overlay{
     z-index: 200;
     background: #858585;
@@ -14,4 +7,18 @@ div.overlay{
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+
+div.menuDishList{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+div.dishOfMenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1px 0;
 }

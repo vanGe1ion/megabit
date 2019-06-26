@@ -1,6 +1,6 @@
 <?php
 
-class Model_main extends Model{
+class Model_Main extends Model{
 
     public function GetMain()
     {

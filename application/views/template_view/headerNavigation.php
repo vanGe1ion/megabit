@@ -1,5 +1,5 @@
 <? $headMenu = $data->headerMenu;?>
-<table style="width: 100%">
+<table style="width: 100%; margin-bottom: 1%">
     <tr>
         <td><hr class="pageHr"></td>
     </tr>

@@ -97,6 +97,7 @@ class Model_DishBase
             $data = $this->GetNavigation();
             array_push($data->scripts, 'tableK2Script.js');
             $data->tableData = $tableData;
+            $data->errorCode = StatFuncs::ThrowError(ErrorCode::WITHOUT_ERRORS);
         } else
             $data->errorCode = StatFuncs::ThrowError(ErrorCode::EMPTY_DB_RESPONSE);
 
@@ -133,9 +134,10 @@ class Model_DishBase
 
             $data = $this->GetNavigation();
             $data->tableData = $tableData;
+            $data->errorCode = StatFuncs::ThrowError(ErrorCode::WITHOUT_ERRORS);
         }
         else
-            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::EMPTY_DB_RESPONSE);
+            $data->errorCode = StatFuncs::ThrowError(ErrorCode::EMPTY_DB_RESPONSE);
 
         return $data;
     }
@@ -171,9 +173,10 @@ class Model_DishBase
             }
             $data = $this->GetNavigation();
             $data->tableData = $tableData;
+            $data->errorCode = StatFuncs::ThrowError(ErrorCode::WITHOUT_ERRORS);
         }
         else
-            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::EMPTY_DB_RESPONSE);
+            $data->errorCode = StatFuncs::ThrowError(ErrorCode::EMPTY_DB_RESPONSE);
 
         return $data;
     }
@@ -209,9 +212,10 @@ class Model_DishBase
             }
             $data = $this->GetNavigation();
             $data->tableData = $tableData;
+            $data->errorCode = StatFuncs::ThrowError(ErrorCode::WITHOUT_ERRORS);
         }
         else
-            $data['errorCode'] = StatFuncs::ThrowError(ErrorCode::EMPTY_DB_RESPONSE);
+            $data->errorCode = StatFuncs::ThrowError(ErrorCode::EMPTY_DB_RESPONSE);
 
         return $data;
     }

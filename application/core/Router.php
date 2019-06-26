@@ -5,7 +5,7 @@
 > цепляет классы контроллеров и моделей;
 > создает экземпляры контролеров страниц и вызывает действия этих контроллеров.
 */
-class Router
+abstract class Router
 {
 
 	public static function StartRouting()
@@ -98,7 +98,7 @@ class Router
 
 	static private function ErrorPage404()
 	{
-	    StatFuncs::ThrowError(404);
+	    StatFuncs::ThrowError(ErrorCode::NOT_FOUND);
         self::GoOn(Routes::ERRROR);
     }
 

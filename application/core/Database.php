@@ -24,14 +24,18 @@ class Database {
 
     // Constructor
     private function __construct() {
-        $this->_connection = new mysqli(HOSTNAME, LOGIN, PASSWORD, DBNAME);
-
-        // Error handling
-        if(mysqli_connect_error()) {
+        try {
+            $this->_connection = mysqli_connect(HOSTNAME, LOGIN, PASSWORD, DBNAME);
+        }
+        catch(Exception $e){
             StatFuncs::ThrowError(ErrorCode::BAD_DB_CONNECTION);
             Router::GoOn(Routes::ERRROR);
-            //trigger_error("Failed to connect to MySQL: " . mysqli_connect_error(),E_USER_ERROR);
+            die();
         }
+        // Error handling
+//        if(!$this->_connection) {
+//            trigger_error("Failed to connect to MySQL: " . mysqli_connect_error(),E_USER_ERROR);
+//        }
     }
 
 

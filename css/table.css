@@ -20,8 +20,6 @@ table.mainMenu, table.data{
 
 table.data{
     border: 3px solid black;
-    margin-top: 3%;
-    margin-bottom: 3%
 }
 
 td.db, th.db{
@@ -29,18 +27,6 @@ td.db, th.db{
     text-align: center;
     border: black 1px solid;
 
-}
-
-tr.addMark {
-    background-color: lightgreen;
-}
-
-tr.editMark {
-    background-color: lightskyblue;
-}
-
-tr.deleteMark {
-    background-color: lightcoral;
 }
 
 

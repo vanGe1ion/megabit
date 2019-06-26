@@ -1,312 +1,379 @@
 var dates = [];
-
+var queryDataPool = {};
+DataPoolCreator(queryDataPool, TableData);
+$(".wait-box, .overlay").hide();
+$(".options").hide();
+$("#headRow th[id^='c-']").width(($("#headRow").width() - $("#headRow th.fit").width())/5);
 
 $("#calendar").css("text-align", "center").datepicker({
     dateFormat:"dd.mm.yy",
     onSelect:function (){
-        $(".main_block").slideUp(0);
-        MenuHandler(this)
+        MenuHandler(this);
     }
 });
 
 
-var MenuHandler = function(selector){
-    $.each($("table.menu"), function (key, table) {
-        $(table).html("");
-    });
 
-    let curdate = moment(moment($(selector).datepicker('getDate')));
+//кнопки управления формой
+$("div.pageFooter").prepend($("<div />", {
+        align:"center",
+        css:{
+            marginBottom: "5px"
+        }
+    })
+        .append($("<button />", {
+            id:"db-edit",
+            text:"Режим редактирования"
+        }).button())
+        .append($("<button />", {
+            id:"db-save",
+            class:"hidden",
+            text:"Сохранить изменения"
+        }).button())
+        .append($("<button />", {
+            id:"db-cancel",
+            class:"hidden",
+            text:"Отменить изменения"
+        }).button())
+);
+$("div.pageContent").height($("body").height()-$("div.pageFooter").height());
+
+$("#db-edit").click(function () {
+    $(this).addClass("hidden");
+    $("#db-save, #db-cancel").removeClass("hidden");
+    $(".options").fadeIn(500);
+});
+
+$("#db-cancel").click(function () {
+    ThrowDialog("#dialogs", "Отмена изменений", "Отменить все внесенные изменения?", function () {
+        $("#db-edit").removeClass("hidden");
+        $("#db-save, #db-cancel").addClass("hidden");
+
+
+        $(".addMark").remove();
+        $(":contains('Отменить удл.')").click();
+        $(".cancel").click();
+        $.each($(".editMark"), function (key, row) {
+            $(row).removeClass("editMark");
+            NS_TableK1.RowCreator($(row), TableData, queryDataPool[TableData.poolName].olds[$(row).attr("id").split("-")[1]])
+        });
+        setTimeout(function () {
+            $(".options").fadeOut(150);
+        },150);
+        DataPoolCreator(queryDataPool, TableData);
+        $(".indicator").addClass("hidden").parent().width(1);
+    })
+});
+
+$("#db-save").click(function () {
+    if ($("table td .save").length)
+        ThrowNotice("#notices", "Info", "Подсказка", "js",
+            "Имеются непринятые изменения. Пожалуйста, для продолжения сохраните или отмените их");
+    else {
+
+        $(document).bind("ajaxStart", function () {
+            $("div.overlay, div.wait-box").fadeIn(200);
+        });
+
+        $(document).bind("ajaxStop", function () {
+            $("div.overlay, div.wait-box").fadeOut(200);
+
+            if($(".addMark, .editMark, .deleteMark").length || $(".indicator.hidden").length < $(".indicator").length)
+                ThrowNotice("#notices", "Info", "Результат запроса", "js",
+                    "Некоторые запросы не были выполнены");
+            else{
+                setTimeout(function () {
+                    ThrowNotice("#notices", "Info", "Результат запроса", "js",
+                        "Все запросы выполнены успешно");
+                    $("#db-edit").removeClass("hidden");
+                    $("#db-save, #db-cancel").addClass("hidden");
+                    $(".options").fadeOut(150);
+                },150);
+            }
+
+            $(this).unbind();
+        });
+
+        DataPoolRequester(queryDataPool, TableData);
+    }
+});
+
+
+
+
+
+
+var MenuHandler = function(selector){
+    $("#mptable td div, tr.options td").html("");
+
+    let curdate = moment($(selector).datepicker('getDate'));
     if(curdate.weekday() == 0)
         curdate.subtract(7-1, "d");
     else
         curdate.subtract(curdate.weekday()-1, "d");
-
-
-    for(let i = 0; i < 6; ++i){
+    for(let i = 0; i < 5; ++i){
         dates[i] = moment(curdate);
+        $("#headRow th span").eq(i).html(dates[i].format("DD.MM.Y"));
         curdate.add(1, "d");
     }
+    $(selector).val(dates[0].format("DD.MM.Y") + " - " + dates[4].format("DD.MM.Y"));
+    $("#availMenu h3 span").html(dates[0].format("DD.MM.Y") + " - " + dates[4].format("DD.MM.Y"));
 
 
-    $(selector).val(dates[0].format("DD.MM.Y") + " - " + dates[5].format("DD.MM.Y"));
-
-    $(".main_block").slideDown(1000);
-
-    $.each($("table.menu"), function (key, table) {
-        $(table).append("<caption>" + dates[key].locale('ru').format('D MMMM Y г. ') + "</caption>");
-
+    $.each($("#headRow th[id^='c-']"), function (key, th) {
         $.ajax({
-            url:"/script/php/select.php",
+            url:"/script/php/Select.php",
             type:"post",
             dataType:"json",
             data:{
-                tableName: "MENU_LIST",
-                Date:dates[key].format("Y-MM-DD")
+                queryName: TableData.querySet["read"],
+                queryData:{
+                    Date: dates[key].format("Y-MM-DD")
+                }
             },
 
             success: function (res) {
-                if(res.length == 0)
-                    MenuAdderCreator(table);
-                else {
-
-                    MenuCreator(table, res[0]["Menu_ID"]);
-
-
-                    let data = {
-                        subTable:subTables[0],
-                        parent:{
-                            fieldName: "Menu_ID",
-                            fieldId: res[0]["Menu_ID"]
-                        }
-                    };
+                let menuOptCell = $("tr.options td#c-"+key);
+                let menuOption = MenuOptionsCreator(menuOptCell, res.length? "delete" : "add");
+                if(res.length) {
+                    menuOption.attr("id", "menu-" + res[0].Menu_ID);
+                    //todo dish menu
 
 
-                    $.post(
-                        "/script/php/subSelect.php",
-                        data,
-                        function (res) {
-                            SubTableCreator($("#w-"+key), res, data, "58px");
-
-                        },
-                        "json"
-                    )
-                        .fail(function () {
-                            ThrowNotice($("#ajaxError"), "Ошибка чтения меню на " + dates[key].format("DD.MM.Y"));
-                        });
                 }
+
             },
 
             error: function () {
-                ThrowNotice($("#ajaxError"), "Ошибка чтения списка меню (" + dates[key].format("DD.MM.Y") +")");
+                ThrowNotice("#notices", "Error", "Ошиибка", "ajax",
+                    "Ошибка чтения списка меню (" + dates[key].format("DD.MM.Y") +")");
             }
         })
     });
 };
 
 
-var MenuAddHandler = function (buttonHolder) {
-    let date = dates[buttonHolder.parent().parent().parent().attr("id").split("-")[1]];
-    $.post("/script/php/select.php", {tableName: "MENU_LIST"}, "JSON")
+var MenuAddHandler = function (buttonSelector) {
+    let date = dates[$(buttonSelector).parent().attr("id").split("-")[1]];
+    let currentDataPool = queryDataPool[TableData.poolName];
+
+    $.post("/script/php/Select.php", {queryName: "SelectMaxMenuID", queryData:{}}, "JSON")
         .done(function (res) {
-            let newID = 0;
-            $.each(JSON.parse(res), function (key, val) {
-                newID = (newID < val["Menu_ID"])? val["Menu_ID"] : newID;
-            });
-            ++newID;
-            let data = {
-                id:newID,
-                tableMark:tableData.tableMark,
-                Date:date.format("Y-MM-DD")
-            };
-            $.ajax({
-                type: "POST",
-                url: "/script/php/add.php",
-                data: data,
+            let newID;
+            let parseRes = JSON.parse(res);
+            let data = {};
 
-                success: function (result) {
-                    if(result) {
-                        let currentTable = buttonHolder.parent().parent().html("");
-                        currentTable.append("<caption>" + date.locale('ru').format('D MMMM Y г. ') + "</caption>");
+            if(parseRes.length)
+                newID = +parseRes[0].Menu_ID + 1;
+            else
+                newID = Object.keys(currentDataPool.create).length ? Math.max.apply(null, Object.keys(currentDataPool.create)) + 1 : 1;
 
-                        MenuCreator(currentTable, newID);
+            data.id  = newID;
+            data[Object.keys(TableData.tableForm)[0]] = date.format("Y-MM-DD");
 
-                        let DoT = {
-                            subTable:subTables[0],
-                            parent:{
-                                fieldName: "Menu_ID",
-                                fieldId: newID
-                            }
-                        };
-                        currentTable.parent().slideUp(0);
-                        SubTableCreator(currentTable.parent(), {}, DoT, "58px");
-                        currentTable.parent().slideDown(300);
-                    }
-                    else
-                        ThrowNotice($("#sqlError"), "Данное меню уже существует");
-                },
-                error: function () {
-                    ThrowNotice($("#ajaxError"), "Ошибка создания меню (" + date.format("DD.MM.Y") + ")");
-                }
-            });
+            //pool
+            PoolDataInserter(currentDataPool, "create", null, newID, data);
+            //dom
+            CollMarker(buttonSelector, "addMark");
+            MenuOptionsCreator($(buttonSelector).parent(), "delete").attr("id", "menu-" + newID);
+            $(buttonSelector).remove();
+            // todo dishmenu
         })
         .fail(function () {
-            ThrowNotice($("#ajaxError"), "Ошибка чтения списка меню (*)");
+            ThrowNotice("#notices", "Error", "Ошиибка", "ajax",
+                "Ошибка чтения списка меню (*)");
         });
-
 };
 
 
-var MenuDeleteHandler = function (buttonHolder) {
-    let date = dates[buttonHolder.parent().parent().parent().attr("id").split("-")[1]];
-    let menuID = buttonHolder.parent().parent().attr("id").split("-")[1];
-    let data = {
-        id:menuID,
-        tableMark:tableData.tableMark,
-    };
+var MenuDeleteHandler = function (buttonSelector) {
+    let currentDataPool = queryDataPool[TableData.poolName];
+    let prevCell = $(buttonSelector).parent().parent().prev().children("#"+$(buttonSelector).parent().attr("id"));
+    let menuID = $(buttonSelector).attr("id").split("-")[1];
 
-    $.ajax({
-        type: "POST",
-        url: "/script/php/delete.php",
-        data: data,
+    if(prevCell.hasClass("addMark")){
+        ThrowDialog("#dialogs", "Удаление", "Удалить новый элемент?", function () {
+            //pool
+            PoolDataRemover(currentDataPool, "create", null, menuID);
+            //dom
+            CollMarker(buttonSelector, "addMark", true);
+            MenuOptionsCreator($(buttonSelector).parent(), "add");
+            //todo dishmenu
+            $(buttonSelector).remove();
+        });
+    }
+    else if(prevCell.hasClass("deleteMark")){
+        //pool
+        PoolDataRemover(currentDataPool, "delete", null, menuID);
+        //dom
+        CollMarker(buttonSelector, "deleteMark", true);
+        $(buttonSelector).text("Удалить меню").button({icon: "ui-icon-trash"});
+    }
+    else{
+        let data = {
+            id:menuID,
+        };
+        //pool
+        PoolDataInserter(currentDataPool, "delete", null, menuID, data);
+        //dom
+        CollMarker(buttonSelector, "deleteMark");
+        $(buttonSelector).text("Отменить удл.").button({icon: "ui-icon-trash"});
+    }
+};
 
-        success: function (result) {
-            if(result)
-            {
-                let currentTable = buttonHolder.parent().parent().html("");
-                $(currentTable).append("<caption>" + date.locale('ru').format('D MMMM Y г. ') + "</caption>");
-                MenuAdderCreator(currentTable);
-            }
-            else
-                ThrowNotice($("#sqlError"), "Ошибка при удалении меню (" + date.locale('ru').format('DD.MM.Y') + ")");
-        },
-        error: function () {
-            ThrowNotice($("#ajaxError"), "Ошибка удаления меню (" + date.locale('ru').format('DD.MM.Y') + ")");
+
+var MenuOptionsCreator = function(optCell, type){
+    let text, bclass, icon, func;
+
+    switch(type){
+        case "delete":{
+            text = "Удалить меню";
+            bclass = "delete";
+            icon = "ui-icon-trash";
+            func = MenuDeleteHandler;
+
+            $.each($("#headRow").siblings(), function (rownum, row) {
+                $(row).children("td#"+optCell.attr("id")).children("div")
+                    .append($("<div/>", {
+                        class: "options"
+                        })
+                        .append($("<button/>", {
+                                text: "Добав. блюдо",
+                                click: function () {
+                                    $(this).parent().before("<div class='dishOfMenu'/>");
+                                    DishFormCreator($(this).parent().prev(), TableData.expands[0]["Меню"], {});
+                                    },
+                                class: "table add"
+                            })
+                                .button({icon: "ui-icon-plusthick"})
+                        )
+                    )
+            });
+
+            break;
         }
+        case "add":{
+            text = "Новое меню";
+            bclass = "add";
+            icon = "ui-icon-plusthick";
+            func = MenuAddHandler;
+
+            $.each($("#headRow").siblings(), function (rownum, row) {
+                $(row).children("td#"+optCell.attr("id")).children("div").html('');
+            });
+
+            break;
+        }
+    }
+
+    return $("<button/>", {
+        text: text,
+        class: "table "+bclass,
+        click: function(){func(this)}
+    })
+        .button({icon: icon})
+        .appendTo(optCell);
+};
+
+
+
+//создание заполняемой формы
+var DishFormCreator = function (containerHolder, tableData, data) {
+    let currentForm = tableData.tableForm;
+    containerHolder.html("");
+
+
+    $.each(currentForm, function( id, type ) {
+        let newCell = $("<div/>").width("25%").css("margin", "1px");
+        let inpValue = isset(data[id])?data[id]:"";
+        let newElem = FormElemCreator(type, id, "100%", inpValue);
+        newCell.append(newElem);
+        containerHolder.append(newCell);
     });
 
-};
+    containerHolder.append($("<div/>").width("25%")
+        .append($("<button/>", {
+            text: "Сохранить",
+            class: "save",
+            css:{
+                fontSize: 11
+            },
+            click: function () {
 
-
-var MenuReplaceHandler = function (input){
-    let currentDate = dates[input.parent().parent().parent().attr("id").split("-")[1]].format("D MMMM Y г. ");
-    let data = {
-        id:input.parent().parent().attr("id").split("-")[1],
-        tableMark:tableData.tableMark,
-        Date:input.val()
-    };
-
-    $.ajax({
-        type: "POST",
-        url: "/script/php/edit.php",
-        data: data,
-
-        success: function (result) {
-            if(result) {
-                let currentTable = input.parent().parent();
-                let cut = currentTable.children("tr").detach();
-                let menuID = currentTable.attr("id").split("-")[1];
-                currentTable.html("");
-                currentTable.append("<caption>" + currentDate + "</caption>");
-                MenuAdderCreator(currentTable);
-
-
-
-
-                $.each(dates, function (key, date) {
-                    if(date.format("Y-MM-DD") == data.Date)
-                    {
-                        $("#w-"+key).slideUp(0);
-                        let newTable = $("#w-"+key).children("table");
-                        newTable.html("");
-                        newTable.append("<caption>" + date.format("D MMMM Y г. ") + "</caption>");
-                        MenuCreator(newTable, menuID);
-                        newTable.append(cut);
-                        $("#w-"+key).slideDown(500);
-                    }
+            }
+        }).button({icon: "ui-icon-disk", showLabel:false}).removeClass("ui-widget"))
+        .append($("<button/>", {
+            text: "Отменить",
+            class: "cancel",
+            css:{
+                fontSize: 11
+            },
+            click: function () {
+                containerHolder.children().children(":input, label").hide(300, function () {
+                    $(this).parent().parent().remove();
                 });
+
             }
-            else
-                ThrowNotice($("#sqlError"), "Указанная дата уже занята");
-        },
-        error: function () {
-            ThrowNotice($("#ajaxError"), "Ошибка перемещения меню (" + data.Date.format("DD.MM.Y") + ")");
-        }
-    });
+        }).button({icon: "ui-icon-cancel", showLabel:false}).removeClass("ui-widget"))
+
+    );
+
+    containerHolder.children().children(":input, label").show(500).css('display','inline-block');
 };
 
 
 
-
-var MenuAdderCreator = function (table) {
-    $(table).removeAttr("id");
-    $(table).children("caption")
-        .append($("<button class='table add'> Новое меню </button>")
-            .css("margin-right", "33px")
-            .button({icon: "ui-icon-plusthick", showLabel: false})
-            .click(function () {
-                MenuAddHandler($(this));
-            })
-        );
-};
-
-
-var MenuCreator = function(table, menuID){
-    $(table).attr("id", "menu-"+menuID);
-    $(table).children("caption")
-        .append($("<input>", {
-                type: 'text',
-                name: 'replaceCalendar',
-                css: {
-                    display: 'none'
-                }
-            })
-                .datepicker({
-                    dateFormat:"yy-mm-dd",
-                    onSelect:function() {
-                        $("#confirmMenuReplace").data("menuInputHolder", $(this));
-                        $("#confirmMenuReplace").dialog("open");
-                    }
-                })
-        );
-
-
-    $(table).children("caption")
-        .append($("<button class='table edit'> Переместить </button>")
-            .css("margin-right", "5px")
-            .button({icon: "ui-icon-calendar", showLabel: false})
-            .click(function () {
-                $(this).parent().children("input").datepicker("show");
-            })
-        );
-
-    $(table).children("caption")
-        .append($("<button class='table delete'> Удалить </button>")
-            .button({icon: "ui-icon-trash", showLabel: false})
-            .click(function () {
-                $("#confirmMenu").data("menuButtonHolder", $(this));
-                $("#confirmMenu").dialog("open");
-            })
-        );
-};
-
-
-$("#confirmMenu").dialog({
-    modal:true,
-    autoOpen:false,
-    closeText:"Закрыть",
-    width:"auto",
-    height:"auto",
-    buttons:{
-        Да:function () {
-            MenuDeleteHandler($(this).data("menuButtonHolder"));
-            $(this).dialog("close");
-        },
-        Нет:function () {
-            $(this).dialog("close");
-        }
-    }
+$("#prev").click(function () {
+    let curdate = moment($("#calendar").datepicker("getDate"));
+    curdate.subtract(7, "d");
+    $("#calendar").datepicker("setDate", curdate.format("DD.MM.Y"));
+    MenuHandler("#calendar");
 });
 
+$("#next").click(function () {
+    let curdate = moment($("#calendar").datepicker("getDate"));
+    curdate.add(7, "d");
+    $("#calendar").datepicker("setDate", curdate.format("DD.MM.Y"));
+    MenuHandler("#calendar");
+});
 
-$("#confirmMenuReplace").dialog({
-    modal:true,
-    autoOpen:false,
-    closeText:"Закрыть",
-    width:"auto",
-    height:"auto",
-    buttons:{
-        Да:function () {
-            MenuReplaceHandler($(this).data("menuInputHolder"));
-            $(this).data("menuInputHolder", null);
-            $(this).dialog("close");
-        },
-        Нет:function () {
-            $(this).dialog("close");
-        }
-    }
+$("#today").click(function () {
+    $("#calendar").datepicker("setDate", "+0d");
+    MenuHandler("#calendar");
 });
 
 
 
-$("#calendar").datepicker("setDate", "+7d");
-MenuHandler("#calendar");
+$("#today").click();
+$("h2:contains('Текущая неделя')").append("c " + dates[0].locale("ru").format("D MMMM Y г.") + " по " + dates[4].locale("ru").format("D MMMM Y г."));
+$("#db-edit").click();
+
+
+
+// <div class="orderFlex">
+// <div style="
+// width: 25%;
+// ">
+// <select style="
+// width: 100%;
+// "><option>123</option></select>
+// </div>
+// <div style="
+// width: 25%;
+// ">
+// 154 руб.
+// </div>
+// <div style="
+// width: 25%;
+// ">
+//     <label>
+//          <input type="checkbox">Бесп.
+//     </label>
+// </div>
+//     <div style="
+// width: 25%;
+// ">
+// <button id="but1" class="table"></button>
+// <button id="but2" class="table"></button>
+// </div>
+// </div>

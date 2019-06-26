@@ -2,34 +2,35 @@
 
 //подключаем файлы ядра
 //паттерны данных
-require_once 'core/data/tableDataContainer.php';
-require_once 'core/data/errorDataContainer.php';
-require_once 'core/data/mainDataContainer.php';
+require_once 'core/data/TableDataContainer.php';
+require_once 'core/data/ErrorDataContainer.php';
+require_once 'core/data/MainDataContainer.php';
 //MVC
-require_once 'core/model.php';
-require_once 'core/view.php';
-require_once 'core/controller.php';
+require_once 'core/Model.php';
+require_once 'core/View.php';
+require_once 'core/Controller.php';
+require_once 'core/CoreError.php';
 //управление
-require_once 'core/database.php';
-require_once 'core/sessionController.php';
+require_once 'core/Database.php';
+require_once 'core/SessionController.php';
 
 
 
 // подключаем файлы вспомогательных классов
-require_once 'classes/queries.php';
-require_once 'classes/statFuncs.php';
+require_once 'classes/Queries.php';
+require_once 'classes/StatFuncs.php';
 
 // подключаем файлы классов сущностей
-require_once 'classes/entities/user.php';
-require_once 'classes/entities/employee.php';
+require_once 'classes/entities/User.php';
+require_once 'classes/entities/Employee.php';
 
 // подключаем файлы классов констант
-require_once 'classes/enums/errorCode.php';
-require_once 'classes/enums/accessRights.php';
-require_once 'classes/enums/routes.php';
+require_once 'classes/enums/ErrorCode.php';
+require_once 'classes/enums/AccessRights.php';
+require_once 'classes/enums/Routes.php';
 
 
 
 //подключаем и запускаем роутер
-require_once 'core/router.php';
+require_once 'core/Router.php';
 Router::StartRouting();

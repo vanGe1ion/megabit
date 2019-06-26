@@ -52,7 +52,10 @@ class NS_TableK1 {
             })
         }
         else if(currow.hasClass("editMark"))
-            ThrowDialog("#dialogs", "Удаление", "Элемент был изменен. Вернуть первоначальное значение и пометить на удаление (изменения во вложенных таблицах так же будут отменены)?", function () {
+            ThrowDialog("#dialogs", "Удаление",
+                "Элемент был изменен. Вернуть первоначальное значение и пометить на удаление (изменения во вложенных таблицах так же будут отменены)?",
+                function () {
+
                 //dom
                 NS_TableK1.RowCreator(currow, tableData, currentDataPool.olds[rownum]);
                 currow.addClass("deleteMark").removeClass("editMark").children().last().children().first().button("disable");
@@ -87,7 +90,10 @@ class NS_TableK1 {
         }
         else {
             if(currow.children().children("img").length > 0 && currow.children().children("img.hidden").length < 3){
-                ThrowDialog("#dialogs", "Удаление", "Во вложенных таблицах имеются изминения. Пометка на удаление их отменит. Продолжить?", function () {
+                ThrowDialog("#dialogs", "Удаление",
+                    "Во вложенных таблицах имеются изминения. Пометка на удаление их отменит. Продолжить?",
+                    function () {
+
                     //dom
                     currow.addClass("deleteMark");
                     $(buttonSelector).text("Отменить удл.").button({icon: "ui-icon-trash"}).prev().button("disable");

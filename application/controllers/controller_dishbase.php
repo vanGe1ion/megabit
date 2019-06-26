@@ -13,24 +13,19 @@ class Controller_DishBase extends Controller
 
     function action_index()
     {
-
-        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
-            $this->data = $this->model->GetNavigation();
-            $this->view->Generate('empty_view.php', 'template_view.php', $this->data);
-        }
+        Router::GoOn(Routes::DISHES);
     }
 
 
     function action_dishes()
     {
-        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
+        if (StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
             $this->data = $this->model->GetDishList();
             if ($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
                 $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data);
             }
-
         }
     }
 
@@ -38,7 +33,7 @@ class Controller_DishBase extends Controller
 
     function action_ingredients()
     {
-        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
+        if (StatFuncs::ValidateUsers(array(AccessRights::ADMIN, AccessRights::PLANNER))) {
             $this->data = $this->model->GetIngredientList();
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
@@ -51,7 +46,7 @@ class Controller_DishBase extends Controller
 
     function action_dishtypes()
     {
-        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN))) {
+        if (StatFuncs::ValidateUsers(array(AccessRights::ADMIN))) {
             $this->data = $this->model->GetDishTypeList();
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
@@ -63,7 +58,7 @@ class Controller_DishBase extends Controller
 
     function action_measures()
     {
-        if (!StatFuncs::ValidateUsers(array(AccessRights::ADMIN))) {
+        if (StatFuncs::ValidateUsers(array(AccessRights::ADMIN))) {
             $this->data = $this->model->GetMeasureList();
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);

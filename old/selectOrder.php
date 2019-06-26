@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT']."/config.php";
-include_once DOC_ROOT."application/core/database.php";
-include_once DOC_ROOT . "application/classes/queries.php";
+include_once DOC_ROOT . "application/core/Database.php";
+include_once DOC_ROOT . "application/classes/Queries.php";
 
 $empID = $_POST["empID"];
 $date = $_POST["date"];

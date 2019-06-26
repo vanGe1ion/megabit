@@ -264,3 +264,90 @@ var PoolDataRemover = function (pool, level, parent, id) {
     else
         delete (pool[level][id]);
 };
+
+
+
+//функция создания элемента формы
+var FormElemCreator = function(elemType, elemId, width, value) {
+    let newElem;
+    switch (elemType) {
+        case "select": {
+            newElem = $("<select>", {
+                name:elemId,
+                id:elemId,
+                class: "hidden",
+                css:{
+                    width:width,
+                    height:"21px"
+                }
+            });
+            $.ajax({
+                type: "POST",
+                dataType:"json",
+                url: "/script/php/selectFieldData.php",
+                data: {select_id:elemId},
+
+                success: function (res) {
+                    newElem.append("<option></option>");
+                    $.each(res, function (val, label) {
+                        let sel = "";
+                        if (label == value)
+                            sel = "selected";
+                        newElem.append("<option "+sel+" value='"+val+"'>"+label+"</option>")
+                    });
+                },
+                error: function () {
+                    ThrowNotice("#notices", "Error", "Ошибка!", "ajax","Ошибка создания элемента (SelectField)");
+                }
+            });
+            break;
+        }
+        case "price": {
+            newElem = $("<input>", {
+                type:"text",
+                name:elemId,
+                id:elemId,
+                value:value,
+                class:"hidden",
+                min:0,
+                disabled:true,
+                css:{
+                    width:width,
+                    minWidth: 40
+                }
+            });
+            break;
+        }
+        case "free": {
+            newElem = $("<label/>", {
+                class:"hidden",
+                css:{
+                    width:width,
+                }
+            })
+                .append($("<input>", {
+                    type:"checkbox",
+                    name:elemId,
+                    id:elemId,
+                    value:value,
+                }))
+                .append("Бесп.");
+            break;
+        }
+        default: {
+            newElem = $("<input>", {
+                type:elemType,
+                name:elemId,
+                id:elemId,
+                value:value,
+                class:"hidden",
+                min:0,
+                css:{
+                    width:width,
+                    minWidth: 40
+                }
+            });
+        }
+    }
+    return newElem;
+};
