@@ -12,8 +12,6 @@ class Model_MenuPlanner extends Model
         {
             $data->pageTitle =      'Планирование меню';
             $data->scripts = array(
-                "tableK1Script.js",
-                "tableK2Script.js",
                 "menuPlannerScript.js"
             );
             $data->footerMenu = array(
@@ -28,7 +26,7 @@ class Model_MenuPlanner extends Model
                     $tableData->queryResult =   $queryResult;
 
                     $tableData->tableForm =     array(
-                        "Date" =>                   "date"
+                        "Date" =>                   ElementTypes::DATE
                     );
                     $tableData->querySet =      array(
                         'create' =>                 'InsertMenuList',
@@ -46,9 +44,9 @@ class Model_MenuPlanner extends Model
                             'Dish_Name' =>              'Блюдо'
                         );
                         $dish_menu_exp->tableForm =  array(
-                            "Dish_ID" =>                "select",
-                            "Price" =>                  "price",
-                            "Free" =>                   "free"
+                            "Dish_ID" =>                ElementTypes::SELECT,
+                            "Price" =>                  ElementTypes::PRICE,
+                            "Free" =>                   ElementTypes::FREE
                         );
                         $dish_menu_exp->querySet =   array(
                             'create' =>                 'InsertDishMenu',

@@ -16,6 +16,15 @@ abstract class Queries
                     LIMIT 1";
     }
 
+
+    //Запрос  блюда
+    public static function SelectDishPrice($data){
+        return "SELECT Price
+                    FROM DISH_LIST
+                    WHERE Dish_ID = '$data[id]'";
+    }
+
+
     //Запрос  пользователя
     public static function SelectAuthorize($login, $md5pass){
         return "SELECT * 
@@ -52,11 +61,11 @@ abstract class Queries
 
 
     //набор запросов для справочника блюд
-    public static function SelectDishList(){
+    public static function SelectDishList($type = NULL){
         return "SELECT DISH_LIST.Dish_ID, DISH_LIST.Dish_Name, DISH_TYPE_LIST.Dish_Type_Name, DISH_LIST.Price
                     FROM DISH_LIST, DISH_TYPE_LIST
-                    WHERE DISH_TYPE_LIST.Dish_Type_ID = DISH_LIST.Dish_Type_ID
-                    ORDER BY DISH_LIST.Dish_ID";
+                    WHERE DISH_TYPE_LIST.Dish_Type_ID = DISH_LIST.Dish_Type_ID".(isset($type) ? " AND DISH_LIST.Dish_Type_ID = '$type' " : " ").
+                    "ORDER BY DISH_LIST.Dish_ID";
     }
 
     public static function InsertDishList($data){
@@ -198,11 +207,35 @@ abstract class Queries
     }
 
 
-    //запрос заказа
-    public static function OrderSelectQuery($date, $empID){
-        return "SELECT DISH_LIST.Dish_Name, ORDERS_MENU.Count
-                    FROM ORDERS_MENU, ORDER_LIST, MENU_LIST, DISH_LIST 
-                    WHERE ORDERS_MENU.Order_ID = ORDER_LIST.Order_ID AND ORDERS_MENU.Menu_ID = MENU_LIST.Menu_ID AND ORDERS_MENU.Dish_ID = DISH_LIST.Dish_ID
-                    AND ORDER_LIST.Employee_ID = '$empID' AND ORDER_LIST.Date = '$date' AND MENU_LIST.Date = '$date'";
+    //набор запросов для ТС блюда - меню
+    public static function SelectDishMenu($data){
+        return "SELECT DISH_MENU.Dish_ID, Dish_Name, Dish_Type_ID, Price, Free 
+                    FROM DISH_MENU, DISH_LIST
+                    WHERE DISH_MENU.Dish_ID=DISH_LIST.Dish_ID 
+                    AND DISH_MENU.Menu_ID = '$data[parent]'";
     }
+
+    public static function InsertDishMenu($data){
+        return "INSERT INTO DISH_MENU (Menu_ID, Dish_ID, Free)
+                    VALUES ('$data[parent]', '" . $data['field']['Dish_ID'] . "', '" . $data['field']['Free'] . "')";
+    }
+
+    public static function UpdateDishMenu($data){
+        return "UPDATE DISH_MENU 
+                    SET Dish_ID = '" . $data['field']['Dish_ID'] . "', Free = '" . $data['field']['Free'] . "'
+                    WHERE Menu_ID = '$data[parent]' AND DishID = '" . $data['field']['DishID'] . "'";
+    }
+
+    public static function DeleteDishMenu($data){
+        return "DELETE FROM DISH_MENU
+                    WHERE Menu_ID = '$data[parent]' AND Dish_ID = '" . $data['field']['id'] . "'";
+    }
+
+    //запрос заказа
+//    public static function OrderSelectQuery($date, $empID){
+//        return "SELECT DISH_LIST.Dish_Name, ORDERS_MENU.Count
+//                    FROM ORDERS_MENU, ORDER_LIST, MENU_LIST, DISH_LIST
+//                    WHERE ORDERS_MENU.Order_ID = ORDER_LIST.Order_ID AND ORDERS_MENU.Menu_ID = MENU_LIST.Menu_ID AND ORDERS_MENU.Dish_ID = DISH_LIST.Dish_ID
+//                    AND ORDER_LIST.Employee_ID = '$empID' AND ORDER_LIST.Date = '$date' AND MENU_LIST.Date = '$date'";
+//    }
 }

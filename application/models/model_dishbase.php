@@ -58,9 +58,9 @@ class Model_DishBase
                     'delete' =>                 'DeleteDishList',
                 );
                 $tableData->tableForm =     array(
-                    "Dish_Name" =>              "text",
-                    "Dish_Type_ID" =>           "select",
-                    'Price' =>                  'number'
+                    "Dish_Name" =>              ElementTypes::TEXT,
+                    "Dish_Type_ID" =>           ElementTypes::SELECT,
+                    'Price' =>                  ElementTypes::NUMBER
                 );
 
 
@@ -80,9 +80,9 @@ class Model_DishBase
                         'delete' =>                 'DeleteDishIngredients',
                     );
                     $dish_ing_exp->tableForm =  array(
-                        "Ingredient_ID" =>          "select",
-                        "Quantity" =>               "number",
-                        "Measure_ID" =>             "select"
+                        "Ingredient_ID" =>          ElementTypes::SELECT,
+                        "Quantity" =>               ElementTypes::NUMBER,
+                        "Measure_ID" =>             ElementTypes::SELECT
                     );
                     $dish_ing_exp->mainKey =   array(
                         "Dish_ID"
@@ -128,7 +128,7 @@ class Model_DishBase
                     'delete' =>                 'DeleteIngredientList',
                 );
                 $tableData->tableForm =     array(
-                    "Ingredient_Name" =>        "text"
+                    "Ingredient_Name" =>        ElementTypes::TEXT
                 );
             }
 
@@ -168,7 +168,7 @@ class Model_DishBase
                     'delete' =>                 'DeleteDishTypeList',
                 );
                 $tableData->tableForm =     array(
-                    "Dish_Type_Name" =>         "text"
+                    "Dish_Type_Name" =>         ElementTypes::TEXT
                 );
             }
             $data = $this->GetNavigation();
@@ -207,7 +207,7 @@ class Model_DishBase
                     'delete' =>                 'DeleteMeasureList',
                 );
                 $tableData->tableForm =     array(
-                    "Measure_Name" =>           "text"
+                    "Measure_Name" =>           ElementTypes::TEXT
                 );
             }
             $data = $this->GetNavigation();

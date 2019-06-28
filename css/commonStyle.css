@@ -19,3 +19,11 @@
 .deleteMark {
     background-color: lightcoral;
 }
+
+.addSubMark {
+    background-color: mediumseagreen;
+}
+
+.editSubMark {
+    background-color: dodgerblue;
+}

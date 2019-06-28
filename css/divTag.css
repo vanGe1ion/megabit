@@ -19,6 +19,6 @@ div.menuDishList{
 div.dishOfMenu{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    margin: 1px 0;
+    margin: 2px 0;
+    padding: 3px;
 }

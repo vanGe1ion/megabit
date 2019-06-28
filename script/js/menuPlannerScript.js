@@ -137,13 +137,43 @@ var MenuHandler = function(selector){
                 let menuOption = MenuOptionsCreator(menuOptCell, res.length? "delete" : "add");
                 if(res.length) {
                     menuOption.attr("id", "menu-" + res[0].Menu_ID);
-                    //todo dish menu
+                    let tableData = TableData.expands[0]["Меню"];
+                    $.ajax({
+                        url:"/script/php/Select.php",
+                        type:"post",
+                        dataType:"json",
+                        data:{
+                            queryName: tableData.querySet["read"],
+                            queryData:{
+                                parent: res[0].Menu_ID
+                            }
+                        },
 
-
+                        success: function (dishRes) {
+                            $.each(dishRes, function (key, dataRow) {
+                                $.each($("tr[id^=row-]"), function (key, dishTypeRow) {
+                                    if($(dishTypeRow).attr("id").split("-")[1] == dataRow["Dish_Type_ID"]) {
+                                        let dishElem = $("<div id='dish-" + dataRow.Dish_ID + "' class='dishOfMenu'></div>");
+                                        let data = {
+                                            Dish_ID: dataRow.Dish_Name,
+                                            Price: dataRow.Price + " руб.",
+                                            Free: dataRow.Free
+                                        };
+                                        DishRowCreator(dishElem, tableData, data);
+                                        $(dishTypeRow).children("#"+$(th).attr("id")).children().children(".options").before(dishElem);
+                                    }
+                                });
+                            });
+                            $(".options").hide();
+                        },
+                        error: function () {
+                            ThrowNotice("#notices", "Error", "Ошиибка", "ajax",
+                                "Ошибка чтения  меню на " + dates[key].format("DD.MM.Y"));
+                        }
+                    })
                 }
-
+                $(".options").hide();
             },
-
             error: function () {
                 ThrowNotice("#notices", "Error", "Ошиибка", "ajax",
                     "Ошибка чтения списка меню (" + dates[key].format("DD.MM.Y") +")");
@@ -214,11 +244,113 @@ var MenuDeleteHandler = function (buttonSelector) {
             id:menuID,
         };
         //pool
-        PoolDataInserter(currentDataPool, "delete", null, menuID, data);
+        PoolDataInserter(currentDataPool, "delete", null, menuID, data);            //todo dishes
         //dom
         CollMarker(buttonSelector, "deleteMark");
         $(buttonSelector).text("Отменить удл.").button({icon: "ui-icon-trash"});
     }
+};
+
+
+var DishAddHandler = function (buttonSelector) {
+    $(buttonSelector).parent().before("<div class='dishOfMenu'/>");
+    DishFormCreator($(buttonSelector).parent().prev(), TableData.expands[0]["Меню"], {}, DishSaveHandler, function (button) {
+        $(button).parent().parent().children().children().hide(300, function () {
+            $(button).parent().parent().remove();
+        });
+    });
+};
+
+
+var DishSaveHandler = function(buttonSelector){
+    if ($(buttonSelector).parent().siblings("div.select").children().val() == '')
+        ThrowNotice("#notices", "Info", "Подсказка", "js",
+            "Блюдо не выбрано");
+    else {
+        let field = $(buttonSelector).parent().parent();
+        let select = field.children(".select").children();
+        let free = field.children(".free").children().children().prop("checked");
+        let price = select.parent().siblings(".price").children().val();
+
+        let tableData = TableData.expands[0]['Меню'];
+        let currentPool = queryDataPool[tableData.poolName];
+        let cellID = "#" + field.parent().parent().attr("id");
+        let parent = $("tr.options " + cellID + " .delete").attr("id").split("-")[1];
+        let data = {
+            Dish_ID: select.val(),
+            Free: +free
+        };
+
+        //pool
+        PoolDataInserter(currentPool, "create", parent, select.val(), data);
+        //dom
+        field.addClass("addSubMark").attr("id", "dish-"+select.val());
+        data = DishFormDataCreator(field, tableData);
+        DishRowCreator(field, tableData, data);
+    }
+};
+
+
+var DishEditHandler = function(buttonSelector){
+
+    let tableData = TableData.expands[0]["Меню"];
+    let currentDataPool = queryDataPool[tableData.poolName];
+    let dishRow = $(buttonSelector).parent().parent();
+    let olddata = DishRowDataCreator(dishRow, tableData);
+    let td = $(buttonSelector).parent().parent().parent().parent();
+    let parent = $("tr.options #" + td.attr("id") + " .delete").attr("id").split("-")[1];
+    console.log(parent);
+
+    DishFormCreator(dishRow, tableData, olddata,
+    function (button) {
+        let data = DishFormDataCreator($(button).parent().parent(), tableData);
+        delete(data.Price);
+
+        //pool
+        PoolDataInserter(currentDataPool, "update", parent, dishRow.attr("id").split("-")[1], data);
+        PoolDataInserter(currentDataPool, "olds", parent, dishRow.attr("id").split("-")[1], olddata);           //todo
+        data = DishFormDataCreator(dishRow,tableData );
+        DishRowCreator(dishRow, tableData, data);
+
+    },
+    function (button) {
+        $(button).parent().parent().children().children().hide(300, function () {
+            DishRowCreator($(button).parent().parent(), tableData, olddata);
+        });
+    });
+};
+
+
+var DishDeleteHandler = function(buttonSelector){
+//     if ($(buttonSelector).parent().siblings("div.select").children().val() == '')
+//         ThrowNotice("#notices", "Info", "Подсказка", "js",
+//             "Блюдо не выбрано");
+//     else {
+//         let field = $(buttonSelector).parent().parent();
+//         let select = field.children(".select").children();
+//         let free = field.children(".free").children().children().prop("checked");
+//         let price = select.parent().siblings(".price").children().val();
+//
+//         let tableData = TableData.expands[0]['Меню'];
+//         let currentPool = queryDataPool[tableData.poolName];
+//         let cellID = "#" + field.parent().parent().attr("id");
+//         let parent = $("tr.options " + cellID + " .delete").attr("id").split("-")[1];
+//         let data = {
+//             Dish_ID: select.val(),
+//             Free: free
+//         };
+//
+//         //pool
+//         PoolDataInserter(currentPool, "create", parent, select.val(), data);
+//         //dom
+//         field.addClass("addSubMark");
+//         data = {
+//             Dish_ID:select.children(":checked").text(),
+//             Price: price,
+//             Free: $("<label><input type='checkbox' " + (free?"checked":"") + " disabled>Бесп.</label>")
+//         };
+//         DishRowCreator(field, tableData, data);
+//     }
 };
 
 
@@ -240,9 +372,8 @@ var MenuOptionsCreator = function(optCell, type){
                         .append($("<button/>", {
                                 text: "Добав. блюдо",
                                 click: function () {
-                                    $(this).parent().before("<div class='dishOfMenu'/>");
-                                    DishFormCreator($(this).parent().prev(), TableData.expands[0]["Меню"], {});
-                                    },
+                                    DishAddHandler(this);
+                                },
                                 class: "table add"
                             })
                                 .button({icon: "ui-icon-plusthick"})
@@ -278,20 +409,23 @@ var MenuOptionsCreator = function(optCell, type){
 
 
 //создание заполняемой формы
-var DishFormCreator = function (containerHolder, tableData, data) {
+var DishFormCreator = function (containerHolder, tableData, data, callbackSave, callbackCancel) {
     let currentForm = tableData.tableForm;
     containerHolder.html("");
 
 
     $.each(currentForm, function( id, type ) {
-        let newCell = $("<div/>").width("25%").css("margin", "1px");
+        let newCell = $("<div/>").addClass(type);
         let inpValue = isset(data[id])?data[id]:"";
-        let newElem = FormElemCreator(type, id, "100%", inpValue);
+        let subID = $(containerHolder).parent().parent().parent().attr("id").split("-")[1];
+        let newElem = FormElemCreator(type, id, "100%", inpValue, subID);
         newCell.append(newElem);
         containerHolder.append(newCell);
     });
 
-    containerHolder.append($("<div/>").width("25%")
+    containerHolder.append($("<div/>", {
+        class: "buttonSet"
+        })
         .append($("<button/>", {
             text: "Сохранить",
             class: "save",
@@ -299,7 +433,7 @@ var DishFormCreator = function (containerHolder, tableData, data) {
                 fontSize: 11
             },
             click: function () {
-
+                callbackSave(this);
             }
         }).button({icon: "ui-icon-disk", showLabel:false}).removeClass("ui-widget"))
         .append($("<button/>", {
@@ -309,17 +443,190 @@ var DishFormCreator = function (containerHolder, tableData, data) {
                 fontSize: 11
             },
             click: function () {
-                containerHolder.children().children(":input, label").hide(300, function () {
-                    $(this).parent().parent().remove();
-                });
-
+                callbackCancel(this);
             }
         }).button({icon: "ui-icon-cancel", showLabel:false}).removeClass("ui-widget"))
+
+    );
+    let select = $(containerHolder).children().first().children();
+    SelectReplicationHandler(select);
+    containerHolder.children().children(":input, label").show(500).css('display','inline-block');
+};
+
+
+
+//создание заполняемой формы
+var DishRowCreator = function (containerHolder, tableData, data) {
+    let currentForm = tableData.tableForm;
+    containerHolder.html("");
+
+
+    $.each(currentForm, function( id, type ) {
+        let inpValue;
+        if(type == "free")
+            inpValue = $("<label><input type='checkbox' " + (data[id] == 1?"checked":"") + " disabled>Бесп.</label>");
+        else
+            inpValue = data[id];
+        let newCell = $("<div/>").addClass(type).append(inpValue);
+        containerHolder.append(newCell);
+    });
+
+    containerHolder.append($("<div/>", {
+            class: "buttonSet options"
+        })
+            .append($("<button/>", {
+                text: "Редактировать",
+                class: "edit",
+                css:{
+                    fontSize: 11
+                },
+                click: function () {
+                    DishEditHandler(this);
+                }
+            }).button({icon: "ui-icon-pencil", showLabel:false}).removeClass("ui-widget"))
+            .append($("<button/>", {
+                text: "Удалить",
+                class: "delete",
+                css:{
+                    fontSize: 11
+                },
+                click: function () {
+                    DishDeleteHandler(this);
+                }
+            }).button({icon: "ui-icon-trash", showLabel:false}).removeClass("ui-widget"))
 
     );
 
     containerHolder.children().children(":input, label").show(500).css('display','inline-block');
 };
+
+
+
+var DishFormDataCreator = function(containerHolder, tableData){
+    let data = {};
+
+    $.each(tableData.tableForm, function (id, type) {
+        switch (type) {
+            case "select":{
+                data[id] = $(containerHolder).children("."+type).children().val();
+                break;
+            }
+            case "free":{
+                data[id] = $(containerHolder).children("."+type).children().children().prop("checked") == true ? 1 : 0;
+                break;
+            }
+            default:{
+                data[id] = $(containerHolder).children("."+type).children().val();
+            }
+        }
+    });
+
+    return data;
+};
+
+var DishRowDataCreator = function(containerHolder, tableData){
+    let data = {};
+
+    $.each(tableData.tableForm, function (id, type) {
+        switch (type) {
+
+            case "free":{
+                data[id] = $(containerHolder).children("."+type).children().children().prop("checked") == true ? 1 : 0;
+                break;
+            }
+            default:{
+                data[id] = $(containerHolder).children("."+type).text();
+            }
+        }
+    });
+
+    return data;
+};
+
+
+var SelectReplicationHandler = function (select) {
+    select.hover(function () {
+        let row = $(this).parent().parent().parent().children(".dishOfMenu").last();
+        let subkeys = [];
+
+        while(row.length==1) {
+            if (row.children().first().children("select").length) {
+                let curSelect = row.children().first().children("select");
+                let curSelVal = curSelect.children("option[value='" + curSelect.val() + "']").text();
+                if (curSelVal !== $(this).children("option[value='" + $(this).val() + "']").text() && curSelVal != "")
+                    subkeys.push(curSelVal);
+            } else
+                subkeys.push(row.children().first().text());
+            row = row.prev();
+        }
+
+
+        let options = $(this).children("option");
+        $.each(options, function (num, option) {
+            $.each(subkeys, function (key, opt){
+                if($(option).text() == opt) {
+                    $(option).addClass("hidden");
+                    return false;
+                }
+            });
+        });
+
+        options = $(this).children("option.hidden");
+        $.each(options, function (num, option) {
+            let mark = 0;
+            $.each(subkeys, function (key, opt){
+                if($(option).text() == opt) {
+                    mark = 1;
+                    return false;
+                }
+            });
+            if(mark == 0)
+                $(option).removeClass("hidden");
+
+
+
+        });
+    }, ()=>{});
+
+    //price
+    select.on("change", function () {
+        let data = {
+            queryName: "SelectDishPrice",
+            queryData: {
+                id: select.val()
+            }
+        };
+        $.post({
+            url:"script/php/Select.php",
+            data: data,
+            success: function (res) {
+                select.parent().siblings(".price").children().val(res.length? (res[0]['Price'] + " руб.") : "");
+            },
+            dataType: "json"
+        })
+            .fail(function () {
+                select.parent().siblings(".price").children().val("");
+                ThrowNotice("#notices", "Error", "Ошибка", "ajax",
+                    "Ошибка при чтении цены");
+            });
+    });
+};
+
+
+
+var CollMarker = function(buttonSelector, mark, isRemove = false){
+    let coll = $("#mptable tr #"+$(buttonSelector).parent().attr("id"));
+    isRemove ? coll.removeClass(mark) : coll.addClass(mark);
+};
+
+
+
+
+
+
+
+
+
 
 
 
@@ -346,34 +653,6 @@ $("#today").click(function () {
 
 $("#today").click();
 $("h2:contains('Текущая неделя')").append("c " + dates[0].locale("ru").format("D MMMM Y г.") + " по " + dates[4].locale("ru").format("D MMMM Y г."));
-$("#db-edit").click();
-
-
-
-// <div class="orderFlex">
-// <div style="
-// width: 25%;
-// ">
-// <select style="
-// width: 100%;
-// "><option>123</option></select>
-// </div>
-// <div style="
-// width: 25%;
-// ">
-// 154 руб.
-// </div>
-// <div style="
-// width: 25%;
-// ">
-//     <label>
-//          <input type="checkbox">Бесп.
-//     </label>
-// </div>
-//     <div style="
-// width: 25%;
-// ">
-// <button id="but1" class="table"></button>
-// <button id="but2" class="table"></button>
-// </div>
-// </div>
+setTimeout(function () {
+    $("#db-edit").click();
+}, 300);

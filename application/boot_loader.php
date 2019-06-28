@@ -28,6 +28,7 @@ require_once 'classes/entities/Employee.php';
 require_once 'classes/enums/ErrorCode.php';
 require_once 'classes/enums/AccessRights.php';
 require_once 'classes/enums/Routes.php';
+require_once 'classes/enums/ElementTypes.php';
 
 
 

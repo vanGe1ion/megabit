@@ -1,0 +1,26 @@
+div.dishOfMenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2px 0;
+    padding: 3px;
+}
+
+div.select{
+    margin: 1px;
+    flex-grow: 1;
+    flex-basis: auto;
+}
+
+div.free{
+    flex-basis: 70px;
+}
+
+div.buttonSet, div.price{
+    flex-basis: 60px;
+}
+
+div.price, div.free, div.buttonSet{
+    margin: 1px;
+    flex-grow: 0;
+}

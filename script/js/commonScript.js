@@ -268,7 +268,7 @@ var PoolDataRemover = function (pool, level, parent, id) {
 
 
 //функция создания элемента формы
-var FormElemCreator = function(elemType, elemId, width, value) {
+var FormElemCreator = function(elemType, elemId, width, value, selSubID = null) {
     let newElem;
     switch (elemType) {
         case "select": {
@@ -281,11 +281,13 @@ var FormElemCreator = function(elemType, elemId, width, value) {
                     height:"21px"
                 }
             });
+            let data = {select_id:elemId};
+            if(selSubID) data.select_sub_id=selSubID;
             $.ajax({
                 type: "POST",
                 dataType:"json",
                 url: "/script/php/selectFieldData.php",
-                data: {select_id:elemId},
+                data: data,
 
                 success: function (res) {
                     newElem.append("<option></option>");
@@ -329,7 +331,7 @@ var FormElemCreator = function(elemType, elemId, width, value) {
                     type:"checkbox",
                     name:elemId,
                     id:elemId,
-                    value:value,
+                    checked:value == 1 ? true : false,
                 }))
                 .append("Бесп.");
             break;

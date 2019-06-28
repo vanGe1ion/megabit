@@ -17,7 +17,7 @@ switch ($select_id){
     case "Table_ID":{break;}
     default: {};
 }
-$resdata = Database::DBRequest(Queries::$query());
+$resdata = Database::DBRequest(isset($_POST["select_sub_id"])?Queries::$query($_POST["select_sub_id"]):Queries::$query());
 $result = array();
 while($res = mysqli_fetch_array($resdata))
     $result[$res[$select_id]] = $res[$select_name];

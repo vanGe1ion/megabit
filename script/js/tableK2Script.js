@@ -488,12 +488,6 @@ class NS_TableK2 {
     static SendDataCreator(rowHolder, tableData) {
         let currentForm = tableData.tableForm;
         let data = {};
-        // let mainKeys = rowHolder.parent().attr("id");
-        // mainKeys = mainKeys.slice(7, mainKeys.length).split("-");
-        //
-        // $.each(mainKeys, function (key, val) {
-        //     data[tableData.mainKey[key]] = val;
-        // });
 
         $.each(currentForm, function (name) {
             data[name] = rowHolder.children().children("#" + name).val();
