@@ -1,0 +1,23 @@
+.addMark {
+    background-color: lightgreen;
+}
+
+.editMark {
+    background-color: lightskyblue;
+}
+
+.deleteMark {
+    background-color: lightcoral;
+}
+
+.addSubMark {
+    background-color: mediumseagreen;
+}
+
+.editSubMark {
+    background-color: dodgerblue;
+}
+
+.todayMark {
+    background-color: khaki;
+}

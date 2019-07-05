@@ -9,7 +9,7 @@ class NS_TableK2 {
         let hrow = tableData.headRow;
         let tform = tableData.tableForm;
 
-        let currentDataPool = queryDataPool[tableData.poolName];
+        let currentDataPool = dataPoolArray[tableData.poolName];
         let parent = table.attr("id");
         parent = parent.substring(7, parent.length);
 
@@ -86,7 +86,7 @@ class NS_TableK2 {
 
     //присваиваемы функции основных табличных кнопок
     static AddHandler (buttonSelector, tableData) {
-        let currentDataPool = queryDataPool[tableData.poolName];
+        let currentDataPool = dataPoolArray[tableData.poolName];
         $(buttonSelector).parent().parent().before($("<tr />"));
         let adderRow = $(buttonSelector).parent().parent().prev();
         let parent = adderRow.parent().attr("id");
@@ -169,7 +169,7 @@ class NS_TableK2 {
 
 
     static DeleteHandler (buttonSelector, tableData) {
-        let currentDataPool = queryDataPool[tableData.poolName];
+        let currentDataPool = dataPoolArray[tableData.poolName];
         let currow = $(buttonSelector).parent().parent();
         let rownum = currow.attr('id').split('-')[1];
         let parent = currow.parent().attr("id");
@@ -216,7 +216,7 @@ class NS_TableK2 {
 
 
     static EditHandler (buttonSelector, tableData){
-        let currentDataPool = queryDataPool[tableData.poolName];
+        let currentDataPool = dataPoolArray[tableData.poolName];
         let currow = $(buttonSelector).parent().parent();
         let rownum = currow.attr('id').split('-')[1];
         let parent = currow.parent().attr("id");

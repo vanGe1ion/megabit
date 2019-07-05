@@ -4,12 +4,20 @@ $(".edit").button({icon: "ui-icon-pencil"});
 $(".delete").button({icon: "ui-icon-trash"});
 $(".expand").button({icon: "ui-icon-document"});
 $("button:contains("+TableData.caption+")").button( "disable" );
-$(".wait-box, .overlay").hide();
+$("div.overlay, div.wait-box").fadeOut(200);
+
+var dataPoolArray = {};
+DataPoolCreator(dataPoolArray, TableData);
+
+
+
 
 //настройка таблицы
 $("th#c-1").addClass("fit");
 $("th.options").width($("th.options").width()*2+3);
 $(".options").addClass("hidden");
+
+
 
 
 //вложенные таблицы
@@ -30,7 +38,7 @@ $("[id^='expTable-']").dialog({
         let parent = $(this).children("table").attr("id");
         parent = parent.substring(7, parent.length);
         let expNum = $(this).attr("id").split("-")[1];
-        let currentDataPool = queryDataPool[Object.values(TableData.expands[expNum])[0].poolName];
+        let currentDataPool = dataPoolArray[Object.values(TableData.expands[expNum])[0].poolName];
         let cell = $("#row-" + parent).children("td").children("#exp-" + expNum).parent();
         $.each(currentDataPool, function (level, data) {
             let indicator = $("#row-" + parent).children("td").children("#exp-" + expNum).siblings("." + level + "Ind");
@@ -55,35 +63,16 @@ $("[id^='expTable-']").dialog({
     }
 });
 
+
+
+
 //кнопки управления формой
-$("div.pageFooter").prepend($("<div />", {
-        align:"center",
-        css:{
-            marginBottom: "5px"
-        }
-    })
-        .append($("<button />", {
-            id:"db-edit",
-            text:"Режим редактирования"
-        }).button())
-        .append($("<button />", {
-            id:"db-save",
-            class:"hidden",
-            text:"Сохранить изменения"
-        }).button())
-        .append($("<button />", {
-            id:"db-cancel",
-            class:"hidden",
-            text:"Отменить изменения"
-        }).button())
-);
-$("div.pageContent").height($("body").height()-$("div.pageFooter").height());
-
-
+EditPanelCreator();
 
 $("#db-edit").click(function () {
     $(this).addClass("hidden");
     $("#db-save, #db-cancel").removeClass("hidden");
+    $(".horMenu").button("disable");
     $(".options").fadeIn(500);
 });
 
@@ -91,6 +80,8 @@ $("#db-cancel").click(function () {
     ThrowDialog("#dialogs", "Отмена изменений", "Отменить все внесенные изменения?", function () {
         $("#db-edit").removeClass("hidden");
         $("#db-save, #db-cancel").addClass("hidden");
+        $(".horMenu").button("enable");
+        $("button:contains("+TableData.caption+")").button( "disable" );
 
 
         $(".addMark").remove();
@@ -98,12 +89,12 @@ $("#db-cancel").click(function () {
         $(".cancel").click();
         $.each($(".editMark"), function (key, row) {
             $(row).removeClass("editMark");
-            NS_TableK1.RowCreator($(row), TableData, queryDataPool[TableData.poolName].olds[$(row).attr("id").split("-")[1]])
+            NS_TableK1.RowCreator($(row), TableData, dataPoolArray[TableData.poolName].olds[$(row).attr("id").split("-")[1]])
         });
         setTimeout(function () {
             $(".options").fadeOut(150);
         },150);
-        DataPoolCreator(queryDataPool, TableData);
+        DataPoolCreator(dataPoolArray, TableData);
         $(".indicator").addClass("hidden").parent().width(1);
     })
 });
@@ -112,7 +103,14 @@ $("#db-save").click(function () {
     if ($("table td .save").length)
         ThrowNotice("#notices", "Info", "Подсказка", "js",
             "Имеются непринятые изменения. Пожалуйста, для продолжения сохраните или отмените их");
-    else {
+    else if($(".addMark, .editMark, .deleteMark").length == 0 && $("img.indicator").length == $("img.indicator.hidden").length){
+        $("#db-edit").removeClass("hidden");
+        $("#db-save, #db-cancel").addClass("hidden");
+        $(".horMenu").button("enable");
+        $("button:contains("+TableData.caption+")").button( "disable" );
+        $(".options").fadeOut(150);
+    }
+    else{
 
         $(document).bind("ajaxStart", function () {
             $("div.overlay, div.wait-box").fadeIn(200);
@@ -130,6 +128,8 @@ $("#db-save").click(function () {
                         "Все запросы выполнены успешно");
                     $("#db-edit").removeClass("hidden");
                     $("#db-save, #db-cancel").addClass("hidden");
+                    $(".horMenu").button("enable");
+                    $("button:contains("+TableData.caption+")").button( "disable" );
                     $(".options").fadeOut(150);
                 },150);
             }
@@ -137,9 +137,26 @@ $("#db-save").click(function () {
             $(this).unbind();
         });
 
-        DataPoolRequester(queryDataPool, TableData);
+        DataPoolRequester(dataPoolArray, TableData,
+            function (data) {
+            let row = $("#row-"+data.id);
+            switch (data.levelName) {
+                case "delete":{row.remove(); break;}
+                case "update":{row.removeClass("editMark"); break;}
+                case "create":{row.removeClass("addMark"); break;}
+            }
+        }, function (data) {
+                if(!isset(dataPoolArray[data.poolName][data.levelName][data.parent])) {
+                    let curCell =  $("#row-" + data.parent + " td").children("#exp-" + data.expNum).parent();
+                    curCell.children("." + data.levelName + "Ind").addClass("hidden");
+                    if(curCell.children("img.hidden").length == 3)
+                        curCell.width(1);
+                }
+        });
     }
 });
+
+
 
 
 //основные табличные кнопки
@@ -158,8 +175,4 @@ $(".edit").bind("click", function (){
 $(".expand").bind("click", function (){
     NS_TableK1.ExpandHandler(this, TableData);
 });
-
-
-var queryDataPool = {};
-DataPoolCreator(queryDataPool, TableData);
 

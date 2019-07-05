@@ -4,19 +4,14 @@ include_once DOC_ROOT . "application/core/Database.php";
 include_once DOC_ROOT . "application/classes/Queries.php";
 
 $select_id = $_POST["select_id"];
-$query = NULL;
-
 $select_name = substr($select_id,0,-2)."Name";
-switch ($select_id){
-    case "Dish_ID":{$query = "SelectDishList"; break;}
-    case "Ingredient_ID":{$query ="SelectIngredientList"; break;}
-    case "Dish_Type_ID":{$query = "SelectDishTypeList"; break;}
-    case "Measure_ID":{$query = "SelectMeasureList"; break;}
-    case "Access_ID":{break;}
-    case "Shift_ID":{break;}
-    case "Table_ID":{break;}
-    default: {};
-}
+
+$query = "Select";
+$explode = explode("_", $select_id);
+for ($i=0;$i<count($explode)-1; ++$i)
+    $query .= $explode[$i];
+$query .= "List";
+
 $resdata = Database::DBRequest(isset($_POST["select_sub_id"])?Queries::$query($_POST["select_sub_id"]):Queries::$query());
 $result = array();
 while($res = mysqli_fetch_array($resdata))

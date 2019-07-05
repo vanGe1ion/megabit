@@ -2,7 +2,7 @@ class NS_TableK1 {
 
     //присваиваемы функции основных табличных кнопок
     static AddHandler(buttonSelector, tableData) {
-        let currentDataPool = queryDataPool[tableData.poolName];
+        let currentDataPool = dataPoolArray[tableData.poolName];
         $(buttonSelector).parent().parent().before($("<tr />"));
         let adderRow = $(buttonSelector).parent().parent().prev();
         let newId =  +(adderRow.prev().attr("id").split('-')[1]) + 1;
@@ -35,7 +35,7 @@ class NS_TableK1 {
 
 
     static DeleteHandler (buttonSelector, tableData) {
-        let currentDataPool = queryDataPool[tableData.poolName];
+        let currentDataPool = dataPoolArray[tableData.poolName];
         let currow = $(buttonSelector).parent().parent();
         let rownum = currow.attr('id').split('-')[1];
         if(currow.hasClass("addMark")){
@@ -44,7 +44,7 @@ class NS_TableK1 {
                 PoolDataRemover(currentDataPool, "create", null, rownum);
                 $.each(tableData.expands, function (num, expand) {
                     $.each(expand, function (label, expTable) {
-                        PoolDataRemover(queryDataPool[expTable.poolName], "create", rownum, null);
+                        PoolDataRemover(dataPoolArray[expTable.poolName], "create", rownum, null);
                     })
                 });
                 //dom
@@ -71,7 +71,7 @@ class NS_TableK1 {
 
                 $.each(tableData.expands, function (num, expand) {
                     $.each(expand, function (label, expTable) {
-                        let tdp = queryDataPool[expTable.poolName];
+                        let tdp = dataPoolArray[expTable.poolName];
                         $.each(Object.keys(tdp), function (key, level) {
                             PoolDataRemover(tdp, level, rownum, null);
                         });
@@ -106,7 +106,7 @@ class NS_TableK1 {
 
                     $.each(tableData.expands, function (num, expand) {
                         $.each(expand, function (label, expTable) {
-                            let tdp = queryDataPool[expTable.poolName];
+                            let tdp = dataPoolArray[expTable.poolName];
                             $.each(Object.keys(tdp), function (key, level) {
                                 PoolDataRemover(tdp, level, rownum, null);
                             });
@@ -126,7 +126,7 @@ class NS_TableK1 {
 
 
     static EditHandler (buttonSelector, tableData){
-        let currentDataPool = queryDataPool[tableData.poolName];
+        let currentDataPool = dataPoolArray[tableData.poolName];
         let currow = $(buttonSelector).parent().parent();
         let rownum = currow.attr('id').split('-')[1];
 

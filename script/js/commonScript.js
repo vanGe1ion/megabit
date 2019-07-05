@@ -126,7 +126,7 @@ var DataPoolCreator = function (dataPool, tableData) {
 };
 
 //выполняет запросы к базе с данными пула, удаляет из него отработанные данные
-var DataPoolRequester = function(dataPool, tableData, expNum = null){
+var DataPoolRequester = function(dataPool, tableData, mainDomCallback, expDomCallback, expNum = null){
     let currentPool = JSON.parse(JSON.stringify(dataPool[tableData.poolName]));
     delete(currentPool.olds);
 
@@ -150,11 +150,11 @@ var DataPoolRequester = function(dataPool, tableData, expNum = null){
                             if(levelName == "update")
                                 PoolDataRemover(dataPool[tableData.poolName], "olds", null, id);
                             //dom
-                            switch (levelName) {
-                                case "delete":{$("#row-"+id).remove(); break;}
-                                case "update":{$("#row-"+id).removeClass("editMark"); break;}
-                                case "create":{$("#row-"+id).removeClass("addMark"); break;}
-                            }
+                            let cbData = {
+                                levelName:levelName,
+                                id:id
+                            };
+                            mainDomCallback(cbData);
                         }
                         else
                             ThrowNotice("#notices", "Warning", "Результат запроса: Ошибка!", "sql",
@@ -185,15 +185,18 @@ var DataPoolRequester = function(dataPool, tableData, expNum = null){
                             if(res) {
                                 //pool
                                 PoolDataRemover(dataPool[tableData.poolName], levelName, parent, id);
-                                if(isset(dataPool[tableData.poolName].olds[parent]))
+                                if(levelName == "update")
                                     PoolDataRemover(dataPool[tableData.poolName], "olds", parent, id);
                                 //dom
-                                if(!isset(dataPool[tableData.poolName][levelName][parent])) {
-                                    let curCell =  $("#row-" + parent + " td").children("#exp-" + expNum).parent();
-                                    curCell.children("." + levelName + "Ind").addClass("hidden");
-                                    if(curCell.children("img.hidden").length == 3)
-                                        curCell.width(1);
-                                }
+                                let cbData = {
+                                    levelName:levelName,
+                                    parent:parent,
+                                    id:id,
+
+                                    poolName:tableData.poolName,
+                                    expNum:expNum
+                                };
+                                expDomCallback(cbData);
                             }
                             else
                                 ThrowNotice("#notices", "Warning", "Результат запроса: Ошибка!", "sql",
@@ -233,10 +236,12 @@ var DataPoolRequester = function(dataPool, tableData, expNum = null){
     if(tableData.expands)
         $.each(tableData.expands, function (key, expand) {
             $.each(expand, function (label, table) {
-                DataPoolRequester(dataPool, table, key)
+                DataPoolRequester(dataPool, table, mainDomCallback, expDomCallback, key)
             });
         });
 };
+
+
 
 //добавляет данные в пул (если родитель нуль - работает с одноключевыми таблицами)
 var PoolDataInserter = function (pool, level, parent, id, data) {
@@ -352,4 +357,38 @@ var FormElemCreator = function(elemType, elemId, width, value, selSubID = null) 
         }
     }
     return newElem;
+};
+
+
+
+var CollMarker = function(buttonSelector, mark, isRemove = false){
+    let coll = $("#mptable tr #"+$(buttonSelector).parent().attr("id"));
+    isRemove ? coll.removeClass(mark) : coll.addClass(mark);
+};
+
+
+
+var EditPanelCreator = function () {
+    $("div.pageFooter").prepend($("<div />", {
+            align:"center",
+            css:{
+                marginBottom: "5px"
+            }
+        })
+            .append($("<button />", {
+                id:"db-edit",
+                text:"Режим редактирования"
+            }).button())
+            .append($("<button />", {
+                id:"db-save",
+                class:"hidden",
+                text:"Сохранить изменения"
+            }).button())
+            .append($("<button />", {
+                id:"db-cancel",
+                class:"hidden",
+                text:"Отменить изменения"
+            }).button())
+    );
+    $("div.pageContent").height($("body").height()-$("div.pageFooter").height());
 };

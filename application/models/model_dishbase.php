@@ -119,7 +119,8 @@ class Model_DishBase
                 $tableData->queryResult =   $queryResult;
                 $tableData->headRow =       array(
                     'Ingredient_ID' =>          '№',
-                    'Ingredient_Name' =>        'Ингредиент'
+                    'Ingredient_Name' =>        'Ингредиент',
+                    'Ingredient_Type_Name' =>   'Класс'
                 );
                 $tableData->querySet =      array(
                     'create' =>                 'InsertIngredientList',
@@ -128,7 +129,8 @@ class Model_DishBase
                     'delete' =>                 'DeleteIngredientList',
                 );
                 $tableData->tableForm =     array(
-                    "Ingredient_Name" =>        ElementTypes::TEXT
+                    "Ingredient_Name" =>        ElementTypes::TEXT,
+                    "Ingredient_Type_ID" =>     ElementTypes::SELECT
                 );
             }
 
@@ -169,6 +171,45 @@ class Model_DishBase
                 );
                 $tableData->tableForm =     array(
                     "Dish_Type_Name" =>         ElementTypes::TEXT
+                );
+            }
+            $data = $this->GetNavigation();
+            $data->tableData = $tableData;
+            $data->errorCode = StatFuncs::ThrowError(ErrorCode::WITHOUT_ERRORS);
+        }
+        else
+            $data->errorCode = StatFuncs::ThrowError(ErrorCode::EMPTY_DB_RESPONSE);
+
+        return $data;
+    }
+
+
+    public function GetIngredientTypeList()
+    {
+        $query = Queries::SelectIngredientTypeList();
+        $queryResult = Database::DBRequest($query);
+        $data = new MainDataContainer();
+
+        if ($queryResult != NULL) {
+            $tableData = new TableDataContainer();
+            {
+
+                $tableData->caption =       "Типы ингредиентов";
+                $tableData->poolName =      "ingredientTypePool";
+                $tableData->queryResult =   $queryResult;
+
+                $tableData->headRow =       array(
+                    'Ingredient_Type_ID' =>           '№',
+                    'Ingredient_Type_Name' =>         'Тип ингредиента'
+                );
+                $tableData->querySet =      array(
+                    'create' =>                 'InsertIngredientTypeList',
+                    'read' =>                   '',
+                    'update' =>                 'UpdateIngredientTypeList',
+                    'delete' =>                 'DeleteIngredientTypeList',
+                );
+                $tableData->tableForm =     array(
+                    "Ingredient_Type_Name" =>         ElementTypes::TEXT
                 );
             }
             $data = $this->GetNavigation();

@@ -3,7 +3,7 @@
     <div class="calendarMain">
         <div style="width: 200px;"></div>
         <div align="center">
-            <h2 style="margin: 0;">Текущая неделя:<br></h2>
+            <h2 style="margin: 0;">Текущая неделя:<br><span></span></h2>
         </div>
         <div style="text-align: center;">
             <label for="calendar"><h3 style="margin: 3px;">Выбор недели:</h3></label>

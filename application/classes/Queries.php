@@ -87,19 +87,20 @@ abstract class Queries
 
     //набор запросов для справочника ингредиентов
     public static function SelectIngredientList(){
-        return "SELECT *
-                    FROM INGREDIENT_LIST
+        return "SELECT Ingredient_ID, Ingredient_Name, Ingredient_Type_Name
+                    FROM INGREDIENT_LIST, INGREDIENT_TYPE_LIST
+                    WHERE INGREDIENT_LIST.Ingredient_Type_ID = INGREDIENT_TYPE_LIST.Ingredient_Type_ID
                     ORDER BY Ingredient_ID";
     }
 
     public static function InsertIngredientList($data){
-        return "INSERT INTO INGREDIENT_LIST (Ingredient_ID, Ingredient_Name)
-                    VALUES ('$data[id]', '$data[Ingredient_Name]')";
+        return "INSERT INTO INGREDIENT_LIST (Ingredient_ID, Ingredient_Name, Ingredient_Type_ID)
+                    VALUES ('$data[id]', '$data[Ingredient_Name]', '$data[Ingredient_Type_ID]')";
     }
 
     public static function UpdateIngredientList($data){
         return "UPDATE INGREDIENT_LIST 
-                    SET Ingredient_Name = '$data[Ingredient_Name]'
+                    SET Ingredient_Name = '$data[Ingredient_Name]', Ingredient_Type_ID = '$data[Ingredient_Type_ID]'
                     WHERE Ingredient_ID = '$data[id]'";
     }
 
@@ -130,6 +131,30 @@ abstract class Queries
     public static function DeleteDishTypeList($data){
         return "DELETE FROM DISH_TYPE_LIST
                     WHERE Dish_Type_ID = '$data[id]'";
+    }
+
+
+    //набор запросов для справочника классов ингрелиентов
+    public static function SelectIngredientTypeList(){
+        return "SELECT *
+                    FROM INGREDIENT_TYPE_LIST
+                    ORDER BY Ingredient_Type_ID";
+    }
+
+    public static function InsertIngredientTypeList($data){
+        return "INSERT INTO INGREDIENT_TYPE_LIST (Ingredient_Type_ID, Ingredient_Type_Name)
+                    VALUES ('$data[id]', '$data[Ingredient_Type_Name]')";
+    }
+
+    public static function UpdateIngredientTypeList($data){
+        return "UPDATE INGREDIENT_TYPE_LIST 
+                    SET Ingredient_Type_Name = '$data[Ingredient_Type_Name]'
+                    WHERE Ingredient_Type_ID = '$data[id]'";
+    }
+
+    public static function DeleteIngredientTypeList($data){
+        return "DELETE FROM INGREDIENT_TYPE_LIST
+                    WHERE Ingredient_Type_ID = '$data[id]'";
     }
 
 
@@ -223,7 +248,7 @@ abstract class Queries
     public static function UpdateDishMenu($data){
         return "UPDATE DISH_MENU 
                     SET Dish_ID = '" . $data['field']['Dish_ID'] . "', Free = '" . $data['field']['Free'] . "'
-                    WHERE Menu_ID = '$data[parent]' AND DishID = '" . $data['field']['DishID'] . "'";
+                    WHERE Menu_ID = '$data[parent]' AND Dish_ID = '" . $data['field']['Dish_ID'] . "'";
     }
 
     public static function DeleteDishMenu($data){

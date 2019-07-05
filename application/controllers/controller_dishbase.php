@@ -56,6 +56,18 @@ class Controller_DishBase extends Controller
         }
     }
 
+    function action_ingredienttypes()
+    {
+        if (StatFuncs::ValidateUsers(array(AccessRights::ADMIN))) {
+            $this->data = $this->model->GetIngredientTypeList();
+            if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
+                Router::GoOn(Routes::ERRROR);
+            else {
+                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data);
+            }
+        }
+    }
+
     function action_measures()
     {
         if (StatFuncs::ValidateUsers(array(AccessRights::ADMIN))) {

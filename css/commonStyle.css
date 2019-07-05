@@ -1,29 +1,7 @@
-#adder input, #adder button, #adder select{
-    display: none;
-}
-
 .hidden{
     display: none;
 }
 
-
-
-.addMark {
-    background-color: lightgreen;
-}
-
-.editMark {
-    background-color: lightskyblue;
-}
-
-.deleteMark {
-    background-color: lightcoral;
-}
-
-.addSubMark {
-    background-color: mediumseagreen;
-}
-
-.editSubMark {
-    background-color: dodgerblue;
+.pHoliday{
+    color: red;
 }
