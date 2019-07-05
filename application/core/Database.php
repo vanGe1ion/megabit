@@ -32,10 +32,6 @@ class Database {
             Router::GoOn(Routes::ERRROR);
             die();
         }
-        // Error handling
-//        if(!$this->_connection) {
-//            trigger_error("Failed to connect to MySQL: " . mysqli_connect_error(),E_USER_ERROR);
-//        }
     }
 
 

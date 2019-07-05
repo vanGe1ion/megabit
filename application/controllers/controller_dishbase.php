@@ -7,7 +7,6 @@ class Controller_DishBase extends Controller
     function __construct()
     {
         $this->model = new Model_DishBase();
-        $this->view = new View();
         $this->data = new MainDataContainer();
     }
 
@@ -24,7 +23,7 @@ class Controller_DishBase extends Controller
             if ($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data);
+                View::Generate('dishbase_view.php', 'template_view.php', $this->data);
             }
         }
     }
@@ -38,7 +37,7 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data);
+                View::Generate('dishbase_view.php', 'template_view.php', $this->data);
             }
         }
     }
@@ -51,7 +50,7 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data);
+                View::Generate('dishbase_view.php', 'template_view.php', $this->data);
             }
         }
     }
@@ -63,7 +62,7 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data);
+                View::Generate('dishbase_view.php', 'template_view.php', $this->data);
             }
         }
     }
@@ -75,7 +74,7 @@ class Controller_DishBase extends Controller
             if($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else {
-                $this->view->Generate('dishbase_view.php', 'template_view.php', $this->data);
+                View::Generate('dishbase_view.php', 'template_view.php', $this->data);
             }
         }
     }

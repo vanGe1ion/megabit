@@ -3,7 +3,7 @@
 
 class Factory_Error
 {
-    public $error;
+    private $error;
 
     public function __construct($type){
         if(!isset($type) || !file_exists("application/errors/Error".$type.".php")){
@@ -15,5 +15,9 @@ class Factory_Error
             $errorName = "Error".$type;
             $this->error = new $errorName();
         }
+    }
+
+    public function GetError(){
+        return $this->error;
     }
 }

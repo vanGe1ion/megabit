@@ -194,7 +194,7 @@ class Model_DishBase
             $tableData = new TableDataContainer();
             {
 
-                $tableData->caption =       "Типы ингредиентов";
+                $tableData->caption =       "Типы ингр.";
                 $tableData->poolName =      "ingredientTypePool";
                 $tableData->queryResult =   $queryResult;
 

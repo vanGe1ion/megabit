@@ -6,7 +6,6 @@ class Controller_MenuPlanner extends Controller
     function __construct()
     {
         $this->model = new Model_MenuPlanner();
-        $this->view = new View();
         $this->data = new MainDataContainer();
     }
 
@@ -17,7 +16,7 @@ class Controller_MenuPlanner extends Controller
             if ($this->data->errorCode != ErrorCode::WITHOUT_ERRORS)
                 Router::GoOn(Routes::ERRROR);
             else
-                $this->view->Generate('menuplanner_view.php', 'template_view.php', $this->data);
+                View::Generate('menu_orders_view.php', 'template_view.php', $this->data);
         }
     }
 }

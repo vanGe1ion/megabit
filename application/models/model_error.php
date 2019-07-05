@@ -8,7 +8,7 @@ class Model_Error
         $errFactory = new Factory_Error($_SESSION['errorCode']);
         $data = new MainDataContainer();
         $data->pageTitle = 'Ой, какая неприятность';
-        $data->errorData = new ErrorDataContainer($errFactory->error);
+        $data->errorData = new ErrorDataContainer($errFactory->GetError());
         unset($_SESSION['errorCode']);
         return $data;
     }

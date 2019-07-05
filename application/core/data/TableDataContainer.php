@@ -20,7 +20,7 @@ class TableDataContainer
 
 
     //поля вложенного контейнера
-    public $mainKey =    array(/*'elemName', ...*/);                              // - имена таблиц связанных с таблицей связей
+    public $mainKey =    array(/*'elemName', ...*/);                                 // - имена таблиц связанных с таблицей связей
 
     public function __construct() {}
 

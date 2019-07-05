@@ -6,7 +6,6 @@ class Controller_Authorisation extends Controller
     function __construct()
     {
         $this->model = new Model_Authorisation();
-        $this->view = new View();
         $this->data = new MainDataContainer();
     }
 
@@ -16,7 +15,7 @@ class Controller_Authorisation extends Controller
             Router::GoOn(Routes::MAIN);
         else {
             $this->data->pageTitle = 'Авторизация';
-            $this->view->Generate('authorisation_view.php', 'template_view.php', $this->data);
+            View::Generate('authorisation_view.php', 'template_view.php', $this->data);
         }
     }
 
