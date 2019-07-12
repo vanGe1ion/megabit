@@ -8,6 +8,7 @@
         <div style="text-align: center;">
             <label for="calendar"><h3 style="margin: 3px;">Выбор недели:</h3></label>
             <input type="text" id="calendar" name="calendar" class="calendar">
+            <button class="calendarCall">Открыть календарь</button>
             <div class="calendarButtons">
                 <button id="prev" class="calendar">&lt;</button>
                 <button id="today" class="calendar">#</button>
@@ -57,19 +58,12 @@
 </div>
 
 <!-- Waiter -->
-<div class="overlay"></div>
-<div class="wait-box ui-corner-all">
-    <div class="wait-text">
-        Пожалуйста, дождитесь выполнения операции
-    </div>
-    <div class="wait-img">
-        <img src="/image/loader.gif"/>
-    </div>
-</div>
+<?include "application/views/template_view/waiter.html"?>
 
 <!-- Script data -->
 <script>
-    var TableData = <?=json_encode($data->tableData)?>
+    var TableData = <?=json_encode($data->tableData)?>;
+    var EmpID = <?= json_encode($_SESSION["empID"])?>;
 </script>
 
 

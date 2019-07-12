@@ -56,7 +56,7 @@ $("[id^='expTable-']").dialog({
     },
     beforeClose: function () {
         if ($("[id^='expTable-'] table td .save").length) {
-            ThrowNotice("#notices", "Info", "Подсказка", "JS",
+            ThrowNotice("Info", "Подсказка", "JS",
                 "Имеются непринятые изменения. Пожалуйста, для продолжения сохраните или отмените их");
             return false;
         }
@@ -77,7 +77,7 @@ $("#db-edit").click(function () {
 });
 
 $("#db-cancel").click(function () {
-    ThrowDialog("#dialogs", "Отмена изменений", "Отменить все внесенные изменения?", function () {
+    ThrowDialog("Отмена изменений", "Отменить все внесенные изменения?", function () {
         $("#db-edit").removeClass("hidden");
         $("#db-save, #db-cancel").addClass("hidden");
         $(".horMenu").button("enable");
@@ -101,7 +101,7 @@ $("#db-cancel").click(function () {
 
 $("#db-save").click(function () {
     if ($("table td .save").length)
-        ThrowNotice("#notices", "Info", "Подсказка", "js",
+        ThrowNotice("Info", "Подсказка", "js",
             "Имеются непринятые изменения. Пожалуйста, для продолжения сохраните или отмените их");
     else if($(".addMark, .editMark, .deleteMark").length == 0 && $("img.indicator").length == $("img.indicator.hidden").length){
         $("#db-edit").removeClass("hidden");
@@ -112,19 +112,13 @@ $("#db-save").click(function () {
     }
     else{
 
-        $(document).bind("ajaxStart", function () {
-            $("div.overlay, div.wait-box").fadeIn(200);
-        });
-
-        $(document).bind("ajaxStop", function () {
-            $("div.overlay, div.wait-box").fadeOut(200);
-
+        AjaxWaiter(200, function () {
             if($(".addMark, .editMark, .deleteMark").length || $(".indicator.hidden").length < $(".indicator").length)
-                ThrowNotice("#notices", "Info", "Результат запроса", "js",
+                ThrowNotice("Info", "Результат запроса", "js",
                     "Некоторые запросы не были выполнены");
             else{
                 setTimeout(function () {
-                    ThrowNotice("#notices", "Info", "Результат запроса", "js",
+                    ThrowNotice("Info", "Результат запроса", "js",
                         "Все запросы выполнены успешно");
                     $("#db-edit").removeClass("hidden");
                     $("#db-save, #db-cancel").addClass("hidden");
@@ -133,8 +127,6 @@ $("#db-save").click(function () {
                     $(".options").fadeOut(150);
                 },150);
             }
-
-            $(this).unbind();
         });
 
         DataPoolRequester(dataPoolArray, TableData,

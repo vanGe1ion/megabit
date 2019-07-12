@@ -1,4 +1,6 @@
 var dates = [];
+var menus = {};
+var frees = {};
 var dataPoolArray = {};
 $(".options").hide();
 $("#headRow th[id^='c-']").width(($("#headRow").width() - $("#headRow th.fit").width())/5);
@@ -7,11 +9,10 @@ $("#headRow th[id^='c-']").width(($("#headRow").width() - $("#headRow th.fit").w
 
 
 
-//календарная панель
 $("#calendar").datepicker({
     dateFormat:"dd.mm.yy",
     onSelect:function (){
-        MenuHandler(this);
+        OrderHandler(this);
     }
 })
     .blur(function () {
@@ -23,19 +24,19 @@ $("#prev").click(function () {
     let curdate = moment($("#calendar").datepicker("getDate"));
     curdate.subtract(7, "d");
     $("#calendar").datepicker("setDate", curdate.format("DD.MM.Y"));
-    MenuHandler("#calendar");
+    OrderHandler("#calendar");
 });
 
 $("#next").click(function () {
     let curdate = moment($("#calendar").datepicker("getDate"));
     curdate.add(7, "d");
     $("#calendar").datepicker("setDate", curdate.format("DD.MM.Y"));
-    MenuHandler("#calendar");
+    OrderHandler("#calendar");
 });
 
 $("#today").click(function () {
     $("#calendar").datepicker("setDate", "+0d");
-    MenuHandler("#calendar");
+    OrderHandler("#calendar");
 });
 
 $(".calendarCall").button({icon: "ui-icon-calendar", showLabel: false}).click(function () {
@@ -59,10 +60,10 @@ $("#db-edit").click(function () {
     $(".options").fadeIn(500);
 
     //временной лимит в два дня
-    $.each(dates, function (key, date) {
-        if (date.diff(moment(), "days") < 1 || $("th#c-" + key).hasClass("pHoliday"))
-            $("#c-" + key + " button").button("disable");
-    })
+    // $.each(dates, function (key, date) {
+    //     if (date.diff(moment(), "days") < 1 || $("th#c-" + key).hasClass("pHoliday"))
+    //         $("#c-" + key + " button").button("disable");
+    // })
 });
 
 $("#db-cancel").click(function () {
@@ -74,7 +75,7 @@ $("#db-cancel").click(function () {
 
 
         $(".addSubMark").remove();
-        let expand = TableData.expands[0]["Меню"];
+        let expand = TableData.expands[0]["Заказ"];
         let mainPool = dataPoolArray[TableData.poolName];
         let expPool = dataPoolArray[expand.poolName];
         $.each($(".addMark button.delete"), function (key, button) {
@@ -85,7 +86,7 @@ $("#db-cancel").click(function () {
             PoolDataRemover(expPool, "create", menuID, null);
             //dom
             CollMarker(button, "addMark", true);
-            MenuOptionsCreator($(button).parent(), "add");
+            OrderOptionsCreator($(button).parent(), "add");
             $(button).remove();
         });
 
@@ -95,7 +96,7 @@ $("#db-cancel").click(function () {
 
         $.each($(".editSubMark"), function (key, dish) {
             $(dish).removeClass("editSubMark");
-            let expand = TableData.expands[0]["Меню"];
+            let expand = TableData.expands[0]["Заказ"];
             let collID = $(dish).parent().parent().attr("id");
             let parent = $("tr.options #" + collID + " .delete").attr("id").split("-")[1];
             let dishID = $(dish).attr("id").split("-")[1];
@@ -142,20 +143,20 @@ $("#db-save").click(function () {
         DataPoolRequester(dataPoolArray, TableData, function (data) {
             switch (data.levelName) {
                 case "delete":{
-                    CollMarker("#menu-" + data.id, "deleteMark", true);
-                    let collID = $("#menu-" + data.id).parent().attr("id");
+                    CollMarker("#order-" + data.id, "deleteMark", true);
+                    let collID = $("#order-" + data.id).parent().attr("id");
                     $("#mptable td#"+collID+" div, tr.options td#"+collID).html("");
-                    MenuOptionsCreator($("tr.options td#"+collID), "add");
+                    OrderOptionsCreator($("tr.options td#"+collID), "add");
                     break;
                 }
                 case "create":{
-                    CollMarker("#menu-" + data.id, "addMark", true);
+                    CollMarker("#order-" + data.id, "addMark", true);
                     break;
                 }
                 case "update":{break;}
             }
         }, function (data) {
-            let collID = $("#menu-" + data.parent).parent().attr("id");
+            let collID = $("#order-" + data.parent).parent().attr("id");
             let dish = $("#" + collID + " #dish-" + data.id);
             switch (data.levelName) {
                 case "delete":{dish.remove(); break;}
@@ -170,16 +171,22 @@ $("#db-save").click(function () {
 
 
 
-//кнопки управоления меню
-var MenuHandler = function(selector){
-    AjaxWaiter(200);
 
+//кнпки управоления меню
+var OrderHandler = function(selector){
+    AjaxWaiter(200, function () {
+        //$("#db-edit").click();
+    });
+    menus = {};
+    frees = {};
+    dates = [];
     $(".todayMark").removeClass("todayMark");
     $(".pHoliday").removeClass("pHoliday");
     DataPoolCreator(dataPoolArray, TableData);
 
     $("#mptable td div, tr.options td").html("");
 
+    //вормирование списка дат и заголовка
     let curdate = moment($(selector).datepicker('getDate'));
     if(curdate.weekday() == 0)
         curdate.subtract(7-1, "d");
@@ -188,6 +195,8 @@ var MenuHandler = function(selector){
     for(let i = 0; i < 5; ++i){
         dates[i] = moment(curdate);
         $("#headRow th span").eq(i).html(dates[i].format("DD.MM.Y"));
+
+        //запрос выходных
         $.get("https://isdayoff.ru/api/getdata",
             {
                 year:dates[i].format("Y"),
@@ -211,14 +220,56 @@ var MenuHandler = function(selector){
                 ThrowNotice("Error", "Ошибка!", "ajax",
                     "Ошибка подключения к производственному календарю");
             });
+
         curdate.add(1, "d");
     }
+
+    //запрос меню недели
+    $.post("/script/php/Select.php",
+        {
+            queryName: "SelectMenuOfWeek",
+            queryData:{
+                leftLimit: dates[0].format("Y-MM-DD"),
+                rightLimit: dates[4].format("Y-MM-DD")
+            }
+        },
+        function (res) {
+            $.each(res, function (key, data) {
+                $.each(dates, function (dateKey, date) {
+                    if(data.Date == date.format("Y-MM-DD"))
+                        menus[dateKey] = data.Menu_ID;
+                })
+            })
+        }, "json");
+
 
     $(selector).val(dates[0].format("DD.MM.Y") + " - " + dates[4].format("DD.MM.Y"));
     //$("h2:contains('Текущая неделя')").children("span").html("c " + dates[0].locale("ru").format("D MMMM Y г.") + " по " + dates[4].locale("ru").format("D MMMM Y г."));
 
 
+
+
     $.each($("#headRow th[id^='c-']"), function (key, th) {
+        //запрос бесплатных блюд
+        $.post(
+            "/script/php/Select.php",
+            {
+                queryName: "SelectDishFree",
+                queryData:{
+                    Date: dates[key].format("Y-MM-DD"),
+                }
+            },
+            function (res) {
+                if(res.length){
+                    frees[key] = [];
+                    $.each(res, function (fieldKey, field) {
+                        frees[key].push(+field["Dish_ID"]);
+                    });
+                }
+            },
+            "json");
+
+        //запрос заказа
         $.ajax({
             url:"/script/php/Select.php",
             type:"post",
@@ -226,75 +277,77 @@ var MenuHandler = function(selector){
             data:{
                 queryName: TableData.querySet["read"],
                 queryData:{
-                    Date: dates[key].format("Y-MM-DD")
+                    Date: dates[key].format("Y-MM-DD"),
+                    Employee_ID: EmpID
                 }
             },
 
             success: function (res) {
-                let menuOptCell = $("tr.options td#c-"+key);
-                let menuOption = MenuOptionsCreator(menuOptCell, res.length? "delete" : "add");
+                let orderOptCell = $("tr.options td#c-"+key);
+                let orderOption = OrderOptionsCreator(orderOptCell, res.length? "delete" : "add");
 
                 if($("th#c-" + key + " span").text() == moment().format("DD.MM.Y"))
-                // let todaybutton = $("tr.options #" + $("span:contains("+moment().format("DD.MM.Y")+")").parent().attr("id") + " button");
-                    CollMarker(menuOption, "todayMark");
+                    CollMarker(orderOption, "todayMark");
 
                 if(res.length) {
-                    menuOption.attr("id", "menu-" + res[0].Menu_ID);
-                    let tableData = TableData.expands[0]["Меню"];
-                    $.ajax({
-                        url:"/script/php/Select.php",
-                        type:"post",
-                        dataType:"json",
-                        data:{
-                            queryName: tableData.querySet["read"],
-                            queryData:{
-                                parent: res[0].Menu_ID
-                            }
-                        },
+                    orderOption.attr("id", "order-" + res[0].Order_ID);
 
-                        success: function (dishRes) {
-                            $.each(dishRes, function (key, dataRow) {
-                                $.each($("tr[id^=row-]"), function (key, dishTypeRow) {
-                                    if($(dishTypeRow).attr("id").split("-")[1] == dataRow["Dish_Type_ID"]) {
-                                        let dishElem = $("<div id='dish-" + dataRow.Dish_ID + "' class='dishOfMenu'></div>");
-                                        let data = {
-                                            Dish_ID: dataRow.Dish_Name,
-                                            Price: dataRow.Price + " руб.",
-                                            Free: dataRow.Free
-                                        };
-                                        DishRowCreator(dishElem, tableData, data);
-                                        $(dishTypeRow).children("#"+$(th).attr("id")).children().children(".options").before(dishElem);
-                                    }
-                                });
-                            });
-                            $(".options").hide();
-                        },
-                        error: function () {
-                            ThrowNotice("Error", "Ошибка", "ajax",
-                                "Ошибка чтения  меню на " + dates[key].format("DD.MM.Y"));
-                        }
-                    })
+                    //запрос блюд заказа
+                    //let tableData = TableData.expands[0]["Заказ"];
+    //                 $.ajax({
+    //                     url:"/script/php/Select.php",
+    //                     type:"post",
+    //                     dataType:"json",
+    //                     data:{
+    //                         queryName: tableData.querySet["read"],
+    //                         queryData:{
+    //                             parent: res[0].Menu_ID
+    //                         }
+    //                     },
+    //
+    //                     success: function (dishRes) {
+    //                         $.each(dishRes, function (key, dataRow) {
+    //                             $.each($("tr[id^=row-]"), function (key, dishTypeRow) {
+    //                                 if($(dishTypeRow).attr("id").split("-")[1] == dataRow["Dish_Type_ID"]) {
+    //                                     let dishElem = $("<div id='dish-" + dataRow.Dish_ID + "' class='dishOfMenu'></div>");
+    //                                     let data = {
+    //                                         Dish_ID: dataRow.Dish_Name,
+    //                                         Price: dataRow.Price + " руб.",
+    //                                         Free: dataRow.Free
+    //                                     };
+    //                                     DishRowCreator(dishElem, tableData, data);
+    //                                     $(dishTypeRow).children("#"+$(th).attr("id")).children().children(".options").before(dishElem);
+    //                                 }
+    //                             });
+    //                         });
+    //                         $(".options").hide();
+    //                     },
+    //                     error: function () {
+    //                         ThrowNotice("Error", "Ошибка", "ajax",
+    //                             "Ошибка чтения заказа на " + dates[key].format("DD.MM.Y"));
+    //                     }
+    //                 })
                 }
-                //$(".options").hide();
+                $(".options").hide();
             },
             error: function () {
                 ThrowNotice("Error", "Ошибка", "ajax",
-                    "Ошибка чтения списка меню (" + dates[key].format("DD.MM.Y") +")");
+                    "Ошибка чтения списка заказов (" + dates[key].format("DD.MM.Y") +")");
             }
         })
     });
 };
 
 
-var MenuOptionsCreator = function(optCell, type){
+var OrderOptionsCreator = function(optCell, type){
     let text, bclass, icon, func;
 
     switch(type){
         case "delete":{
-            text = "Удалить меню";
+            text = "Удалить заказ";
             bclass = "delete";
             icon = "ui-icon-trash";
-            func = MenuDeleteHandler;
+            func = OrderDeleteHandler;
 
             $.each($("#headRow").siblings(), function (rownum, row) {
                 $(row).children("td#"+optCell.attr("id")).children("div")
@@ -316,10 +369,10 @@ var MenuOptionsCreator = function(optCell, type){
             break;
         }
         case "add":{
-            text = "Новое меню";
+            text = "Новый заказ";
             bclass = "add";
             icon = "ui-icon-plusthick";
-            func = MenuAddHandler;
+            func = OrderAddHandler;
 
             $.each($("#headRow").siblings(), function (rownum, row) {
                 $(row).children("td#"+optCell.attr("id")).children("div").html('');
@@ -339,40 +392,41 @@ var MenuOptionsCreator = function(optCell, type){
 };
 
 
-var MenuAddHandler = function (buttonSelector) {
+var OrderAddHandler = function (buttonSelector) {
     let date = dates[$(buttonSelector).parent().attr("id").split("-")[1]];
     let currentDataPool = dataPoolArray[TableData.poolName];
 
-    $.post("/script/php/Select.php", {queryName: "SelectMaxMenuID", queryData:{}}, "JSON")
+    $.post("/script/php/Select.php", {queryName: "SelectMaxOrderID", queryData:{}}, "JSON")
         .done(function (res) {
             let newID;
             let parseRes = JSON.parse(res);
             let data = {};
 
             if(parseRes.length)
-                newID = +parseRes[0].Menu_ID + 1;
+                newID = +parseRes[0].Order_ID + 1;
             else
                 newID = Object.keys(currentDataPool.create).length ? Math.max.apply(null, Object.keys(currentDataPool.create)) + 1 : 1;
 
             data.id  = newID;
             data[Object.keys(TableData.tableForm)[0]] = date.format("Y-MM-DD");
+            data.Employee_ID  = EmpID;
 
             //pool
             PoolDataInserter(currentDataPool, "create", null, newID, data);
             //dom
             CollMarker(buttonSelector, "addMark");
-            MenuOptionsCreator($(buttonSelector).parent(), "delete").attr("id", "menu-" + newID);
+            OrderOptionsCreator($(buttonSelector).parent(), "delete").attr("id", "order-" + newID);
             $(buttonSelector).remove();
         })
         .fail(function () {
             ThrowNotice("Error", "Ошибка", "ajax",
-                "Ошибка чтения списка меню (*)");
+                "Ошибка чтения списка заказов (*)");
         });
 };
 
 
-var MenuDeleteHandler = function (buttonSelector) {
-    let expand = TableData.expands[0]["Меню"];
+var OrderDeleteHandler = function (buttonSelector) {
+    let expand = TableData.expands[0]["Заказ"];
     let currentDataPool = dataPoolArray[TableData.poolName];
     let expandDataPool = dataPoolArray[expand.poolName];
     let menuButtonCell = $(buttonSelector).parent();
@@ -387,7 +441,7 @@ var MenuDeleteHandler = function (buttonSelector) {
             PoolDataRemover(expandDataPool, "create", menuID, null);
             //dom
             CollMarker(buttonSelector, "addMark", true);
-            MenuOptionsCreator($(buttonSelector).parent(), "add");
+            OrderOptionsCreator($(buttonSelector).parent(), "add");
             $(buttonSelector).remove();
         });
     }
@@ -396,7 +450,7 @@ var MenuDeleteHandler = function (buttonSelector) {
         PoolDataRemover(currentDataPool, "delete", null, menuID);
         //dom
         CollMarker(buttonSelector, "deleteMark", true);
-        $(buttonSelector).button("option", "label", "Удалить меню");
+        $(buttonSelector).button("option", "label", "Удалить заказ");
         $("tr[id^='row-'] td#"+cellID+" button").button("enable");
     }
     else{
@@ -404,24 +458,24 @@ var MenuDeleteHandler = function (buttonSelector) {
             ThrowDialog("Удаление",
                 "В меню имеются изминения. Пометка на удаление их отменит. Продолжить?",
                 function () {
-                    //subDelete
-                    $.each($("td#"+cellID+" .deleteMark"), function (key, dish) {
-                        $(dish).children(".buttonSet"). children(".delete").click();
-                    });
-                    //subAdd
-                    $.each($("td#"+cellID+" .addSubMark"), function (key, dish) {
-                        PoolDataRemover(expandDataPool, "create", menuID, $(dish).attr('id').split("-")[1]);
-                        $(dish).children().hide(300, function () {
-                            $(dish).remove();
-                        });
-                    });
-                    //subEdit
-                    $.each($("td#"+cellID+" .editSubMark"), function (key, dish) {
-                        $(dish).removeClass("editSubMark");
-                        DishRowCreator($(dish), expand, expandDataPool.olds[menuID][$(dish).attr('id').split("-")[1]]);
-                        PoolDataRemover(expandDataPool, "update", menuID, $(dish).attr('id').split("-")[1]);
-                        PoolDataRemover(expandDataPool, "olds", menuID, $(dish).attr('id').split("-")[1]);
-                    });
+                    // //subDelete
+                    // $.each($("td#"+cellID+" .deleteMark"), function (key, dish) {
+                    //     $(dish).children(".buttonSet"). children(".delete").click();
+                    // });
+                    // //subAdd
+                    // $.each($("td#"+cellID+" .addSubMark"), function (key, dish) {
+                    //     PoolDataRemover(expandDataPool, "create", menuID, $(dish).attr('id').split("-")[1]);
+                    //     $(dish).children().hide(300, function () {
+                    //         $(dish).remove();
+                    //     });
+                    // });
+                    // //subEdit
+                    // $.each($("td#"+cellID+" .editSubMark"), function (key, dish) {
+                    //     $(dish).removeClass("editSubMark");
+                    //     DishRowCreator($(dish), expand, expandDataPool.olds[menuID][$(dish).attr('id').split("-")[1]]);
+                    //     PoolDataRemover(expandDataPool, "update", menuID, $(dish).attr('id').split("-")[1]);
+                    //     PoolDataRemover(expandDataPool, "olds", menuID, $(dish).attr('id').split("-")[1]);
+                    // });
 
                     //main
                     //pool
@@ -449,7 +503,7 @@ var MenuDeleteHandler = function (buttonSelector) {
 //кнопки управления полями блюд
 var DishAddHandler = function (buttonSelector) {
     $(buttonSelector).parent().before("<div class='dishOfMenu'/>");
-    DishFormCreator($(buttonSelector).parent().prev(), TableData.expands[0]["Меню"], {}, DishCreateSaveHandler, function (button) {
+    DishFormCreator($(buttonSelector).parent().prev(), TableData.expands[0]["Заказ"], {}, DishCreateSaveHandler, function (button) {
         $(button).parent().parent().children().hide(300, function () {
             $(button).parent().parent().remove();
         });
@@ -459,7 +513,7 @@ var DishAddHandler = function (buttonSelector) {
 
 var DishEditHandler = function(buttonSelector){
 
-    let tableData = TableData.expands[0]["Меню"];
+    let tableData = TableData.expands[0]["Заказ"];
     let dishRow = $(buttonSelector).parent().parent();
     let olddata = DishRowDataCreator(dishRow, tableData);
 
@@ -467,9 +521,9 @@ var DishEditHandler = function(buttonSelector){
         function (button){
             DishUpdateSaveHandler(button, olddata);
         },
-    function (button) {
-        DishRowCreator($(button).parent().parent(), tableData, olddata);
-    });
+        function (button) {
+            DishRowCreator($(button).parent().parent(), tableData, olddata);
+        });
 };
 
 
@@ -531,41 +585,35 @@ var DishDeleteHandler = function(buttonSelector){
 
 //обработчики операций с блюдами
 var DishCreateSaveHandler = function(buttonSelector){
-    if ($(buttonSelector).parent().siblings("div.select").children().val() == '')
-        ThrowNotice("Info", "Подсказка", "js",
-            "Блюдо не выбрано");
-    else {
-        let field = $(buttonSelector).parent().parent();
-        let select = field.children(".select").children();
+    let tableData = TableData.expands[0]['Заказ'];
+    let currentPool = dataPoolArray[tableData.poolName];
+    let dishRow = $(buttonSelector).parent().parent();
 
-        let tableData = TableData.expands[0]['Меню'];
-        let currentPool = dataPoolArray[tableData.poolName];
-        let cellID = "#" + field.parent().parent().attr("id");
+    if (NotEmpty(dishRow, tableData)){
+        let select = dishRow.children(".orderSelect").children();
+        console.log(select);
+        let cellID = "#" + dishRow.parent().parent().attr("id");
         let parent = $("tr.options " + cellID + " .delete").attr("id").split("-")[1];
 
         //pool
-        let data = DishFormDataCreator(field, tableData);
+        let data = DishFormDataCreator(dishRow, tableData);
         PoolDataInserter(currentPool, "create", parent, select.val(), data);
         //dom
-        field.addClass("addSubMark").attr("id", "dish-"+select.val());
-        data = DishFormDataCreator(field, tableData, true);
-        DishRowCreator(field, tableData, data);
+        dishRow.addClass("addSubMark").attr("id", "dish-"+select.val());
+        data = DishFormDataCreator(dishRow, tableData, true);
+        DishRowCreator(dishRow, tableData, data);
     }
 };
 
 
 var DishUpdateSaveHandler = function(buttonSelector, olddata) {
-    if ($(buttonSelector).parent().siblings("div.select").children().val() == '')
-        ThrowNotice("Info", "Подсказка", "js",
-            "Блюдо не выбрано");
-    else {
-        let tableData = TableData.expands[0]["Меню"];
-        let currentDataPool = dataPoolArray[tableData.poolName];
+    let tableData = TableData.expands[0]["Заказ"];
+    let currentDataPool = dataPoolArray[tableData.poolName];
+    let dishRow = $(buttonSelector).parent().parent();
 
-        let dishRow = $(buttonSelector).parent().parent();
-        dishRow.attr("id", "dish-" + dishRow.children(".select").children().val());
+    if (NotEmpty(dishRow, tableData)){
+        dishRow.attr("id", "dish-" + dishRow.children(".orderSelect").children().val());
         let dishID = dishRow.attr("id").split("-")[1];
-
         let td = $(buttonSelector).parent().parent().parent().parent();
         let parent = $("tr.options #" + td.attr("id") + " .delete").attr("id").split("-")[1];
 
@@ -607,35 +655,40 @@ var DishFormCreator = function (containerHolder, tableData, data, callbackSave, 
     $.each(currentForm, function( id, type ) {
         let newCell = $("<div/>").addClass(type);
         let inpValue = isset(data[id])?data[id]:"";
-        let subID = $(containerHolder).parent().parent().parent().attr("id").split("-")[1];
+        let subID = type == "orderSelect"?
+            {
+                Dish_Type_ID: $(containerHolder).parent().parent().parent().attr("id").split("-")[1],
+                Date: dates[$(containerHolder).parent().parent().attr("id").split("-")[1]].format("Y-MM-DD")
+            }
+            : $(containerHolder).parent().parent().parent().attr("id").split("-")[1];
         let newElem = FormElemCreator(type, id, "100%", inpValue, subID);
         newCell.append(newElem);
         containerHolder.append(newCell);
     });
 
     containerHolder.append($("<div/>", {
-        class: "buttonSet"
+            class: "buttonSet"
         })
-        .append($("<button/>", {
-            text: "Сохранить",
-            class: "save",
-            css:{
-                fontSize: 11
-            },
-            click: function () {
-                callbackSave(this);
-            }
-        }).button({icon: "ui-icon-disk", showLabel:false}).removeClass("ui-widget"))
-        .append($("<button/>", {
-            text: "Отменить",
-            class: "cancel",
-            css:{
-                fontSize: 11
-            },
-            click: function () {
-                callbackCancel(this);
-            }
-        }).button({icon: "ui-icon-cancel", showLabel:false}).removeClass("ui-widget"))
+            .append($("<button/>", {
+                text: "Сохранить",
+                class: "save",
+                css:{
+                    fontSize: 11
+                },
+                click: function () {
+                    callbackSave(this);
+                }
+            }).button({icon: "ui-icon-disk", showLabel:false}).removeClass("ui-widget"))
+            .append($("<button/>", {
+                text: "Отменить",
+                class: "cancel",
+                css:{
+                    fontSize: 11
+                },
+                click: function () {
+                    callbackCancel(this);
+                }
+            }).button({icon: "ui-icon-cancel", showLabel:false}).removeClass("ui-widget"))
 
     );
     let select = $(containerHolder).children().first().children();
@@ -650,11 +703,7 @@ var DishRowCreator = function (containerHolder, tableData, data) {
 
 
     $.each(currentForm, function( id, type ) {
-        let inpValue;
-        if(type == "free")
-            inpValue = $("<label><input type='checkbox' " + (data[id] == 1?"checked":"") + " disabled>Бесп.</label>");
-        else
-            inpValue = data[id];
+        let inpValue = data[id];
         let newCell = $("<div/>").addClass(type).append(inpValue);
         containerHolder.append(newCell);
     });
@@ -693,15 +742,18 @@ var DishRowCreator = function (containerHolder, tableData, data) {
 
 //обработчик селектов и цены
 var SelectHandler = function (select) {
+    let dayID = $(select).parent().parent().parent().parent().attr("id").split("-")[1];
+
     select.hover(function () {
+
         let row = $(this).parent().parent().parent().children(".dishOfMenu").last();
         let subkeys = [];
 
         while(row.length==1) {
             if (row.children().first().children("select").length) {
                 let curSelect = row.children().first().children("select");
-                let curSelVal = curSelect.children("option[value='" + curSelect.val() + "']").text();
-                if (curSelVal !== $(this).children("option[value='" + $(this).val() + "']").text() && curSelVal != "")
+                let curSelVal = curSelect.children().children("option[value='" + curSelect.val() + "']").text();
+                if (curSelVal !== $(this).children().children("option[value='" + $(this).val() + "']").text() && curSelVal != "")
                     subkeys.push(curSelVal);
             } else
                 subkeys.push(row.children().first().text());
@@ -709,7 +761,7 @@ var SelectHandler = function (select) {
         }
 
 
-        let options = $(this).children("option");
+        let options = $(this).children().children("option");
         $.each(options, function (num, option) {
             $.each(subkeys, function (key, opt){
                 if($(option).text() == opt) {
@@ -719,7 +771,7 @@ var SelectHandler = function (select) {
             });
         });
 
-        options = $(this).children("option.hidden");
+        options = $(this).children().children("option.hidden");
         $.each(options, function (num, option) {
             let mark = 0;
             $.each(subkeys, function (key, opt){
@@ -732,12 +784,22 @@ var SelectHandler = function (select) {
                 $(option).removeClass("hidden");
 
 
+       });
+     }, ()=>{});
 
-        });
-    }, ()=>{});
+
+    let count = select.parent().siblings(".count").children();
 
     //price
     select.on("change", function () {
+        if(count.val() == "")
+            count.val(1).change();
+        else
+            count.val(count.val()).change();
+    });
+
+
+    count.on("change keyup", function () {
         let data = {
             queryName: "SelectDishPrice",
             queryData: {
@@ -748,7 +810,10 @@ var SelectHandler = function (select) {
             url:"script/php/Select.php",
             data: data,
             success: function (res) {
-                select.parent().siblings(".price").children().val(res.length? (res[0]['Price'] + " руб.") : "");
+                if(frees[dayID].indexOf(+select.val()) != -1 && count.val() == 1)
+                    select.parent().siblings(".price").children().val("0 руб.");
+                else
+                    select.parent().siblings(".price").children().val(count.val() == "" ? "" : res.length? (res[0]['Price'] + " руб.") : "");
             },
             dataType: "json"
         })
@@ -756,8 +821,8 @@ var SelectHandler = function (select) {
                 select.parent().siblings(".price").children().val("");
                 ThrowNotice("Error", "Ошибка", "ajax",
                     "Ошибка при чтении цены");
-            });
-    });
+            })
+    })
 };
 
 
@@ -766,16 +831,14 @@ var SelectHandler = function (select) {
 //сборщики данных
 var DishFormDataCreator = function(containerHolder, tableData, isdom = null){
     let data = {};
+    if(isdom == null)
+        data = {Menu_ID:menus[$(containerHolder).parent().parent().attr("id").split("-")[1]]};
 
     $.each(tableData.tableForm, function (id, type) {
         switch (type) {
-            case "select":{
+            case "orderSelect":{
                 let select = $(containerHolder).children("."+type).children();
-                data[id] = isdom == true ? select.children(":checked").text() : select.val();
-                break;
-            }
-            case "free":{
-                data[id] = $(containerHolder).children("."+type).children().children().prop("checked") == true ? 1 : 0;
+                data[id] = isdom == true ? select.children().children(":checked").text() : select.val();
                 break;
             }
             case "price":{
@@ -794,20 +857,9 @@ var DishFormDataCreator = function(containerHolder, tableData, isdom = null){
 
 var DishRowDataCreator = function(containerHolder, tableData){
     let data = {};
-
     $.each(tableData.tableForm, function (id, type) {
-        switch (type) {
-
-            case "free":{
-                data[id] = $(containerHolder).children("."+type).children().children().prop("checked") == true ? 1 : 0;
-                break;
-            }
-            default:{
-                data[id] = $(containerHolder).children("."+type).text();
-            }
-        }
+        data[id] = $(containerHolder).children("."+type).text();
     });
-
     return data;
 };
 

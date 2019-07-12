@@ -52,10 +52,10 @@ class Model_DishBase
                     'Price' =>                  'Цена'
                 );
                 $tableData->querySet =      array(
-                    'create' =>                 'InsertDishList',
+                    'create' =>                 'InsertDish',
                     'read' =>                   '',
-                    'update' =>                 'UpdateDishList',
-                    'delete' =>                 'DeleteDishList',
+                    'update' =>                 'UpdateDish',
+                    'delete' =>                 'DeleteDish',
                 );
                 $tableData->tableForm =     array(
                     "Dish_Name" =>              ElementTypes::TEXT,
@@ -123,10 +123,10 @@ class Model_DishBase
                     'Ingredient_Type_Name' =>   'Класс'
                 );
                 $tableData->querySet =      array(
-                    'create' =>                 'InsertIngredientList',
+                    'create' =>                 'InsertIngredient',
                     'read' =>                   '',
-                    'update' =>                 'UpdateIngredientList',
-                    'delete' =>                 'DeleteIngredientList',
+                    'update' =>                 'UpdateIngredient',
+                    'delete' =>                 'DeleteIngredient',
                 );
                 $tableData->tableForm =     array(
                     "Ingredient_Name" =>        ElementTypes::TEXT,
@@ -164,10 +164,10 @@ class Model_DishBase
                     'Dish_Type_Name' =>         'Тип блюда'
                 );
                 $tableData->querySet =      array(
-                    'create' =>                 'InsertDishTypeList',
+                    'create' =>                 'InsertDishType',
                     'read' =>                   '',
-                    'update' =>                 'UpdateDishTypeList',
-                    'delete' =>                 'DeleteDishTypeList',
+                    'update' =>                 'UpdateDishType',
+                    'delete' =>                 'DeleteDishType',
                 );
                 $tableData->tableForm =     array(
                     "Dish_Type_Name" =>         ElementTypes::TEXT
@@ -203,10 +203,10 @@ class Model_DishBase
                     'Ingredient_Type_Name' =>         'Тип ингредиента'
                 );
                 $tableData->querySet =      array(
-                    'create' =>                 'InsertIngredientTypeList',
+                    'create' =>                 'InsertIngredientType',
                     'read' =>                   '',
-                    'update' =>                 'UpdateIngredientTypeList',
-                    'delete' =>                 'DeleteIngredientTypeList',
+                    'update' =>                 'UpdateIngredientType',
+                    'delete' =>                 'DeleteIngredientType',
                 );
                 $tableData->tableForm =     array(
                     "Ingredient_Type_Name" =>         ElementTypes::TEXT
@@ -242,10 +242,10 @@ class Model_DishBase
                     'Measure_Name' =>           'Ед. измерения'
                 );
                 $tableData->querySet =      array(
-                    'create' =>                 'InsertMeasureList',
+                    'create' =>                 'InsertMeasure',
                     'read' =>                   '',
-                    'update' =>                 'UpdateMeasureList',
-                    'delete' =>                 'DeleteMeasureList',
+                    'update' =>                 'UpdateMeasure',
+                    'delete' =>                 'DeleteMeasure',
                 );
                 $tableData->tableForm =     array(
                     "Measure_Name" =>           ElementTypes::TEXT

@@ -69,15 +69,7 @@
 <?}?>
 
 <!-- Waiter -->
-<div class="overlay"></div>
-<div class="wait-box ui-corner-all">
-    <div class="wait-text">
-        Пожалуйста, дождитесь выполнения операции
-    </div>
-    <div class="wait-img">
-        <img src="/image/loader.gif"/>
-    </div>
-</div>
+<?include "application/views/template_view/waiter.html"?>
 
 <!-- Script data -->
 <script>

@@ -6,21 +6,29 @@ div.dishOfMenu{
     padding: 3px;
 }
 
-div.select{
+div.select, div.orderSelect{
     margin: 1px;
     flex-grow: 1;
     flex-basis: auto;
+}
+
+div.count{
+    flex-basis: 40px;
 }
 
 div.free{
     flex-basis: 70px;
 }
 
-div.buttonSet, div.price{
+div.price{
     flex-basis: 60px;
 }
 
-div.price, div.free, div.buttonSet{
+div.buttonSet{
+    flex-basis: 51px;
+}
+
+div.count, div.price, div.free, div.buttonSet{
     margin: 1px;
     flex-grow: 0;
 }

@@ -1,6 +1,7 @@
 <?php
 
 //Definitions
+//define('HOSTNAME', "10.1.92.80");
 define('HOSTNAME', $_SERVER['SERVER_ADDR']);
 define('LOGIN', 'root');
 define('PASSWORD', '');

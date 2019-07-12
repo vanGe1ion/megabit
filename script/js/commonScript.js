@@ -14,7 +14,7 @@ var isset = function (variable) {
 
 
 //вызывает оповещение
-var ThrowNotice = function (containerSelector, messageType, title, noticer, message) {
+var ThrowNotice = function (messageType, title, noticer, message, containerSelector = "#notices") {
 
     let notice = $("<div />", {
         title: title,
@@ -75,9 +75,8 @@ var ThrowNotice = function (containerSelector, messageType, title, noticer, mess
 };
 
 //вызывает диалоговое окно
-var ThrowDialog = function(containerSelector, title, text, callbackYes, callbackNo = null){
+var ThrowDialog = function(title, text, callbackYes, callbackNo = null, containerSelector = "#dialogs"){
 
-    let answer = null;
     let dialog = $("<div />", {
         title:title,
         class: "hidden"
@@ -157,11 +156,11 @@ var DataPoolRequester = function(dataPool, tableData, mainDomCallback, expDomCal
                             mainDomCallback(cbData);
                         }
                         else
-                            ThrowNotice("#notices", "Warning", "Результат запроса: Ошибка!", "sql",
+                            ThrowNotice("Warning", "Результат запроса: Ошибка!", "sql",
                                 "Отклонен запрос для " + tableData.poolName + "." + levelName + " (id " + id + ")");
                     },
                     error:function () {
-                        ThrowNotice("#notices", "Error", "Ошибка!", "ajax",
+                        ThrowNotice("Error", "Ошибка!", "ajax",
                             "Ошибка выполнения запроса для " + tableData.poolName + "." + levelName + " (id: " + id + ")");
                     }
                 })
@@ -199,11 +198,11 @@ var DataPoolRequester = function(dataPool, tableData, mainDomCallback, expDomCal
                                 expDomCallback(cbData);
                             }
                             else
-                                ThrowNotice("#notices", "Warning", "Результат запроса: Ошибка!", "sql",
+                                ThrowNotice("Warning", "Результат запроса: Ошибка!", "sql",
                                     "Отклонен запрос для " + tableData.poolName + "." + levelName + " (parent: " + parent + ", id: " + id + ")");
                         },
                         error:function () {
-                            ThrowNotice("#notices", "Error", "Ошибка!", "ajax",
+                            ThrowNotice("Error", "Ошибка!", "ajax",
                                 "Ошибка выполнения запроса для " + tableData.poolName + "." + levelName + " (parent: " + parent + ", id: " + id + ")");
                         }
                     })
@@ -276,6 +275,39 @@ var PoolDataRemover = function (pool, level, parent, id) {
 var FormElemCreator = function(elemType, elemId, width, value, selSubID = null) {
     let newElem;
     switch (elemType) {
+        case "orderSelect": {
+            newElem = $("<select>", {
+                name:elemId,
+                id:elemId,
+                class: "hidden",
+                css:{
+                    width:width,
+                    height:"21px"
+                }
+            });
+            $.ajax({
+                type: "POST",
+                dataType:"json",
+                url: "/script/php/orderSelectFieldData.php",
+                data: {select_data:selSubID},
+
+                success: function (res) {
+                    newElem.append("<option/>").append("<optgroup label='Бесплатные'/><optgroup label='Платные'/>");
+
+                    $.each(res, function (id, data) {
+                        let sel = "";
+                        if (data[0] == value)
+                            sel = "selected";
+                        let option = $("<option "+sel+" value='"+id+"'>"+data[0]+"</option>");
+                        newElem.children().eq(data[1] == "1" ? 1 : 2).append(option);
+                    });
+                },
+                error: function () {
+                    ThrowNotice("Error", "Ошибка!", "ajax","Ошибка создания элемента (OrderSelectField)");
+                }
+            });
+            break;
+        }
         case "select": {
             newElem = $("<select>", {
                 name:elemId,
@@ -304,7 +336,7 @@ var FormElemCreator = function(elemType, elemId, width, value, selSubID = null) 
                     });
                 },
                 error: function () {
-                    ThrowNotice("#notices", "Error", "Ошибка!", "ajax","Ошибка создания элемента (SelectField)");
+                    ThrowNotice("Error", "Ошибка!", "ajax","Ошибка создания элемента (SelectField)");
                 }
             });
             break;
@@ -319,8 +351,9 @@ var FormElemCreator = function(elemType, elemId, width, value, selSubID = null) 
                 min:0,
                 disabled:true,
                 css:{
-                    width:width,
-                    minWidth: 40
+                    width:"calc("+width+" - 4px)",
+                    minWidth: 40,
+                    textAlign:"center"
                 }
             });
             break;
@@ -339,6 +372,21 @@ var FormElemCreator = function(elemType, elemId, width, value, selSubID = null) 
                     checked:value == 1 ? true : false,
                 }))
                 .append("Бесп.");
+            break;
+        }
+        case "count":{
+            newElem = $("<input>", {
+                type:"number",
+                name:elemId,
+                id:elemId,
+                value:value,
+                class:"hidden",
+                min:1,
+                css:{
+                    width:"calc("+width+" - 4px)",
+                   minWidth: 30
+                }
+            });
             break;
         }
         default: {
@@ -372,7 +420,7 @@ var EditPanelCreator = function () {
     $("div.pageFooter").prepend($("<div />", {
             align:"center",
             css:{
-                marginBottom: "5px"
+                margin: "10px 0"
             }
         })
             .append($("<button />", {
@@ -391,4 +439,42 @@ var EditPanelCreator = function () {
             }).button())
     );
     $("div.pageContent").height($("body").height()-$("div.pageFooter").height());
+};
+
+
+
+var AjaxWaiter = function (fadeTime, RequestFinaleHandler = null) {
+    $(document).bind("ajaxStart", function () {
+        $(".wait-box, .overlay").fadeIn(fadeTime);
+    });
+    $(document).bind("ajaxStop", function () {
+        $(".wait-box, .overlay").fadeOut(fadeTime);
+        if(RequestFinaleHandler != null)
+            RequestFinaleHandler();
+        $(this).unbind();
+    });
+};
+
+
+
+var NotEmpty = function (containerSelector, tableData){
+    let errText = "";
+    let iterator = 0;
+    let form = tableData.tableForm;
+
+    $.each(form, function( name, type ) {
+        if ($(containerSelector).children().children("#"+name).val() == "") {
+            let inpName = Object.values(tableData.headRow)[iterator];//$(containerSelector).parent().children("#headRow").children("#c-"+iterator).text();
+            errText += inpName + "<br>";
+        }
+        ++iterator;
+    });
+
+    if (errText == '')
+        return true;
+    else {
+        ThrowNotice("Info", "Подсказка", "js",
+            "Следующие поля не должны быть пустыми:<br><p style='margin-left: 5%'>"+errText+"</p>");
+        return false;
+    }
 };

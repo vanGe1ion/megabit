@@ -14,3 +14,21 @@ div.calendarButtons{
     width: 200px;
     height: 23px;
 }
+
+input.calendar{
+    text-align: center;
+    width: 84%;
+    zoom: 1.12;
+}
+
+button.calendar{
+    width: 33%;
+    padding: 0;
+}
+
+button.calendarCall{
+    width: 12%;
+    height: 23px;
+    margin: -3px 0 0 -2px;
+    padding: 0;
+}

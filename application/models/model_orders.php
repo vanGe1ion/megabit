@@ -14,7 +14,9 @@ class Model_Orders extends Model
             $data->footerMenu = array(
                 'Главное меню' => Router::FullRoute(Routes::MAIN)
             );
-
+            $data->scripts = array(
+                "ordersScript.js"
+            );
 
             if($queryResult){
                 $tableData = new TableDataContainer();
@@ -26,39 +28,41 @@ class Model_Orders extends Model
                         "Date" =>                   ElementTypes::DATE
                     );
                     $tableData->querySet =      array(
-                        'create' =>                 'InsertOrderList',
-                        'read' =>                   'SelectOrderList',
-                        'update' =>                 'UpdateOrderList',
-                        'delete' =>                 'DeleteOrderList',
+                        'create' =>                 'InsertOrder',
+                        'read' =>                   'SelectOrder',
+                        'update' =>                 'UpdateOrder',
+                        'delete' =>                 'DeleteOrder',
                     );
 
 
                     $dish_orders_exp = new TableDataContainer();
                     {
-                        $dish_orders_exp->poolName =   "dishOrderPool";
+                        $dish_orders_exp->poolName =   "menuOrderPool";
 
-//                        $dish_orders_exp->headRow =    array(
-//                            'Dish_Name' =>              'Блюдо'
-//                        );
-//                        $dish_orders_exp->tableForm =  array(
-//                            "Dish_ID" =>                ElementTypes::SELECT,
-//                            "Price" =>                  ElementTypes::PRICE,
-//                            "Free" =>                   ElementTypes::FREE
-//                        );
-//                        $dish_orders_exp->querySet =   array(
-//                            'create' =>                 'InsertDishMenu',
-//                            'read' =>                   'SelectDishMenu',
-//                            'update' =>                 'UpdateDishMenu',
-//                            'delete' =>                 'DeleteDishMenu',
-//                        );
-//                        $dish_orders_exp->mainKey =    array(
-//                            "Menu_ID"
-//                        );
+                        $dish_orders_exp->headRow =    array(
+                            'Dish_Name' =>              'Блюдо',
+                            'Price' =>                  'Цена',
+                            'Count' =>                  'Кол-во'
+                        );
+                        $dish_orders_exp->tableForm =  array(
+                            "Dish_ID" =>                ElementTypes::ORDERSELECT,
+                            "Price" =>                  ElementTypes::PRICE,
+                            "Count" =>                  ElementTypes::COUNT
+                        );
+                        $dish_orders_exp->querySet =   array(
+                            'create' =>                 'InsertOrderMenu',
+                            'read' =>                   'SelectOrderMenu',
+                            'update' =>                 'UpdateOrderMenu',
+                            'delete' =>                 'DeleteOrderMenu',
+                        );
+                        $dish_orders_exp->mainKey =    array(
+                            "Order_ID"
+                        );
 
                     }
 
                     $tableData->expands = array(
-                        0 =>                    array('Меню' => $dish_orders_exp)
+                        0 =>                    array('Заказ' => $dish_orders_exp)
                     );
                 }
 

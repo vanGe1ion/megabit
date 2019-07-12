@@ -15,10 +15,3 @@ div.menuDishList{
     flex-direction: column;
     width: 100%;
 }
-
-div.dishOfMenu{
-    display: flex;
-    flex-direction: row;
-    margin: 2px 0;
-    padding: 3px;
-}

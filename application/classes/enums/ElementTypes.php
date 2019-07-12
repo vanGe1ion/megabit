@@ -6,7 +6,9 @@ abstract class ElementTypes
     const TEXT = "text";
     const NUMBER = "number";
     const SELECT = "select";
+    const ORDERSELECT = "orderSelect";
     const DATE = "date";
     const PRICE = "price";
     const FREE = "free";
+    const COUNT = "count";
 }

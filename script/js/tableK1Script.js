@@ -39,7 +39,7 @@ class NS_TableK1 {
         let currow = $(buttonSelector).parent().parent();
         let rownum = currow.attr('id').split('-')[1];
         if(currow.hasClass("addMark")){
-            ThrowDialog("#dialogs", "Удаление", "Удалить новый элемент?", function () {
+            ThrowDialog("Удаление", "Удалить новый элемент?", function () {
                 //pool
                 PoolDataRemover(currentDataPool, "create", null, rownum);
                 $.each(tableData.expands, function (num, expand) {
@@ -52,7 +52,7 @@ class NS_TableK1 {
             })
         }
         else if(currow.hasClass("editMark"))
-            ThrowDialog("#dialogs", "Удаление",
+            ThrowDialog("Удаление",
                 "Элемент был изменен. Вернуть первоначальное значение и пометить на удаление (изменения во вложенных таблицах так же будут отменены)?",
                 function () {
 
@@ -90,7 +90,7 @@ class NS_TableK1 {
         }
         else {
             if(currow.children().children("img").length > 0 && currow.children().children("img.hidden").length < 3){
-                ThrowDialog("#dialogs", "Удаление",
+                ThrowDialog("Удаление",
                     "Во вложенных таблицах имеются изминения. Пометка на удаление их отменит. Продолжить?",
                     function () {
 
@@ -204,7 +204,7 @@ class NS_TableK1 {
             $("#expTable-"+expandNum).dialog({title: caption}).dialog("open");
         },"json")
             .fail(function (){
-                ThrowNotice("#notices", "Error", "Ошибка!", "ajax", "Ошибка чтения вложенной таблицы")
+                ThrowNotice("Error", "Ошибка!", "ajax", "Ошибка чтения вложенной таблицы")
             });
     };
 
@@ -301,7 +301,7 @@ class NS_TableK1 {
                         });
                     },
                     error: function () {
-                        ThrowNotice("#notices", "Error", "Ошибка!", "ajax","Ошибка создания элемента (SelectField)");
+                        ThrowNotice("Error", "Ошибка!", "ajax","Ошибка создания элемента (SelectField)");
                     }
                 });
                 break;
@@ -342,7 +342,7 @@ class NS_TableK1 {
         if (errText == '')
             return true;
         else {
-            ThrowNotice("#notices", "Info", "Подсказка", "js",
+            ThrowNotice("Info", "Подсказка", "js",
                 "Следующие поля не должны быть пустыми:<br><p style='margin-left: 5%'>"+errText+"</p>");
             return false;
         }
@@ -394,7 +394,7 @@ class NS_TableK1 {
             (async function(){
                 let mySelect =  await $.post("/script/php/selectFieldData.php", {select_id: value.myid}, "json")
                     .fail(function (){
-                        ThrowNotice("#notices", "Error", "Ошибка!", "ajax","Ошибка формирования значения элемента (SelectField)")
+                        ThrowNotice("Error", "Ошибка!", "ajax","Ошибка формирования значения элемента (SelectField)")
                     });
                 return await JSON.parse(mySelect);
             })().then(function (result) {

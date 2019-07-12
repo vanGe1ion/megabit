@@ -8,6 +8,7 @@ div.wait-box{
 
     background-color: white;
     border: solid 3px #2F73B6;
+    border-radius: 10px;
 
     display: flex;
     flex-direction: column;

@@ -29,10 +29,10 @@ class Model_MenuPlanner extends Model
                         "Date" =>                   ElementTypes::DATE
                     );
                     $tableData->querySet =      array(
-                        'create' =>                 'InsertMenuList',
-                        'read' =>                   'SelectMenuList',
-                        'update' =>                 'UpdateMenuList',
-                        'delete' =>                 'DeleteMenuList',
+                        'create' =>                 'InsertMenu',
+                        'read' =>                   'SelectMenu',
+                        'update' =>                 'UpdateMenu',
+                        'delete' =>                 'DeleteMenu',
                     );
 
 
