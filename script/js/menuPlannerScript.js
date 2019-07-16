@@ -253,8 +253,8 @@ var MenuHandler = function(selector){
                         },
 
                         success: function (dishRes) {
-                            $.each(dishRes, function (key, dataRow) {
-                                $.each($("tr[id^=row-]"), function (key, dishTypeRow) {
+                            $.each(dishRes, function (dataRowKey, dataRow) {
+                                $.each($("tr[id^=row-]"), function (dishTypeKey, dishTypeRow) {
                                     if($(dishTypeRow).attr("id").split("-")[1] == dataRow["Dish_Type_ID"]) {
                                         let dishElem = $("<div id='dish-" + dataRow.Dish_ID + "' class='dishOfMenu'></div>");
                                         let data = {
@@ -379,9 +379,11 @@ var MenuDeleteHandler = function (buttonSelector) {
     let cellID = menuButtonCell.attr("id");
     let menuID = $(buttonSelector).attr("id").split("-")[1];
 
+    $("#" + menuButtonCell.attr("id") + " .cancel").click();
+
     if(menuButtonCell.hasClass("addMark")){
-        let noticeText = "Удалить новый элемент" + ($("td#"+cellID+" .addSubMark").length > 0 ? " и все его вложения?" : "?");
-        ThrowDialog("Удаление", noticeText, function () {
+        let dialogText = "Удалить новый элемент" + ($("td#"+cellID+" .addSubMark").length > 0 ? " и все его вложения?" : "?");
+        ThrowDialog("Удаление", dialogText, function () {
             //pool
             PoolDataRemover(currentDataPool, "create", null, menuID);
             PoolDataRemover(expandDataPool, "create", menuID, null);
@@ -500,8 +502,9 @@ var DishDeleteHandler = function(buttonSelector){
             //dom
             DishRowCreator(dishRow, tableData, currentDataPool.olds[parent][dishID]);
             dishRow.addClass("deleteMark").removeClass("editSubMark");
-            $(dishRow).children(".buttonSet").children(".delete").attr("title", "Отменить удл.").prev().button("disable");
-            $(buttonSelector).button("option", "label", "Отменить удл.");
+            let delButton = $(dishRow).children(".buttonSet").children(".delete");
+            delButton.attr("title", "Отменить удл.").prev().button("disable");
+            delButton.button("option", "label", "Отменить удл.");
             //pool
             PoolDataRemover(currentDataPool, "olds", parent, dishID);
             PoolDataRemover(currentDataPool, "update", parent, dishID);
@@ -563,6 +566,7 @@ var DishUpdateSaveHandler = function(buttonSelector, olddata) {
         let currentDataPool = dataPoolArray[tableData.poolName];
 
         let dishRow = $(buttonSelector).parent().parent();
+        let oldID = dishRow.attr("id").split("-")[1];
         dishRow.attr("id", "dish-" + dishRow.children(".select").children().val());
         let dishID = dishRow.attr("id").split("-")[1];
 
@@ -583,6 +587,7 @@ var DishUpdateSaveHandler = function(buttonSelector, olddata) {
         }
         else{
             //pool
+            data.old_id = oldID;
             PoolDataInserter(currentDataPool, "update", parent, dishID, data);
             PoolDataInserter(currentDataPool, "olds", parent, dishID, olddata);
             //dom

@@ -4,6 +4,7 @@ div.dishOfMenu{
     justify-content: space-between;
     margin: 2px 0;
     padding: 3px;
+    border: 1px solid black;
 }
 
 div.select, div.orderSelect{

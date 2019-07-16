@@ -24,7 +24,7 @@
 
         <table id="mptable" class="data" style="width: 100%">
             <tr id="headRow">
-                <th class="db fit">Тип блюда</th>
+                <th class="db fit"><!--Тип блюда--></th>
                 <?foreach ($week as $key=>$dayWeek)
                     echo "<th id='c-".$key."' class='db'>".$dayWeek."<br><span></span></th>"?>
             </tr>

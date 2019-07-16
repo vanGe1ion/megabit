@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Июл 12 2019 г., 17:56
+-- Время создания: Июл 16 2019 г., 17:50
 -- Версия сервера: 5.7.20-log
 -- Версия PHP: 7.1.12
 
@@ -218,20 +218,10 @@ CREATE TABLE `DISH_MENU` (
 --
 
 INSERT INTO `DISH_MENU` (`Menu_ID`, `Dish_ID`, `Free`) VALUES
-(1, 1, 1),
-(1, 2, 0),
 (1, 3, 1),
-(2, 1, 0),
-(2, 2, 1),
-(2, 3, 0),
-(2, 4, 1),
-(2, 5, 1),
-(2, 6, 0),
-(2, 7, 1),
-(2, 8, 1),
-(3, 3, 0),
-(3, 4, 1),
-(3, 7, 0);
+(1, 5, 1),
+(1, 6, 0),
+(1, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -362,10 +352,7 @@ CREATE TABLE `MENU_LIST` (
 --
 
 INSERT INTO `MENU_LIST` (`Menu_ID`, `Date`) VALUES
-(4, '2019-07-10'),
-(1, '2019-07-11'),
-(2, '2019-07-12'),
-(3, '2019-07-15');
+(1, '2019-07-18');
 
 -- --------------------------------------------------------
 
@@ -384,7 +371,10 @@ CREATE TABLE `ORDER_LIST` (
 --
 
 INSERT INTO `ORDER_LIST` (`Order_ID`, `Date`, `Employee_ID`) VALUES
-(1, '2019-07-12', 1);
+(1, '2019-07-12', 1),
+(3, '2019-07-15', 1),
+(4, '2019-07-16', 1),
+(5, '2019-07-18', 1);
 
 -- --------------------------------------------------------
 
@@ -398,6 +388,15 @@ CREATE TABLE `ORDER_MENU` (
   `Dish_ID` int(11) NOT NULL,
   `Count` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `ORDER_MENU`
+--
+
+INSERT INTO `ORDER_MENU` (`Order_ID`, `Menu_ID`, `Dish_ID`, `Count`) VALUES
+(5, 1, 3, 2),
+(5, 1, 5, 1),
+(5, 1, 7, 2);
 
 -- --------------------------------------------------------
 
@@ -647,13 +646,13 @@ ALTER TABLE `INGREDIENT_TYPE_LIST`
 -- AUTO_INCREMENT для таблицы `MENU_LIST`
 --
 ALTER TABLE `MENU_LIST`
-  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `ORDER_LIST`
 --
 ALTER TABLE `ORDER_LIST`
-  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `SHIFT_LIST`

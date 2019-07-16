@@ -409,9 +409,9 @@ var FormElemCreator = function(elemType, elemId, width, value, selSubID = null) 
 
 
 
-var CollMarker = function(buttonSelector, mark, isRemove = false){
+var CollMarker = function(buttonSelector, mark, toRemove = false){
     let coll = $("#mptable tr #"+$(buttonSelector).parent().attr("id"));
-    isRemove ? coll.removeClass(mark) : coll.addClass(mark);
+    toRemove ? coll.removeClass(mark) : coll.addClass(mark);
 };
 
 
@@ -477,4 +477,25 @@ var NotEmpty = function (containerSelector, tableData){
             "Следующие поля не должны быть пустыми:<br><p style='margin-left: 5%'>"+errText+"</p>");
         return false;
     }
+};
+
+var OrderPriceSum = function (dayID) {
+    let sum = 0;
+    $.each($("tr[id^='row-'] td#" + dayID), function (dishTypeKey, dishType) {
+        $.each($(dishType).children().children(".dishOfMenu"), function (dishRowKey, dishRow) {
+            if(!$(dishRow).hasClass("deleteMark")) {
+                let dishCell = $(dishRow).children(".count");
+                let dishCount = dishCell.children().length == 1 ? +dishCell.children().val() : +dishCell.text();
+
+                dishCell = $(dishRow).children(".price");
+                let dishPrice = (dishCell.children().length == 1 ? dishCell.children().val() : dishCell.text()).split(" ")[0];
+                let isFree = dishPrice[0] == "*" ? 1 : 0;
+                dishPrice = isFree ? +dishPrice.substr(1, dishPrice.length - 1) : +dishPrice;
+
+                sum += dishPrice * dishCount - (isFree ? dishPrice : 0);
+            }
+        });
+    });
+
+    $(".sumRow th#" + dayID + " span").text(sum + " руб.");
 };

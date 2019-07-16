@@ -308,7 +308,7 @@ abstract class Queries
     public static function UpdateDishMenu($data){
         return "UPDATE DISH_MENU 
                     SET Dish_ID = '" . $data['field']['Dish_ID'] . "', Free = '" . $data['field']['Free'] . "'
-                    WHERE Menu_ID = '$data[parent]' AND Dish_ID = '" . $data['field']['Dish_ID'] . "'";
+                    WHERE Menu_ID = '$data[parent]' AND Dish_ID = '" . $data['field']['old_id'] . "'";
     }
 
     public static function DeleteDishMenu($data){
@@ -347,28 +347,28 @@ abstract class Queries
 
 
 
-    //набор запросов для ТС блюда - меню todo
+    //набор запросов для ТС блюда - меню
     public static function SelectOrderMenu($data){
-        return "SELECT DISH_MENU.Dish_ID, Dish_Name, Dish_Type_ID, Price, Free 
-                    FROM DISH_MENU, DISH_LIST
-                    WHERE DISH_MENU.Dish_ID=DISH_LIST.Dish_ID 
-                    AND DISH_MENU.Menu_ID = '$data[parent]'";
+        return "SELECT ORDER_MENU.Dish_ID, Dish_Name, Dish_Type_ID, Price, Count
+                    FROM ORDER_MENU, DISH_LIST
+                    WHERE ORDER_MENU.Dish_ID=DISH_LIST.Dish_ID 
+                    AND ORDER_MENU.Order_ID = '$data[parent]'";
     }
 
     public static function InsertOrderMenu($data){
-        return "INSERT INTO DISH_MENU (Menu_ID, Dish_ID, Free)
-                    VALUES ('$data[parent]', '" . $data['field']['Dish_ID'] . "', '" . $data['field']['Free'] . "')";
+        return "INSERT INTO ORDER_MENU (Order_ID, Menu_ID, Dish_ID, Count)
+                    VALUES ('$data[parent]', '" . $data['field']['Menu_ID'] . "', '" . $data['field']['Dish_ID'] . "', '" . $data['field']['Count'] . "')";
     }
 
     public static function UpdateOrderMenu($data){
-        return "UPDATE DISH_MENU 
-                    SET Dish_ID = '" . $data['field']['Dish_ID'] . "', Free = '" . $data['field']['Free'] . "'
-                    WHERE Menu_ID = '$data[parent]' AND Dish_ID = '" . $data['field']['Dish_ID'] . "'";
+        return "UPDATE ORDER_MENU 
+                    SET Dish_ID = '" . $data['field']['Dish_ID'] . "', Menu_ID = '" . $data['field']['Menu_ID'] . "', Count = '" . $data['field']['Count'] . "'
+                    WHERE Order_ID = '$data[parent]' AND Dish_ID = '" . $data['field']['old_id'] . "'";
     }
 
     public static function DeleteOrderMenu($data){
-        return "DELETE FROM DISH_MENU
-                    WHERE Menu_ID = '$data[parent]' AND Dish_ID = '" . $data['field']['id'] . "'";
+        return "DELETE FROM ORDER_MENU
+                    WHERE Order_ID = '$data[parent]' AND Dish_ID = '" . $data['field']['id'] . "'";
     }
     //запрос заказа
 //    public static function OrderSelectQuery($date, $empID){
