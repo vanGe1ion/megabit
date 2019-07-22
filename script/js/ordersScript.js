@@ -63,11 +63,17 @@ $("#db-edit").click(function () {
     $("#calendar").attr( "disabled", true);
     $(".options").fadeIn(500);
 
-    //временной лимит в два дня
-    $.each(dates, function (key, date) {
-        if (date.diff(moment(), "days") < 1 || $("th#c-" + key).hasClass("pHoliday"))
+    //временной лимит закрывает редактирование заказов в пт 14:00
+    if (dates[0].diff(moment(), "days", true) < 2.292)
+        $.each(dates, function (key, date) {                                                                            //todo test timelimit
             $("#c-" + key + " button").button("disable");
-    })
+        });
+    else
+        $.each(dates, function (key, date) {
+            if($("th#c-" + key).hasClass("pHoliday"))
+                $("#c-" + key + " button").button("disable");
+        });
+
 });
 
 $("#db-cancel").click(function () {
@@ -408,33 +414,48 @@ var OrderAddHandler = function (buttonSelector) {
     let date = dates[$(buttonSelector).parent().attr("id").split("-")[1]];
     let currentDataPool = dataPoolArray[TableData.poolName];
 
-    $.post("/script/php/Select.php", {queryName: "SelectMaxOrderID", queryData:{}}, "JSON")
-        .done(function (res) {
-            let newID;
-            let parseRes = JSON.parse(res);
-            let data = {};
+    let newID = 1;
+    let data = {};
 
-            if(parseRes.length)
-                newID = +parseRes[0].Order_ID + 1;
-            else
-                newID = Object.keys(currentDataPool.create).length ? Math.max.apply(null, Object.keys(currentDataPool.create)) + 1 : 1;
+    if(Object.keys(currentDataPool.create).length) {
+        newID = Math.max.apply(null, Object.keys(currentDataPool.create)) + 1;
 
-            data.id  = newID;
-            data[Object.keys(TableData.tableForm)[0]] = date.format("Y-MM-DD");
-            data.Employee_ID  = EmpID;
+        data.id  = newID;
+        data[Object.keys(TableData.tableForm)[0]] = date.format("Y-MM-DD");
+        data.Employee_ID  = EmpID;
 
-            //pool
-            PoolDataInserter(currentDataPool, "create", null, newID, data);
-            //dom
-            CollMarker(buttonSelector, "addMark");
-            OrderOptionsCreator($(buttonSelector).parent(), "delete").attr("id", "order-" + newID);
-            OrderPriceSum($(buttonSelector).parent().attr("id"));
-            $(buttonSelector).remove();
-        })
-        .fail(function () {
-            ThrowNotice("Error", "Ошибка", "ajax",
-                "Ошибка чтения списка заказов (*)");
-        });
+        //pool
+        PoolDataInserter(currentDataPool, "create", null, newID, data);
+        //dom
+        CollMarker(buttonSelector, "addMark");
+        OrderOptionsCreator($(buttonSelector).parent(), "delete").attr("id", "order-" + newID);
+        OrderPriceSum($(buttonSelector).parent().attr("id"));
+        $(buttonSelector).remove();
+    }
+    else {
+        $.post("/script/php/Select.php", {queryName: "SelectMaxOrderID", queryData: {}}, "JSON")
+            .done(function (res) {
+                let parseRes = JSON.parse(res);
+                if (parseRes.length)
+                    newID = +parseRes[0].Order_ID + 1;
+
+                data.id = newID;
+                data[Object.keys(TableData.tableForm)[0]] = date.format("Y-MM-DD");
+                data.Employee_ID = EmpID;
+
+                //pool
+                PoolDataInserter(currentDataPool, "create", null, newID, data);
+                //dom
+                CollMarker(buttonSelector, "addMark");
+                OrderOptionsCreator($(buttonSelector).parent(), "delete").attr("id", "order-" + newID);
+                OrderPriceSum($(buttonSelector).parent().attr("id"));
+                $(buttonSelector).remove();
+            })
+            .fail(function () {
+                ThrowNotice("Error", "Ошибка", "ajax",
+                    "Ошибка чтения списка заказов (*)");
+            });
+    }
 };
 
 
@@ -898,6 +919,189 @@ var DishRowDataCreator = function(containerHolder, tableData){
     });
     return data;
 };
+
+
+
+
+//вспомогательные функции
+var NotEmpty = function (containerSelector, tableData){
+    let errText = "";
+    let iterator = 0;
+    let form = tableData.tableForm;
+
+    $.each(form, function( name, type ) {
+        if ($(containerSelector).children().children("#"+name).val() == "") {
+            let inpName = Object.values(tableData.headRow)[iterator];//$(containerSelector).parent().children("#headRow").children("#c-"+iterator).text();
+            errText += inpName + "<br>";
+        }
+        ++iterator;
+    });
+
+    if (errText == '')
+        return true;
+    else {
+        ThrowNotice("Info", "Подсказка", "js",
+            "Следующие поля не должны быть пустыми:<br><p style='margin-left: 5%'>"+errText+"</p>");
+        return false;
+    }
+};
+
+var OrderPriceSum = function (dayID) {
+    let sum = 0;
+    $.each($("tr[id^='row-'] td#" + dayID), function (dishTypeKey, dishType) {
+        $.each($(dishType).children().children(".dishOfMenu"), function (dishRowKey, dishRow) {
+            if(!$(dishRow).hasClass("deleteMark")) {
+                let dishCell = $(dishRow).children(".count");
+                let dishCount = dishCell.children().length == 1 ? +dishCell.children().val() : +dishCell.text();
+
+                dishCell = $(dishRow).children(".price");
+                let dishPrice = (dishCell.children().length == 1 ? dishCell.children().val() : dishCell.text()).split(" ")[0];
+                let isFree = dishPrice[0] == "*" ? 1 : 0;
+                dishPrice = isFree ? +dishPrice.substr(1, dishPrice.length - 1) : +dishPrice;
+
+                sum += dishPrice * dishCount - (isFree ? dishPrice : 0);
+            }
+        });
+    });
+
+    $(".sumRow th#" + dayID + " span").text(sum + " руб.");
+};
+
+var FormElemCreator = function(elemType, elemId, width, value, selSubID = null) {
+    let newElem;
+    switch (elemType) {
+        case "orderSelect": {
+            newElem = $("<select>", {
+                name:elemId,
+                id:elemId,
+                class: "hidden",
+                css:{
+                    width:width,
+                    height:"21px"
+                }
+            });
+            $.ajax({
+                type: "POST",
+                dataType:"json",
+                url: "/script/php/orderSelectFieldData.php",
+                data: {select_data:selSubID},
+
+                success: function (res) {
+                    newElem.append("<option/>").append("<optgroup label='Бесплатные'/><optgroup label='Платные'/>");
+
+                    $.each(res, function (id, data) {
+                        let sel = "";
+                        if (data[0] == value)
+                            sel = "selected";
+                        let option = $("<option "+sel+" value='"+id+"'>"+data[0]+"</option>");
+                        newElem.children().eq(data[1] == "1" ? 1 : 2).append(option);
+                    });
+                },
+                error: function () {
+                    ThrowNotice("Error", "Ошибка!", "ajax","Ошибка создания элемента (OrderSelectField)");
+                }
+            });
+            break;
+        }
+        case "select": {
+            newElem = $("<select>", {
+                name:elemId,
+                id:elemId,
+                class: "hidden",
+                css:{
+                    width:width,
+                    height:"21px"
+                }
+            });
+            let data = {select_id:elemId};
+            if(selSubID) data.select_sub_id=selSubID;
+            $.ajax({
+                type: "POST",
+                dataType:"json",
+                url: "/script/php/selectFieldData.php",
+                data: data,
+
+                success: function (res) {
+                    newElem.append("<option></option>");
+                    $.each(res, function (val, label) {
+                        let sel = "";
+                        if (label == value)
+                            sel = "selected";
+                        newElem.append("<option "+sel+" value='"+val+"'>"+label+"</option>")
+                    });
+                },
+                error: function () {
+                    ThrowNotice("Error", "Ошибка!", "ajax","Ошибка создания элемента (SelectField)");
+                }
+            });
+            break;
+        }
+        case "price": {
+            newElem = $("<input>", {
+                type:"text",
+                name:elemId,
+                id:elemId,
+                value:value,
+                class:"hidden",
+                min:0,
+                disabled:true,
+                css:{
+                    width:"calc("+width+" - 4px)",
+                    minWidth: 40,
+                    textAlign:"center"
+                }
+            });
+            break;
+        }
+        case "free": {
+            newElem = $("<label/>", {
+                class:"hidden",
+                css:{
+                    width:width,
+                }
+            })
+                .append($("<input>", {
+                    type:"checkbox",
+                    name:elemId,
+                    id:elemId,
+                    checked:value == 1 ? true : false,
+                }))
+                .append("Бесп.");
+            break;
+        }
+        case "count":{
+            newElem = $("<input>", {
+                type:"number",
+                name:elemId,
+                id:elemId,
+                value:value,
+                class:"hidden",
+                min:1,
+                css:{
+                    width:"calc("+width+" - 4px)",
+                    minWidth: 30
+                }
+            });
+            break;
+        }
+        default: {
+            newElem = $("<input>", {
+                type:elemType,
+                name:elemId,
+                id:elemId,
+                value:value,
+                class:"hidden",
+                min:0,
+                css:{
+                    width:width,
+                    minWidth: 40
+                }
+            });
+        }
+    }
+    return newElem;
+};
+
 
 
 

@@ -343,31 +343,44 @@ var MenuAddHandler = function (buttonSelector) {
     let date = dates[$(buttonSelector).parent().attr("id").split("-")[1]];
     let currentDataPool = dataPoolArray[TableData.poolName];
 
-    $.post("/script/php/Select.php", {queryName: "SelectMaxMenuID", queryData:{}}, "JSON")
-        .done(function (res) {
-            let newID;
-            let parseRes = JSON.parse(res);
-            let data = {};
+    let newID = 1;
+    let data = {};
 
-            if(parseRes.length)
-                newID = +parseRes[0].Menu_ID + 1;
-            else
-                newID = Object.keys(currentDataPool.create).length ? Math.max.apply(null, Object.keys(currentDataPool.create)) + 1 : 1;
+    if(Object.keys(currentDataPool.create).length) {
+        newID = Math.max.apply(null, Object.keys(currentDataPool.create)) + 1;
 
-            data.id  = newID;
-            data[Object.keys(TableData.tableForm)[0]] = date.format("Y-MM-DD");
+        data.id  = newID;
+        data[Object.keys(TableData.tableForm)[0]] = date.format("Y-MM-DD");
 
-            //pool
-            PoolDataInserter(currentDataPool, "create", null, newID, data);
-            //dom
-            CollMarker(buttonSelector, "addMark");
-            MenuOptionsCreator($(buttonSelector).parent(), "delete").attr("id", "menu-" + newID);
-            $(buttonSelector).remove();
-        })
-        .fail(function () {
-            ThrowNotice("Error", "Ошибка", "ajax",
-                "Ошибка чтения списка меню (*)");
-        });
+        //pool
+        PoolDataInserter(currentDataPool, "create", null, newID, data);
+        //dom
+        CollMarker(buttonSelector, "addMark");
+        MenuOptionsCreator($(buttonSelector).parent(), "delete").attr("id", "menu-" + newID);
+        $(buttonSelector).remove();
+    }
+    else{
+        $.post("/script/php/Select.php", {queryName: "SelectMaxMenuID", queryData:{}}, "JSON")
+            .done(function (res) {
+                let parseRes = JSON.parse(res);
+                if(parseRes.length)
+                    newID = +parseRes[0].Menu_ID + 1;
+
+                data.id  = newID;
+                data[Object.keys(TableData.tableForm)[0]] = date.format("Y-MM-DD");
+
+                //pool
+                PoolDataInserter(currentDataPool, "create", null, newID, data);
+                //dom
+                CollMarker(buttonSelector, "addMark");
+                MenuOptionsCreator($(buttonSelector).parent(), "delete").attr("id", "menu-" + newID);
+                $(buttonSelector).remove();
+            })
+            .fail(function () {
+                ThrowNotice("Error", "Ошибка", "ajax",
+                    "Ошибка чтения списка меню (*)");
+            });
+    }
 };
 
 
@@ -818,6 +831,142 @@ var DishRowDataCreator = function(containerHolder, tableData){
 
 
 
+
+//вспомогательные функции
+var FormElemCreator = function(elemType, elemId, width, value, selSubID = null) {
+    let newElem;
+    switch (elemType) {
+        case "orderSelect": {
+            newElem = $("<select>", {
+                name:elemId,
+                id:elemId,
+                class: "hidden",
+                css:{
+                    width:width,
+                    height:"21px"
+                }
+            });
+            $.ajax({
+                type: "POST",
+                dataType:"json",
+                url: "/script/php/orderSelectFieldData.php",
+                data: {select_data:selSubID},
+
+                success: function (res) {
+                    newElem.append("<option/>").append("<optgroup label='Бесплатные'/><optgroup label='Платные'/>");
+
+                    $.each(res, function (id, data) {
+                        let sel = "";
+                        if (data[0] == value)
+                            sel = "selected";
+                        let option = $("<option "+sel+" value='"+id+"'>"+data[0]+"</option>");
+                        newElem.children().eq(data[1] == "1" ? 1 : 2).append(option);
+                    });
+                },
+                error: function () {
+                    ThrowNotice("Error", "Ошибка!", "ajax","Ошибка создания элемента (OrderSelectField)");
+                }
+            });
+            break;
+        }
+        case "select": {
+            newElem = $("<select>", {
+                name:elemId,
+                id:elemId,
+                class: "hidden",
+                css:{
+                    width:width,
+                    height:"21px"
+                }
+            });
+            let data = {select_id:elemId};
+            if(selSubID) data.select_sub_id=selSubID;
+            $.ajax({
+                type: "POST",
+                dataType:"json",
+                url: "/script/php/selectFieldData.php",
+                data: data,
+
+                success: function (res) {
+                    newElem.append("<option></option>");
+                    $.each(res, function (val, label) {
+                        let sel = "";
+                        if (label == value)
+                            sel = "selected";
+                        newElem.append("<option "+sel+" value='"+val+"'>"+label+"</option>")
+                    });
+                },
+                error: function () {
+                    ThrowNotice("Error", "Ошибка!", "ajax","Ошибка создания элемента (SelectField)");
+                }
+            });
+            break;
+        }
+        case "price": {
+            newElem = $("<input>", {
+                type:"text",
+                name:elemId,
+                id:elemId,
+                value:value,
+                class:"hidden",
+                min:0,
+                disabled:true,
+                css:{
+                    width:"calc("+width+" - 4px)",
+                    minWidth: 40,
+                    textAlign:"center"
+                }
+            });
+            break;
+        }
+        case "free": {
+            newElem = $("<label/>", {
+                class:"hidden",
+                css:{
+                    width:width,
+                }
+            })
+                .append($("<input>", {
+                    type:"checkbox",
+                    name:elemId,
+                    id:elemId,
+                    checked:value == 1 ? true : false,
+                }))
+                .append("Бесп.");
+            break;
+        }
+        case "count":{
+            newElem = $("<input>", {
+                type:"number",
+                name:elemId,
+                id:elemId,
+                value:value,
+                class:"hidden",
+                min:1,
+                css:{
+                    width:"calc("+width+" - 4px)",
+                    minWidth: 30
+                }
+            });
+            break;
+        }
+        default: {
+            newElem = $("<input>", {
+                type:elemType,
+                name:elemId,
+                id:elemId,
+                value:value,
+                class:"hidden",
+                min:0,
+                css:{
+                    width:width,
+                    minWidth: 40
+                }
+            });
+        }
+    }
+    return newElem;
+};
 
 //init
 $("#today").click();

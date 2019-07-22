@@ -4,12 +4,14 @@ $("div.pageContent").height($("body").height()-$("div.pageFooter").height())
 
 
 
+
 //проверка существования переменной
 var isset = function (variable) {
     if(typeof(variable) == "undefined" || variable == null)
         return false;
     return true;
 };
+
 
 
 
@@ -105,6 +107,7 @@ var ThrowDialog = function(title, text, callbackYes, callbackNo = null, containe
     })
         .dialog("open");
 };
+
 
 
 
@@ -240,8 +243,6 @@ var DataPoolRequester = function(dataPool, tableData, mainDomCallback, expDomCal
         });
 };
 
-
-
 //добавляет данные в пул (если родитель нуль - работает с одноключевыми таблицами)
 var PoolDataInserter = function (pool, level, parent, id, data) {
     if(parent) {
@@ -271,151 +272,14 @@ var PoolDataRemover = function (pool, level, parent, id) {
 
 
 
-//функция создания элемента формы
-var FormElemCreator = function(elemType, elemId, width, value, selSubID = null) {
-    let newElem;
-    switch (elemType) {
-        case "orderSelect": {
-            newElem = $("<select>", {
-                name:elemId,
-                id:elemId,
-                class: "hidden",
-                css:{
-                    width:width,
-                    height:"21px"
-                }
-            });
-            $.ajax({
-                type: "POST",
-                dataType:"json",
-                url: "/script/php/orderSelectFieldData.php",
-                data: {select_data:selSubID},
 
-                success: function (res) {
-                    newElem.append("<option/>").append("<optgroup label='Бесплатные'/><optgroup label='Платные'/>");
-
-                    $.each(res, function (id, data) {
-                        let sel = "";
-                        if (data[0] == value)
-                            sel = "selected";
-                        let option = $("<option "+sel+" value='"+id+"'>"+data[0]+"</option>");
-                        newElem.children().eq(data[1] == "1" ? 1 : 2).append(option);
-                    });
-                },
-                error: function () {
-                    ThrowNotice("Error", "Ошибка!", "ajax","Ошибка создания элемента (OrderSelectField)");
-                }
-            });
-            break;
-        }
-        case "select": {
-            newElem = $("<select>", {
-                name:elemId,
-                id:elemId,
-                class: "hidden",
-                css:{
-                    width:width,
-                    height:"21px"
-                }
-            });
-            let data = {select_id:elemId};
-            if(selSubID) data.select_sub_id=selSubID;
-            $.ajax({
-                type: "POST",
-                dataType:"json",
-                url: "/script/php/selectFieldData.php",
-                data: data,
-
-                success: function (res) {
-                    newElem.append("<option></option>");
-                    $.each(res, function (val, label) {
-                        let sel = "";
-                        if (label == value)
-                            sel = "selected";
-                        newElem.append("<option "+sel+" value='"+val+"'>"+label+"</option>")
-                    });
-                },
-                error: function () {
-                    ThrowNotice("Error", "Ошибка!", "ajax","Ошибка создания элемента (SelectField)");
-                }
-            });
-            break;
-        }
-        case "price": {
-            newElem = $("<input>", {
-                type:"text",
-                name:elemId,
-                id:elemId,
-                value:value,
-                class:"hidden",
-                min:0,
-                disabled:true,
-                css:{
-                    width:"calc("+width+" - 4px)",
-                    minWidth: 40,
-                    textAlign:"center"
-                }
-            });
-            break;
-        }
-        case "free": {
-            newElem = $("<label/>", {
-                class:"hidden",
-                css:{
-                    width:width,
-                }
-            })
-                .append($("<input>", {
-                    type:"checkbox",
-                    name:elemId,
-                    id:elemId,
-                    checked:value == 1 ? true : false,
-                }))
-                .append("Бесп.");
-            break;
-        }
-        case "count":{
-            newElem = $("<input>", {
-                type:"number",
-                name:elemId,
-                id:elemId,
-                value:value,
-                class:"hidden",
-                min:1,
-                css:{
-                    width:"calc("+width+" - 4px)",
-                   minWidth: 30
-                }
-            });
-            break;
-        }
-        default: {
-            newElem = $("<input>", {
-                type:elemType,
-                name:elemId,
-                id:elemId,
-                value:value,
-                class:"hidden",
-                min:0,
-                css:{
-                    width:width,
-                    minWidth: 40
-                }
-            });
-        }
-    }
-    return newElem;
-};
-
-
-
+//маркер столцоы
 var CollMarker = function(buttonSelector, mark, toRemove = false){
     let coll = $("#mptable tr #"+$(buttonSelector).parent().attr("id"));
     toRemove ? coll.removeClass(mark) : coll.addClass(mark);
 };
 
-
-
+//создание панели редактирования
 var EditPanelCreator = function () {
     $("div.pageFooter").prepend($("<div />", {
             align:"center",
@@ -441,8 +305,7 @@ var EditPanelCreator = function () {
     $("div.pageContent").height($("body").height()-$("div.pageFooter").height());
 };
 
-
-
+//функция вывода диалога ожидания при запросах
 var AjaxWaiter = function (fadeTime, RequestFinaleHandler = null) {
     $(document).bind("ajaxStart", function () {
         $(".wait-box, .overlay").fadeIn(fadeTime);
@@ -457,45 +320,4 @@ var AjaxWaiter = function (fadeTime, RequestFinaleHandler = null) {
 
 
 
-var NotEmpty = function (containerSelector, tableData){
-    let errText = "";
-    let iterator = 0;
-    let form = tableData.tableForm;
 
-    $.each(form, function( name, type ) {
-        if ($(containerSelector).children().children("#"+name).val() == "") {
-            let inpName = Object.values(tableData.headRow)[iterator];//$(containerSelector).parent().children("#headRow").children("#c-"+iterator).text();
-            errText += inpName + "<br>";
-        }
-        ++iterator;
-    });
-
-    if (errText == '')
-        return true;
-    else {
-        ThrowNotice("Info", "Подсказка", "js",
-            "Следующие поля не должны быть пустыми:<br><p style='margin-left: 5%'>"+errText+"</p>");
-        return false;
-    }
-};
-
-var OrderPriceSum = function (dayID) {
-    let sum = 0;
-    $.each($("tr[id^='row-'] td#" + dayID), function (dishTypeKey, dishType) {
-        $.each($(dishType).children().children(".dishOfMenu"), function (dishRowKey, dishRow) {
-            if(!$(dishRow).hasClass("deleteMark")) {
-                let dishCell = $(dishRow).children(".count");
-                let dishCount = dishCell.children().length == 1 ? +dishCell.children().val() : +dishCell.text();
-
-                dishCell = $(dishRow).children(".price");
-                let dishPrice = (dishCell.children().length == 1 ? dishCell.children().val() : dishCell.text()).split(" ")[0];
-                let isFree = dishPrice[0] == "*" ? 1 : 0;
-                dishPrice = isFree ? +dishPrice.substr(1, dishPrice.length - 1) : +dishPrice;
-
-                sum += dishPrice * dishCount - (isFree ? dishPrice : 0);
-            }
-        });
-    });
-
-    $(".sumRow th#" + dayID + " span").text(sum + " руб.");
-};
