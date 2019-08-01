@@ -1,6 +1,6 @@
 <table width="100%" >
     <tr>
-        <td><hr class="pageHr"></td>
+        <td style="padding-right: 17px;"><hr class="pageHr"></td>
     </tr>
     <tr>
         <td align="right" >

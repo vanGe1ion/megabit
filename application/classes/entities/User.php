@@ -16,8 +16,7 @@ class User
         $this->accessRights = $accessRights;
         $this->empID = $empID;
 
-        //if ($accessRights == AccessRights::USER)
-            $this->empData = $this->GetEmpDbData($this->empID);
+        $this->empData = $this->GetEmpDbData($this->empID);
 
         //при ловле юзера из сессии записывать туда его снова не надо
         if(!StatFuncs::LoggedIn())
@@ -48,7 +47,7 @@ class User
     {
         if($this->empData) {
             $this->empData->PrintUserInfo();
-            echo $this->empData->GetShift()."<br>".$this->empData->GetPACS();
+            echo $this->empData->GetShift();
         }
         else
             echo "No employee data found";
@@ -57,12 +56,12 @@ class User
     private function GetEmpDbData($empID): Employee
     {
 
-        $querry = Queries::SelectEmployer($empID);
+        $querry = Queries::SelectEmployer(array("EmpID" => $empID));
         $result = Database::DBRequest($querry);
 
         if ($result->num_rows)
             $row = mysqli_fetch_array($result);
-        $currentEmp = new Employee($row['Fullname'], $row['Department'], $row['Position'], $row['Table_Name'], $row['Shift_Name'], $row['PACS_ID']);
+        $currentEmp = new Employee($row['Fullname'], $row['Department_Name'], $row['Position_Name'], $row['Table_Name'], $row['Shift_Name'], $row['PACS_ID']);
 
         return $currentEmp;
     }

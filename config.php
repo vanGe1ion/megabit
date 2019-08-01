@@ -14,6 +14,8 @@ define('SITE_ROOT', $_SERVER['REQUEST_SCHEME']."://".$_SERVER['SERVER_NAME']."/"
 define('DOC_ROOT', $_SERVER['DOCUMENT_ROOT']."/");
 define('SITE_NAME', 'MEGABIT CAFE');
 
+define('QUEUE_LISTENING_INTERVAL', 3000);
+
 
 
 

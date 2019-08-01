@@ -5,16 +5,17 @@ class Employee
 
     private $fullname = "";
     private $department = "";
-    private $job = "";
+    private $position = "";
     private $table = 0;
     private $shift = '';
-    private $PACS_ID = 0;
+    private $PACS_ID = "";
 
-    function __construct($fullname, $department, $job, $table, $shift, $PACS_ID)
+
+    function __construct($fullname, $department, $position, $table, $shift, $PACS_ID)
     {
         $this->fullname = $fullname;
         $this->department = $department;
-        $this->job = $job;
+        $this->position = $position;
         $this->table = $table;
         $this->shift = $shift;
         $this->PACS_ID = $PACS_ID;
@@ -24,7 +25,7 @@ class Employee
     {
         echo "Сотрудник: " . $this->fullname . "<br>";
         echo "Отдел: " . $this->department . "<br>";
-        echo "Должность: " . $this->job . "<br>";
+        echo "Должность: " . $this->position . "<br>";
         echo "Стол №" . $this->table . "<br>";
     }
 
@@ -36,11 +37,11 @@ class Employee
         $this->shift = $shift;
     }
 
-    public function GetPACS(){
-        return $this->PACS_ID;
-    }
-
     public function GetFullname(){
         return $this->fullname;
+    }
+
+    public function GetPACS(){
+        return $this->PACS_ID;
     }
 }

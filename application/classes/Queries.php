@@ -68,11 +68,11 @@ abstract class Queries
     }
 
     //Запрос данных о сотруднике
-    public static function SelectEmployer($EmpID){
-        return "SELECT EMPLOYEE_LIST.Emp_ID, EMPLOYEE_LIST.Fullname, EMPLOYEE_LIST.Department, EMPLOYEE_LIST.Position, TABLE_LIST.Table_Name, SHIFT_LIST.Shift_Name 
-                    FROM EMPLOYEE_LIST, TABLE_LIST, SHIFT_LIST 
-                    WHERE EMPLOYEE_LIST.Table_ID=TABLE_LIST.Table_ID AND EMPLOYEE_LIST.Shift_ID=SHIFT_LIST.Shift_ID 
-                    AND Emp_ID='$EmpID'";
+    public static function SelectEmployer($data){
+        return "SELECT Emp_ID, Fullname, Department_Name, Position_Name, Table_Name, Shift_Name, PACS_ID
+                    FROM EMPLOYEE_LIST, TABLE_LIST, SHIFT_LIST, DEPARTMENT_LIST, POSITION_LIST
+                    WHERE EMPLOYEE_LIST.Table_ID=TABLE_LIST.Table_ID AND EMPLOYEE_LIST.Shift_ID=SHIFT_LIST.Shift_ID AND EMPLOYEE_LIST.Department_ID=DEPARTMENT_LIST.Department_ID AND EMPLOYEE_LIST.Position_ID=POSITION_LIST.Position_ID
+                    AND Emp_ID='$data[EmpID]'";
     }
 
 
@@ -370,11 +370,28 @@ abstract class Queries
         return "DELETE FROM ORDER_MENU
                     WHERE Order_ID = '$data[parent]' AND Dish_ID = '" . $data['field']['id'] . "'";
     }
-    //запрос заказа
-//    public static function OrderSelectQuery($date, $empID){
-//        return "SELECT DISH_LIST.Dish_Name, ORDERS_MENU.Count
-//                    FROM ORDERS_MENU, ORDER_LIST, MENU_LIST, DISH_LIST
-//                    WHERE ORDERS_MENU.Order_ID = ORDER_LIST.Order_ID AND ORDERS_MENU.Menu_ID = MENU_LIST.Menu_ID AND ORDERS_MENU.Dish_ID = DISH_LIST.Dish_ID
-//                    AND ORDER_LIST.Employee_ID = '$empID' AND ORDER_LIST.Date = '$date' AND MENU_LIST.Date = '$date'";
+
+
+
+
+    //набор запросов для монитора очереди
+    public static function SelectQueue($data){//'2019-07-29'
+        return "SELECT Elem_ID, Order_ID, Emp_ID, Fullname
+                    FROM QUEUE, EMPLOYEE_LIST, ORDER_LIST
+                    WHERE QUEUE.PACS_ID = EMPLOYEE_LIST.PACS_ID AND EMPLOYEE_LIST.Emp_ID=ORDER_LIST.Employee_ID
+                    AND Elem_ID > $data[lastElem] AND ORDER_LIST.Date='$data[Date]'
+                    ORDER BY Elem_ID";
+    }
+//    public static function SelectQueue($data){
+//        return "SELECT Elem_ID, Order_ID, Emp_ID, Fullname
+//                    FROM QUEUE, EMPLOYEE_LIST, ORDER_LIST
+//                    WHERE QUEUE.PACS_ID = EMPLOYEE_LIST.PACS_ID AND EMPLOYEE_LIST.Emp_ID=ORDER_LIST.Employee_ID
+//                    AND Elem_ID > $data[lastElem] AND ORDER_LIST.Date='$data[Date]'
+//                    ORDER BY Elem_ID";
 //    }
+
+    public static function DeleteQueue($data){
+        return "DELETE FROM QUEUE
+                    WHERE Elem_ID = '$data[id]'";
+    }
 }

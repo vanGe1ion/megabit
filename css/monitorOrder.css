@@ -1,0 +1,53 @@
+div.monitorOrder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 65%;
+    width: 100%;
+}
+
+div.orderSum{
+    display: flex;
+    justify-content: space-around;
+    font-size: 22px;
+    font-weight: bold;
+    width: 93%;
+    margin: 10px 0;
+}
+
+div.orderData{
+    flex-grow: 1;
+    width: 60%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.orderData div{
+    margin: 3px;
+}
+
+div.dishTypeRow {
+    display: flex;
+    flex-direction: row;
+    margin: 7px 0;
+}
+
+div.dishType {
+    padding: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 15%;
+}
+
+div.orderDishes {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+div.dishOfOrder{
+    border: 1px black solid;
+    display: flex;
+}
+

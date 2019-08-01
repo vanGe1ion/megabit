@@ -1,0 +1,28 @@
+div.monitorSideBar{
+    overflow-y: auto;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border: #2F73B6 3px solid;
+    margin-right: 10px;
+    padding: 7px;
+
+    display: flex;
+    flex-basis: 20%;
+    flex-grow: 0;
+    flex-direction: column;
+}
+
+button.queueButton{
+    width: 100%;
+    min-height: 10%;
+    display: flex;
+    align-items: center;
+    font-size: 110%;
+    padding: 7px;
+    margin: 3px 0;
+}
+
+div.queueButtonLabel {
+    text-align: center;
+    width: 100%;
+}

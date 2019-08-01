@@ -64,7 +64,7 @@ $("#db-edit").click(function () {
     $(".options").fadeIn(500);
 
     //временной лимит закрывает редактирование заказов в пт 14:00
-    if (dates[0].diff(moment(), "days", true) < 2.292)
+    if (dates[0].diff(moment(), "hours") < 58)   //2.292 days
         $.each(dates, function (key, date) {                                                                            //todo test timelimit
             $("#c-" + key + " button").button("disable");
         });
