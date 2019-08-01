@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Июл 16 2019 г., 17:50
+-- Время создания: Авг 01 2019 г., 15:51
 -- Версия сервера: 5.7.20-log
 -- Версия PHP: 7.1.12
 
@@ -144,7 +144,29 @@ INSERT INTO `CONTROLLER_LIST` (`Controller_ID`, `Controller_Name`, `Route`) VALU
 (5, 'Планирование меню', 'menuplanner'),
 (6, 'Заказы', 'orders'),
 (7, 'База пользователей', 'userbase'),
-(8, 'Электронная очередь', 'queuemonitor');
+(8, 'Монитор очереди', 'queuemonitor');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `DEPARTMENT_LIST`
+--
+
+CREATE TABLE `DEPARTMENT_LIST` (
+  `Department_ID` int(11) NOT NULL,
+  `Department_Name` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `DEPARTMENT_LIST`
+--
+
+INSERT INTO `DEPARTMENT_LIST` (`Department_ID`, `Department_Name`) VALUES
+(1, 'НИОКР'),
+(2, 'отдел 2'),
+(3, 'отдел 3'),
+(4, 'отдел 4'),
+(5, 'отдел 5');
 
 -- --------------------------------------------------------
 
@@ -218,10 +240,14 @@ CREATE TABLE `DISH_MENU` (
 --
 
 INSERT INTO `DISH_MENU` (`Menu_ID`, `Dish_ID`, `Free`) VALUES
-(1, 3, 1),
-(1, 5, 1),
-(1, 6, 0),
-(1, 7, 1);
+(2, 1, 1),
+(2, 2, 0),
+(2, 3, 0),
+(2, 4, 1),
+(2, 5, 1),
+(2, 6, 0),
+(2, 7, 1),
+(2, 8, 0);
 
 -- --------------------------------------------------------
 
@@ -254,23 +280,23 @@ INSERT INTO `DISH_TYPE_LIST` (`Dish_Type_ID`, `Dish_Type_Name`) VALUES
 CREATE TABLE `EMPLOYEE_LIST` (
   `Emp_ID` int(11) NOT NULL,
   `Fullname` varchar(30) NOT NULL,
-  `Department` varchar(20) NOT NULL,
-  `Position` varchar(20) NOT NULL,
+  `Department_ID` int(11) NOT NULL,
+  `Position_ID` int(11) NOT NULL,
   `Table_ID` tinyint(4) NOT NULL,
   `Shift_ID` tinyint(4) NOT NULL,
-  `PACS_ID` int(11) UNSIGNED NOT NULL
+  `PACS_ID` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `EMPLOYEE_LIST`
 --
 
-INSERT INTO `EMPLOYEE_LIST` (`Emp_ID`, `Fullname`, `Department`, `Position`, `Table_ID`, `Shift_ID`, `PACS_ID`) VALUES
-(1, 'Кичаев Евгений Андреевич', 'НИОКР', 'Инженер-программист', 9, 2, 12345),
-(2, 'Иванов Иван Иванович', 'где-то', 'кто-то', 9, 1, 68765875),
-(3, 'Сидоров Дмитрий Петрович', 'тут-то', 'этот', 9, 2, 988976875),
-(4, 'Петров Петр Сидорович', 'здесь', 'тот самый', 9, 1, 785760098),
-(5, 'Захаров Захар Захарович', 'еще где-то', 'еще один', 9, 1, 23446568);
+INSERT INTO `EMPLOYEE_LIST` (`Emp_ID`, `Fullname`, `Department_ID`, `Position_ID`, `Table_ID`, `Shift_ID`, `PACS_ID`) VALUES
+(1, 'Кичаев Евгений Андреевич', 1, 1, 9, 2, '000038C4699B'),
+(2, 'Иванов Иван Иванович', 2, 2, 9, 1, '000038C4D331'),
+(3, 'Сидоров Дмитрий Петрович', 3, 3, 9, 2, '12343'),
+(4, 'Петров Петр Сидорович', 4, 4, 9, 1, '0003384F5422'),
+(5, 'Захаров Захар Захарович', 5, 5, 9, 1, '000038C48183');
 
 -- --------------------------------------------------------
 
@@ -352,7 +378,7 @@ CREATE TABLE `MENU_LIST` (
 --
 
 INSERT INTO `MENU_LIST` (`Menu_ID`, `Date`) VALUES
-(1, '2019-07-18');
+(2, '2019-07-29');
 
 -- --------------------------------------------------------
 
@@ -371,10 +397,7 @@ CREATE TABLE `ORDER_LIST` (
 --
 
 INSERT INTO `ORDER_LIST` (`Order_ID`, `Date`, `Employee_ID`) VALUES
-(1, '2019-07-12', 1),
-(3, '2019-07-15', 1),
-(4, '2019-07-16', 1),
-(5, '2019-07-18', 1);
+(6, '2019-07-29', 1);
 
 -- --------------------------------------------------------
 
@@ -394,9 +417,47 @@ CREATE TABLE `ORDER_MENU` (
 --
 
 INSERT INTO `ORDER_MENU` (`Order_ID`, `Menu_ID`, `Dish_ID`, `Count`) VALUES
-(5, 1, 3, 2),
-(5, 1, 5, 1),
-(5, 1, 7, 2);
+(6, 2, 1, 1),
+(6, 2, 2, 2),
+(6, 2, 3, 1),
+(6, 2, 4, 4),
+(6, 2, 5, 1),
+(6, 2, 6, 1),
+(6, 2, 7, 1),
+(6, 2, 8, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `POSITION_LIST`
+--
+
+CREATE TABLE `POSITION_LIST` (
+  `Position_ID` int(11) NOT NULL,
+  `Position_Name` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `POSITION_LIST`
+--
+
+INSERT INTO `POSITION_LIST` (`Position_ID`, `Position_Name`) VALUES
+(2, 'должность 2'),
+(3, 'должность 3'),
+(4, 'должность 4'),
+(5, 'должность 5'),
+(1, 'Инженер-программист');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `QUEUE`
+--
+
+CREATE TABLE `QUEUE` (
+  `Elem_ID` int(11) NOT NULL,
+  `PACS_ID` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -414,8 +475,8 @@ CREATE TABLE `SHIFT_LIST` (
 --
 
 INSERT INTO `SHIFT_LIST` (`Shift_ID`, `Shift_Name`) VALUES
-(1, 'Смена №1'),
-(2, 'Смена №2');
+(1, 'I'),
+(2, 'II');
 
 -- --------------------------------------------------------
 
@@ -500,6 +561,13 @@ ALTER TABLE `CONTROLLER_LIST`
   ADD PRIMARY KEY (`Controller_ID`);
 
 --
+-- Индексы таблицы `DEPARTMENT_LIST`
+--
+ALTER TABLE `DEPARTMENT_LIST`
+  ADD PRIMARY KEY (`Department_ID`),
+  ADD UNIQUE KEY `DEPARTMENT_LIST_Department_Name_uindex` (`Department_Name`);
+
+--
 -- Индексы таблицы `DISH_INGREDIENTS`
 --
 ALTER TABLE `DISH_INGREDIENTS`
@@ -536,7 +604,10 @@ ALTER TABLE `DISH_TYPE_LIST`
 ALTER TABLE `EMPLOYEE_LIST`
   ADD PRIMARY KEY (`Emp_ID`),
   ADD KEY `Table_ID` (`Table_ID`),
-  ADD KEY `Shift_ID` (`Shift_ID`);
+  ADD KEY `Shift_ID` (`Shift_ID`),
+  ADD KEY `Department_ID` (`Department_ID`),
+  ADD KEY `Position_ID` (`Position_ID`),
+  ADD KEY `PACS_ID` (`PACS_ID`);
 
 --
 -- Индексы таблицы `INGREDIENT_LIST`
@@ -583,6 +654,20 @@ ALTER TABLE `ORDER_MENU`
   ADD KEY `Menu_ID` (`Menu_ID`,`Dish_ID`);
 
 --
+-- Индексы таблицы `POSITION_LIST`
+--
+ALTER TABLE `POSITION_LIST`
+  ADD PRIMARY KEY (`Position_ID`),
+  ADD UNIQUE KEY `POSITION_LIST_Position_Name_uindex` (`Position_Name`);
+
+--
+-- Индексы таблицы `QUEUE`
+--
+ALTER TABLE `QUEUE`
+  ADD PRIMARY KEY (`Elem_ID`),
+  ADD KEY `PACS_ID` (`PACS_ID`) USING BTREE;
+
+--
 -- Индексы таблицы `SHIFT_LIST`
 --
 ALTER TABLE `SHIFT_LIST`
@@ -619,6 +704,12 @@ ALTER TABLE `CONTROLLER_LIST`
   MODIFY `Controller_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT для таблицы `DEPARTMENT_LIST`
+--
+ALTER TABLE `DEPARTMENT_LIST`
+  MODIFY `Department_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT для таблицы `DISH_LIST`
 --
 ALTER TABLE `DISH_LIST`
@@ -646,13 +737,25 @@ ALTER TABLE `INGREDIENT_TYPE_LIST`
 -- AUTO_INCREMENT для таблицы `MENU_LIST`
 --
 ALTER TABLE `MENU_LIST`
-  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `ORDER_LIST`
 --
 ALTER TABLE `ORDER_LIST`
-  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT для таблицы `POSITION_LIST`
+--
+ALTER TABLE `POSITION_LIST`
+  MODIFY `Position_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT для таблицы `QUEUE`
+--
+ALTER TABLE `QUEUE`
+  MODIFY `Elem_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `SHIFT_LIST`
@@ -716,7 +819,9 @@ ALTER TABLE `DISH_MENU`
 --
 ALTER TABLE `EMPLOYEE_LIST`
   ADD CONSTRAINT `employee_list_ibfk_1` FOREIGN KEY (`Table_ID`) REFERENCES `TABLE_LIST` (`Table_ID`),
-  ADD CONSTRAINT `employee_list_ibfk_2` FOREIGN KEY (`Shift_ID`) REFERENCES `SHIFT_LIST` (`Shift_ID`);
+  ADD CONSTRAINT `employee_list_ibfk_2` FOREIGN KEY (`Shift_ID`) REFERENCES `SHIFT_LIST` (`Shift_ID`),
+  ADD CONSTRAINT `employee_list_ibfk_3` FOREIGN KEY (`Department_ID`) REFERENCES `DEPARTMENT_LIST` (`Department_ID`),
+  ADD CONSTRAINT `employee_list_ibfk_4` FOREIGN KEY (`Position_ID`) REFERENCES `POSITION_LIST` (`Position_ID`);
 
 --
 -- Ограничения внешнего ключа таблицы `INGREDIENT_LIST`
@@ -736,6 +841,12 @@ ALTER TABLE `ORDER_LIST`
 ALTER TABLE `ORDER_MENU`
   ADD CONSTRAINT `order_menu_ibfk_1` FOREIGN KEY (`Order_ID`) REFERENCES `ORDER_LIST` (`Order_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `order_menu_ibfk_2` FOREIGN KEY (`Menu_ID`,`Dish_ID`) REFERENCES `DISH_MENU` (`Menu_ID`, `Dish_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `QUEUE`
+--
+ALTER TABLE `QUEUE`
+  ADD CONSTRAINT `queue_ibfk_1` FOREIGN KEY (`PACS_ID`) REFERENCES `EMPLOYEE_LIST` (`PACS_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `USER_LIST`
